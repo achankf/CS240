@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\usepackage{ifthen,enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hypcap]{caption}
+
+\title{Responses for Question 1}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}[a.]
+
+\item
+{
+First show $n^3 \in \Omega(5n^3-n^2)$. Since n is positive, $5n^3 > 0, n^2>0$, and $n^3>n^2$. Thus,
+\begin{gather*}
+5n^3 \ge 5n^3 - n^2\\
+\implies n^3 \ge \frac{1}{5}(5n^3-n^2)\\
+\implies n^3 \ge c_1(5n^3-n^2)
+\end{gather*}
+Let $n=1$, then the inequality becomes $1 \ge \frac{4}{5}$.
+Thus, the above inequality is true for $n_0 = 1, c_1=\frac{1}{5}$, for all $n > n_0$. Hence, $n^3 \in \Omega(5n^3 - n^2)$.\\
+
+Then prove $n^3 \in O(3n^2-n^2)$. Using $n^3>n^2$,
+\begin{gather*}
+n^3 > n^2 \implies n^3 - n^2 \ge 0\\ 
+\implies 5n^3 -n^2 \ge 4n^3\\
+\implies 4n^3 \le 5n^3 -n^2\\
+n^3 \le \frac{1}{4}(5n^3 -n^2)\\
+n^3 \le c_2(5n^3 -n^2)
+\end{gather*}
+
+Let $n=1$, then the inequality becomes $1 \le 1$.
+Thus, the above inequality is true for $n_0 = 1, c_2=\frac{1}{4}$, for all $n > n_0$. Hence, $n^3 \in O(5n^3 - n^2)$.\\
+
+Since $n^3 \in \Omega(5n^3-n^2)$ and $n^3 \in O(5n^3-n^2)$, therefore $n^3 \in \Theta(5n^3-n^2)$.
+\hfill $\blacksquare$
+}
+
+\item
+{\bf
+
+First show $\frac{n^2}{n+log(n)} \in O(n)$. Since $n$ is positive, $log(n) > 0$ whenever $n > 1$. For $n > 1$,
+\begin{gather*}
+n = \frac{n^2}{n} \ge \frac{n^2}{n+log(n)}\\
+\implies  \frac{n^2}{n+log(n)} \le n\\
+\implies  \frac{n^2}{n+log(n)} \le c_1n
+\end{gather*}
+Let $n_0 = 4, c_1 = 1$, then the inequality becomes $\frac{16}{4+log(4)}=\frac{8}{3} \le 1(4) = 4$.
+Thus, $\frac{n^2}{n+log(n)} \in O(n)$.\\
+
+Now show  $\frac{n^2}{n+log(n)} \in \Omega(n)$. Let $n > 1$,
+\begin{gather*}
+\frac{n^2}{n+log(n)} \ge \frac{n^2}{n+n}\\
+\ge \frac{n^2}{2n}\\
+\ge \frac{1}{2}n\\
+\end{gather*}
+The first line in the above inequality is true because $\frac{d}{dn}log(n) = \frac{1}{x} < \frac{d}{dn}x = 1$ for $n>0$, and $log(1) = 0 < 1$. In other words, $n > log(n)$ for $n>2$.\\
+
+Now let $n_0 = 4, c_1 = \frac{1}{2}$. Then, $\frac{4^2}{4+log(4)} = \frac{8}{3} \ge \frac{1}{2}(4) = 2$. Hence, $\frac{n^2}{n+log(n)} \in \Omega(n)$.\\
+
+Since $\frac{n^2}{n+log(n)} \in \Omega(n)$ and $\frac{n^2}{n+log(n)} \in O(n)$, therefore $\frac{n^2}{n+log(n)} \in \Theta(n)$. \hfill $\blacksquare$
+}
+
+\item
+{\bf
+
+The inequality $log(n) \ge 1$ is true when $n \ge 2$. For $n \ge 2$,
+\begin{gather*}
+log(n) \ge 1 \implies n^2log(n)^{1.0001} \ge n^2
+\end{gather*}
+
+Let $n_0 = 2, c_1 = 1$, then $1^2log(1)^{1.0001} = 1 \ge 1^2log(1) = 1$. Therefore, $n^2log(n)^{1.0001} \in \Omega(n^2)$. \hfill $\blacksquare$
+}
+
+\item
+{\bf
+
+The inequality $log(n) \ge 1$ is true whenever $n \ge 2$. Similarly, $loglog(n) \ge 1$ whenever $n \ge 4$. For $n \ge 4$,
+
+\begin{gather*}
+loglog(n) \ge 1 \implies \frac{1}{loglog(n)} \le 1\\
+\implies \frac{log(n)}{loglog(n)} \le log(n)
+\end{gather*}
+
+Let $n_0 = 4, c_1 = 1$, then $\frac{log(4)}{loglog(4)} = 2 \le log(4) = 2$. Therefore, $\frac{log(n)}{loglog(n)} \in O(log(n))$. \hfill $\blacksquare$
+}
+
+\end{enumerate}
+\end{document}

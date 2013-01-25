@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+\usepackage{ifthen,enumerate}
+
+\begin{document}
+%
+% Headings
+%
+\begin{center}
+UNIVERSITY OF WATERLOO\\
+Cheriton School of Computer Science\\[\baselineskip]
+{\bf CS240\hfill Data Structures and Data Management \hfill
+Winter 2013}\\[\baselineskip]
+{\sc \large ASSIGNMENT 1}\\
+(Due: Wednesday, January 23, 2013, 9:30am)\\[2\baselineskip]
+\end{center}
+%
+% Main body
+%
+
+%\maketitle
+\noindent
+Please read http://www.student.cs.uwaterloo.ca/~cs240/W13/guidelines.pdf for
+guidelines on submission. The problems on this assignment are all are written problems; submit your solutions
+electronically as a PDF with file name a01w.pdf using MarkUs. We will also accept individual question files named a01q1w.pdf, a01q2w.pdf, ... , a01q6w.pdf if you wish to submit questions as you complete them.
+\noindent
+\begin{enumerate}
+\item
+Prove each of the following statements from first principles (i.e., directly from the definitions, giving $c$ and $n_0$ values explicitly):
+(all logarithms in this assignment are assumed to be base 2).
+\begin{enumerate}
+\item  $n^3$ is $\Theta(5 n^3- n^2)$,
+\item  $\frac{n^2}{n+\log n}$ is $\Theta(n)$,
+\item  $n^2(\log n)^{1.0001}$ is $\Omega(n^2)$, and
+\item  $\log(n)/\log\log(n)$ is $O(\log(n))$.
+\end{enumerate}
+
+
+\item Prove or disprove that if $f_1(n)=O(g(n))$ and $f_2(n)=O(h(n))$ then
+$f_1(n)/f_2(n)=O(g(n)/h(n))$.
+
+\item Indicate, for each pair of functions $f(n)$ and $g(n)$
+below, whether or not:
+\begin{enumerate}[I]
+\item  $f(n)$ is $o(g(n))$,
+\item  $f(n)$ is $O(g(n))$,
+\item  $f(n)$ is $\Omega(g(n))$,
+\item  $f(n)$ is $\Theta(g(n))$, and
+\item  $f(n)$ is $\omega(g(n))$.
+\end{enumerate}
+Justify your answers (that is, give the key idea of a proof) using
+definitions and properties of asymptotic notations derived in class.
+So, for example, if $f(n)$  is $n$ and $g(n)$ is $n \log \log n$, we
+would say: $f(n)$ is $o(g(n))$ and $O(g(n))$ but not $\Omega(f(n))$
+or $\Theta(f(n)) \quad $ \ldots  and justify each claim.  Now solve the
+problem for each of:
+\begin{enumerate}
+\item $f(n) = 7n \log n + \log n;\quad g(n) = (\log n)^{20}$
+\item $f(n) = n^{1.01}; \quad g(n) = n \log^3 n $
+\item $f(n) = \sqrt{\log\log n} ;\quad g(n) = \log \log \log n$
+\item $f(n) = n (\sin n )^2;\quad g(n) = n$
+\item $f(n) = n 3^n ;\quad g(n) = n^4 2^n$
+\item $f(n) = n$  if $n$ is prime, and $\log n$ if $n$ is composite; $g(n) = n^2$
+\end{enumerate}
+
+\item Prove from definition that $f(n)g(n)/(f(n)+2g(n)+\log (g(n)))$ is $\Theta(\min\{f(n),g(n)\} )$.
+Assume that $f$ and $g$ are asymptotically nonnegative.
+\item For $n$ a power of two, let $T(n)$ be the number of times the
+following method prints x. Give a recurrence for $T$ and solve
+to get a closed form.
+\begin{verbatim}
+proc foo(A[1..n]) # assume n>=1 is a power of two
+   print("x")
+   if n>1 then
+      k := 1
+      while k<n do
+          k := 4*k
+          foo(A[1..n/k])
+\end{verbatim}
+\item Analyze the running time (in terms of $n$) for each of the following
+code fragments using $\Theta$-notation.  Briefly justify the runtime,
+and simplify as much as possible.
+\begin{enumerate}
+\item
+\begin{verbatim}
+sum := 0
+for i from 1 to n*n*n do
+   for j from 1 to 2^i do    // 2^i means 2 to the power of i
+      sum := sum + 1;
+\end{verbatim}
+
+\item
+\begin{verbatim}
+sum := 0
+for i from 1 to log n do   // assume n is a power of 2
+   for j from 1 to i do
+      sum := sum + 1
+\end{verbatim}
+
+\item
+\begin{verbatim}
+sum := 0
+for i from 1 to n^2 do
+   for j from n to 2n do
+     for k from 1 to 100 do
+        sum := sum + 1
+\end{verbatim}
+
+\end{enumerate}
+\end{enumerate}
+\end{document}

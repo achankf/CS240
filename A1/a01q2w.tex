@@ -1,0 +1,18 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\usepackage{ifthen,enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hypcap]{caption}
+
+\title{Responses for Question 2}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+{\bf
+
+False. Let $f(x) = sin(x), g(x) = cos(x)$. Then $f(x) \in O(1)$ and $g(x) \in O(1)$, because both sine and cosine only have values in between $[-1,1]$. But $\frac{f(x)}{g(x)} = tan(x)$ (by trig. identity), which goes from $-\infty$ to $+\infty$ in every period of $\pi$. So, $tan(x)$ cannot be bounded by a constant. Therefore $\frac{f(x)}{g(x)} = tan(x) \ne O(\frac{1}{1}) = O(1)$ \hfill $\blacksquare$
+
+}
+\end{document}
