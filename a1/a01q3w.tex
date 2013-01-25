@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\usepackage{ifthen,enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hypcap]{caption}
+
+\title{Responses for Question 3}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+
+\newtheorem{property}{Property}
+\begin{enumerate}[a.]
+\item
+{\bf
+Consider $f(n)$, for $n>2$,
+\begin{gather*}
+f(n) = 7n\log n+\log n > n
+\end{gather*}
+
+\begin{property}\label{prop:log<exp}
+According to a rule from class, for $k>0,b>0$,
+\begin{gather*}
+(\log n)^k = o(n^b)
+\end{gather*}
+\end{property}
+
+So,
+\begin{gather*}
+(\log n)^{20} \in o(n)
+\end{gather*}
+But $f(n) > n$, so $g(n)$ is also bounded by $f(n)$. Hence, we get the following:
+\begin{gather*}
+f(n) \in \omega(g(n))\\
+f(n) \in \Omega(g(n))\\
+f(n) \notin o(g(n))\\
+f(n) \notin O(g(n))\\
+f(n) \notin \Theta(g(n))
+\end{gather*}
+\hfill $\blacksquare$
+}
+
+\item
+{\bf
+First, by property \ref{prop:log<exp},
+\begin{gather*}
+(log(n))^3 \in o(n^{0.01})
+\end{gather*}
+
+So $\exists n_0, \forall c>0, n_0 > n$,
+\begin{gather*}
+(\log(n))^3 < c n^{0.01}\\
+\implies n(\log(n))^3 < c n^{1.01}
+\end{gather*}
+
+Therefore,
+\begin{gather*}
+f(n) \in o(g(n))\\
+f(n) \in O(g(n))\\
+f(n) \notin \omega(g(n))\\
+f(n) \notin \Omega(g(n))\\
+f(n) \notin \Theta(g(n))
+\end{gather*}
+
+\hfill $\blacksquare$
+}
+
+\item
+{\bf
+Let $k = \sqrt{\log\log n}$.
+By property \ref{prop:log<exp}. The next statement is true.
+\begin{gather*}
+k \in \omega(\log k)\\
+\implies k > c\log(k)\\
+\implies \sqrt{\log\log n} > c\log(\sqrt{\log\log n})\\
+\sqrt{\log\log n} > \frac{c}{2}\log\log\log n\\
+\implies \sqrt{\log\log n} > c\log\log\log n\\
+\end{gather*}
+
+Hence $f(n) \in \omega(g(n))$. In addition, by the properties that was discussed in class,
+\begin{gather*}
+f(n) \in \Omega(g(n))\\
+f(n) \notin o(g(n))\\
+f(n) \notin O(g(n))\\
+f(n) \notin \Theta(g(n))
+\end{gather*}
+\hfill $\blacksquare$
+}
+
+\item
+{\bf
+By high school math, for any $ n \in \mathbb{R}$, $|\sin n| \le 1$; so, $0 \le \sin^2 n \le 1$.
+\begin{gather*}
+\implies 0 \le f(n) = n(\sin n)^2 \le n
+\end{gather*}
+Pick $n_0 = \pi, c=1$. Then the above inequality becomes 
+\begin{gather*}
+f(\pi) = 0 < g(\pi) = \pi
+\end{gather*}
+Hence, $f(n) \in O(g(n))$.\\
+On the other hand, $f(n)$ oscillates between 0 to n, so there is no positive constant that forms the lower bound of $f(n)$. Hence, 
+\begin{gather*}
+f(n) \notin \Omega(g(n))\\
+f(n) \notin \omega(g(n))
+\end{gather*}
+and $f(n) \notin \Theta(g(n))$, as a consequence of $f(n) \notin \Omega(g(n))$.\\
+
+Simularly, $g(n)$ does not always dominate $f(n)$, since $c\times g(n)$ intersects $f(n)$ indefinitely whenever $c=\frac{1}{2}$. 
+In other words, let $n= k\pi + \frac{\pi}{2}, k \in \mathbb{Z}$, then 
+\begin{gather*}
+f(n) =  k\pi + \frac{\pi}{2} > \frac{1}{2} \times g(n) =  \frac{1}{2} (k\pi + \frac{\pi}{2})
+\end{gather*}
+ Hence, $f(n) \notin o(g(n))$.
+\hfill $\blacksquare$
+}
+
+\item
+{\bf
+
+\begin{property}
+According to a rule from class, for $k>1,a>1$,
+\begin{gather*}
+n^k = o (a^n)
+\end{gather*}
+\end{property}
+
+By the above property, $n^3 \in o(\frac{3}{2})^n)$.
+So, $\exists n_0>n, \forall c > 0$,
+\begin{gather*}
+n^3 < c (\frac{3}{2})^n\\
+\implies \frac{n^4}{n} < c (\frac{3}{2})^n\\
+\implies n^4 2^n < c n 3^n\\
+\implies g(n) < cf(n)\\
+\implies f(n) > \frac{1}{c}g(n)
+\end{gather*}
+Hence $f(n) \in \omega(g(n))$. Consequently,
+\begin{gather*}
+f(n) \in \Omega(g(n))\\
+f(n) \notin O(g(n))\\
+f(n) \notin o(g(n))\\
+f(n) \notin \Theta(g(n))
+\end{gather*}
+\hfill $\blacksquare$
+}
+
+\end{enumerate}
+\end{document}

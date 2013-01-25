@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\usepackage{ifthen,enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[hypcap]{caption}
+
+\title{Responses for Question 6}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+\lstset{
+	language=bash,
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
+
+{\bf
+
+\begin{enumerate}[a.]
+
+\item
+The codes:
+\begin{lstlisting}
+sum := 0
+for i from 1 to n*n*n do
+   for j from 1 to 2^i do
+      sum := sum + 1;
+\end{lstlisting}
+The above codes forms the following summation:
+
+\begin{gather*}
+sum = \sum_{i=1}^{n^3} \sum_{j=1}^{2^i} 1\\
+= 2 \sum_{i=0}^{n^3-1} 2^i\\
+= 2 \frac{2^{n^3} -1}{2-1}\\
+= 2(2^{n^3} - 1)\\
+= \Theta(2^{n^3} - 1)\\
+= \Theta(2^{n^3})
+\end{gather*}
+\hfill $\blacksquare$
+
+\item
+The codes:
+\begin{lstlisting}
+sum := 0
+for i from 1 to log n do
+   for j from 1 to i do
+      sum := sum + 1
+\end{lstlisting}
+The above codes forms the following summation:
+
+\begin{gather*}
+sum = \sum_{i=1}^{\log n} \sum_{j=1}^{i} 1\\
+= \sum_{i=1}^{\log n} i\\
+= \frac{\log n (\log n + 1)}{2}\\
+= \frac{(\log n)^2 + \log n}{2}\\
+= \Theta((\log n)^2)
+\end{gather*}
+
+\hfill $\blacksquare$
+
+\item
+The codes:
+\begin{lstlisting}
+sum := 0
+for i from 1 to n^2 do
+   for j from n to 2n do
+     for k from 1 to 100 do
+        sum := sum + 1
+\end{lstlisting}
+The above codes forms the following summation:
+
+\begin{gather*}
+\sum_{i=1}^{n^2} \sum_{j=n}^{2n} \sum_{k=1}^{100} 1\\
+=\sum_{i=1}^{n^2} \sum_{j=n}^{2n} 100 \\
+=100 \sum_{i=1}^{n^2} \sum_{j=n}^{2n} 1 \\
+=100 \sum_{i=1}^{n^2} n \\
+=100n \sum_{i=1}^{n^2} 1 \\
+=100n \cdot n^2\\
+=100n^3\\
+=\Theta(n^3)
+\end{gather*}
+\hfill $\blacksquare$
+
+\end{enumerate}
+}
+
+\end{document}
+

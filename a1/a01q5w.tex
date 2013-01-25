@@ -1,0 +1,92 @@
+\documentclass[12pt]{article}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\usepackage{ifthen,enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[hypcap]{caption}
+
+\title{Responses for Question 5}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+\lstset{
+	language=bash,
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
+\begin{lstlisting}
+proc foo(A[1..n]) # assume n>=1 is a power of two
+   print("x")
+   if n>1 then
+      k := 1
+      while k<n do
+          k := 4*k
+          foo(A[1..n/k])
+\end{lstlisting}
+
+{\bf
+First consider the case where n is a even power of 2, where $n = 2^{2i}, i \in \mathbb{Z}$. This means that n is also a power of 4, which makes the explaination nicer.
+
+Since each foo executes one print command before the loop,
+\begin{gather*}
+T(1) = 1
+\end{gather*}
+
+In line 5, the ``while'' loop loops for powers of 4 before the power reaches n, so let $p$ be the number of times looped, then
+\begin{gather*}
+4^p = n\\
+p = \log_{4} n
+\end{gather*}
+
+But then the loop executes foo $p$ times, with each foo being called with a power of 4. Hence,
+\begin{gather*}
+T(n) = 1  + T(\frac{n}{4}) + T(\frac{n}{4^2}) + \dots + T(\frac{n}{4^p}) + T(\frac{n}{4^{p-1}})\\
+\implies 
+T(n) = 
+\begin{cases}
+1 \text{ if } n =1\\
+\sum_{i=1}^{p = \log_{4}n} 1 + T(\frac{n}{4^{i-1}}) \text{ otherwise}
+\end{cases}
+\end{gather*}
+
+Consider solving by pretending to be a computer and plugging in values.
+\begin{align*}
+T(1) = 1\\
+T(4) = 1 + T(1) = 1 + (1) = 2\\
+T(16) = 1 + T(1) + T(4) = 1 + (1 + 2) = 4\\
+T(64) = 1 + T(1) + T(4) + T(16) = 1 + (1 + 2 + 4)= 8\\
+T(256) = 1 + T(1) + T(4) + T(16) + T(64)= 1 + (1 + 2 + 4 + 8)= 16\\
+\vdots\\
+T(n) = 1 + T(1) + T(4) + \dots + T(\frac{n}{4})= 1 + (1 + 2 + \dots +2^{p-1})\\
+\end{align*}
+As you can see, each n has the pattern that $T(n)$ has a 1 plus the geometric series of powers of 2s. Hence, a closed form of the formula is the following:
+\begin{gather*}
+T(n) = 1 + \frac{2^{(p-1)+1} - 1}{2-1} \text{ (by geometric series)}\\
+\implies T(n) = 2^{p}\\
+\implies T(n) = 2^{\log_{4}n}
+\end{gather*}
+
+For the case when n is a odd power of 2, i.e. $n = 2^{2i+1}, i \in \mathbb{Z}$, the formula above remains true because of the bijection between the odd and even numbers.
+
+In particular, for $n = 2^{2i-1}$ an odd power of 2, you can divide it by 4 for $i$ times. 
+Then you end up with $\frac{1}{4} < 1$, which foo will print one more $x$ before it stops. Hence $T(\frac{1}{4})$ is the base case for the odd powers of 2, which has the same count as $T(1)$.
+
+For odd powers of 2 that are greater than 2 (i.e. 8, 32, 128, etc.), they are all divisible by 4.  
+In addition, after the division of 4 the number remains an odd power of 2 (i.e. $128/4 = 32 = 2^5$). 
+
+Hence, the counting argument for the even powers of 2 holds for the odd powers of 2 as well.
+
+Therefore, $T(n) = 2^{\log_{4} n}$ is the desired formula, and it is true for all powers of two.
+\hfill $\blacksquare$
+}
+
+\end{document}
+
