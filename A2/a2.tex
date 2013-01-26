@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,ifthen,enumerate,algo,url,color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\begin{document}
+%
+% Headings
+%
+\begin{center}
+UNIVERSITY OF WATERLOO\\
+Cheriton School of Computer Science\\[\baselineskip]
+{\bf CS240\hfill Data Structures and Data Management \hfill
+Winter 2013}\\[\baselineskip]
+{\sc \large ASSIGNMENT 2}\\
+(Due: Wednesday, February 6, 2013, 9:30am)\\[2\baselineskip]
+\end{center}
+%
+% Main body
+%
+
+%\maketitle
+\noindent
+Please read \url{http://www.student.cs.uwaterloo.ca/~cs240/w13/guidelines.pdf} for
+guidelines on submission. Problems 1-3, 4a and 5a are written problems; submit your solutions as PDF files named {\tt a02w.pdf} for all or individual question files named {\tt a02q1w.pdf}, ... , {\tt a02q5aw.pdf}. Implement your programming solutions in C++. Make sure the code you submit runs in the student environment. Questions 4b and 5b are programming problems; submit your solutions as files called {\tt a02q4b.cpp} and {\tt a02q5b.cpp}, respectively.
+\noindent
+\begin{enumerate}
+
+
+\item {[10 marks total]} Algorithm DoubleTrouble works in the following way: we are given a sorted array of length $n$ and do a binary search on it, then a binary search on an array of size $n/2$, then one on an array of size $n/4$ and so on until we "do a binary search on a list of length 1". Assuming $n$ is a power of 2, how many comparisons are performed? Justify your answer.
+\item {[10 marks total]} Algorithm TwiceIsNice works in the following way: we are given a sorted array of length $n$ and do a sequential search on it comparing our value to every one in the array, then a sequential search on the an array of size $n/2$, then one on an array of size $n/4$ and so on until we "do a sequential on a list of length 1". Assuming $n$ is a power of 2, how many comparisons are performed? Justify your answer.
+
+\item {[10 marks total]}
+Consider a very keen CS240 IA.
+As students arrive during office hours he assigns a priority number
+to each student corresponding to their time of arrival and inserts the
+pair (time, name) into a priority queue, implemented as a min-heap. The
+next student is determined with a call to {\tt deleteMin}. The student
+then has five minutes to ask as many questions as possible before being
+re-inserted in the queue with the current time as priority.
+Occasionally students leave before their turn comes up and must be
+deleted from the waiting list.
+
+Argue why using a heap is not the best choice and name an alternate implementation of the dictionary/priority queue ADT that performs at least one of the operations above in time faster than a heap does (in the worst case) while
+performing all the operations in time no worse than a heap.
+
+\item
+\begin{enumerate}
+\item {[15 marks total]} As a novel proposal to help pay for the budget deficit, the government has decided to tax all comparisons performed by an algorithm. Because of this Macroslow Corp. hired Professor Charles F. Xavier to modify the standard heap insertion algorithm to reduce the number of comparisons to $o(\lg(n))$ in the worst case, even if the insertion would still require $O(\lg(n))$ node exchanges (moves). Sketch an algorithm to perform this task as well as possible, and give its worst case behaviour in terms of comparisons and in terms of moves. Justify these claims.
+
+    \item {[10 marks]} Implement your algorithm from part (a) as a max-heap in a file called {\tt a02q4b.cpp}. \textcolor{blue}{Implementation requirements to come - watch course announcements.}
+\end{enumerate}
+
+
+\item
+\begin{enumerate}
+ \item {[10 marks total]}
+You are given an unsorted array $A[1\ldots n]$ filled with distinct
+integers. For a given $k$, $1\leq k\leq n$, describe an
+algorithm that produces the $k$ smallest integers in increasing order.
+If $k < n/\lg n$ your algorithm should have running time $O(n)$.
+\item {[10 marks]} Implement your algorithm from part (a) in a file called {\tt a02q5b.cpp}. \textcolor{blue}{Implementation requirements to come - watch course announcements.}
+\end{enumerate}
+\end{enumerate}
+\end{document}
