@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage[left=2cm,top=2cm,right=2cm]{geometry}
+\title{Responses for CS240 Assignment 2 Question 1}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+
+\lstset{
+	language=bash,
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
+
+Based on the description of the question, the equivalent function is
+\begin{lstlisting}
+DoubleTrouble(A[1 .. n])
+	if binary_search(A[1 .. n/2]) is found
+		binary_search(A[1 .. n/2])
+	else if binary_search(A[n/2+1 .. n]) is found
+		DoubleTrouble(A[n/2+1 .. n])
+end
+\end{lstlisting}
+\end{document}
+
