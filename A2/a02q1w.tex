@@ -6,32 +6,36 @@
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{pdfpages}
+\usepackage{../thm}
 \usepackage[left=2cm,top=2cm,right=2cm]{geometry}
 \title{Responses for CS240 Assignment 2 Question 1}
 \author{Alfred Chan -- 20392255}
 
 \begin{document}
+\maketitle
+First show that the number of times that the array can be split is $\Theta(\lg n)$.
+\input{../lemma/split_n_by_2.texin}
+Simularly, the maximum number of times that a binary search has to search on an array is the number of times the array can be split in halves.
+Therefore $BinarySearch(A) \in O(\lg n)$.
+Now, let $k = \Theta(\lg n)$.
+Since $DoubleTrouble$ does a binary search on an array $A$ and then on an array of $\frac{size(A)}{2}$, which is less than $size(A)$, so the worst case is
+\begin{gather*}
+T(DoubleTrouble(n)) = T(BinarySearch(A[1..\frac{n}{2^0}])) + \dots + T(BinarySearch(A[1 .. \frac{n}{2^k}]))\\
+	= \lg n + \lg\frac{n}{2} + \dots + \lg 1\\
+	= \sum_{i=0}^{k} \lg \frac{n}{2^i}\\
+	= \sum_{i=0}^{k} (\lg n - \lg 2^{i})\\
+	= \sum_{i=0}^{k} \lg n - \sum_{i=0}^{k} (i \lg 2)\\
+	= k\lg n - \sum_{i=0}^{k} i\\
+	= k^2 - \frac{k^2 + k}{2}\\
+	= \frac{2k^2 - k^2 - k}{2}\\
+	= \frac{k^2 - k}{2}\\
+	= O((\lg n)^2)
+\end{gather*}
+Therefore, $DoubleTrouble$ will run at most $O((\lg n)^2)$ times.
 
-\lstset{
-	language=bash,
-	numbers=left,
-	showspaces=false,
-	showstringspaces=false,
-	stepnumber=1,
-	basicstyle=\ttfamily,
-	frame=single,
-	breaklines=true,
-	tabsize=2
-}
-
-Based on the description of the question, the equivalent function is
-\begin{lstlisting}
-DoubleTrouble(A[1 .. n])
-	if binary_search(A[1 .. n/2]) is found
-		binary_search(A[1 .. n/2])
-	else if binary_search(A[n/2+1 .. n]) is found
-		DoubleTrouble(A[n/2+1 .. n])
-end
-\end{lstlisting}
+On the other, the best case happens when binary search finds the target in the first iteration, hence $O(1)$.
+Therefore, $DoubleTrouble$ will run at least $\lg n$ times, each with $O(1)$ binary search.
+Thus, the best case is $O(\lg n)$.
+\hfill $\blacksquare$
 \end{document}
 

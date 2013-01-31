@@ -1,0 +1,39 @@
+\begin{lemma}\label{split_n_by_2}
+The number of times $T(n)$ that a positive number n can be split in half until $n =1$ is $\Theta(\lg n)$
+\end{lemma}
+\begin{proof}
+Since for $n > 0$, there will be one split in addition to rest of the splits, hence the recurrence relation is
+\begin{equation}\label{eq:split_n_by_2_recurrence}
+T(n) =
+	\begin{cases}
+		0 \text{ if } n=0\\
+		1 + T(\frac{n}{2}) \text{ if } n > 0
+	\end{cases}
+\end{equation}
+First, show that $T(n) = \floor{\lg(\frac{n}{2})}$\\
+{\bf Base Cases}
+By equation \ref{eq:split_n_by_2_recurrence}, we have
+\begin{itemize}
+\item When $n = 1, T(n)=0 = \floor{\lg(1)}$
+\item When $n = 2, T(2)=1 + T(1) = 1 =\floor{\lg(2)}$
+\item When $n = 3, T(n)=1 + T(1) = 1 =\floor{\lg(3)}$ (use $T(1)$ because of truncation that fits $n$ into an integer)
+\end{itemize}
+{\bf Induction hypothesis}
+Suppose that $T(\frac{n}{2}) = \floor{\lg(\frac{n}{2})}$, then
+\begin{gather*}
+T(n) = 1 + T(\frac{n}{2})\\
+ = 1 + \floor{\lg(\frac{n}{2})}
+\end{gather*}
+Since both $1$ and $T(\frac{n}{2})$ are intergers
+\begin{gather*}
+T(n)= \floor{1 +\lg(\frac{n}{2})}\\
+ = \floor{\lg 2 + \lg(\frac{n}{2})}\\
+ = \floor{\lg n}
+\end{gather*}
+Now show that $T(n)=\Theta(\lg n)$. By the properties of floor function,
+\begin{gather*}
+T(n) \le T(n) \le T(n)\\
+\lg(n) - 1 \le T(n) \le \lg(n) + 1
+\end{gather*}
+Hence, $T(n)$ is bounded by $\lg n$. Therefore, $T(n) \in \Theta(\lg(n))$.
+\end{proof}
