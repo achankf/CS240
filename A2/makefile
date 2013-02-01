@@ -8,6 +8,6 @@ all: $(OUT)
 
 .phony: clean
 clean:
-	rm -f *.{log,aux}
+	rm -f *.log *.aux
 cleanall:clean
 	rm -f *.pdf
