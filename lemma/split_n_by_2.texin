@@ -10,7 +10,7 @@ T(n) =
 		1 + T(\frac{n}{2}) \text{ if } n > 0
 	\end{cases}
 \end{equation}
-First, show that $T(n) = \floor{\lg(\frac{n}{2})}$\\
+First, show that $T(n) = \floor{\lg(\frac{n}{2})}$ by induction:\\
 {\bf Base Cases}
 By equation \ref{eq:split_n_by_2_recurrence}, we have
 \begin{itemize}

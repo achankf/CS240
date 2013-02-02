@@ -8,7 +8,7 @@
 \usepackage{pdfpages}
 \usepackage{../thm}
 \usepackage[left=2cm,top=2cm,right=2cm]{geometry}
-\title{Responses for CS240 Assignment 2 Question 1}
+\title{Responses for CS240 Assignment 2 Question 2}
 \author{Alfred Chan -- 20392255}
 
 \begin{document}
@@ -28,9 +28,9 @@ T(TwiceIsNice(n)) = T(SeqSearch(A[1..\frac{n}{2^0}])) + \dots + T(SeqSearch(A[1 
 	= n (2 - 2^{\lg (n^{-1})})\\
 	= n (2 - \frac{1}{n})\\
 	= 2n - 1\\
-	= O(n)
+	= \Theta(n)
 \end{gather*}
-Therefore, $TwiceIsNice$ will run at most $2n - 1$ times.
+Therefore, $TwiceIsNice$ will run at most $\Theta(n)$ times.
 
 On the other, the best case happens when sequential search finds the target in the first iteration, hence $\Theta(1)$.
 Therefore, $TwiceIsNice$ will run at least $\lg n$ times, each with $\Theta(1)$ sequential search.

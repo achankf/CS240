@@ -30,9 +30,9 @@ T(DoubleTrouble(n)) = T(BinarySearch(A[1..\frac{n}{2^0}])) + \dots + T(BinarySea
 	= \frac{2k^2 - k^2 - k}{2}\\
 	= \frac{k^2 - k}{2}\\
 	= \frac{(\lg n)^2 - \lg n}{2}\\
-	= O((\lg n)^2)
+	= \Theta((\lg n)^2)
 \end{gather*}
-Therefore, $DoubleTrouble$ will run at most $\frac{(\lg n)^2 - \lg n}{2}$ times.
+Therefore, $DoubleTrouble$ will run at most $\Theta((\lg n)^2)$ times.
 
 On the other, the best case happens when binary search finds the target in the first iteration, hence $\Theta(1)$.
 Therefore, $DoubleTrouble$ will run at least $\lg n$ times, each with $\Theta(1)$ binary search.
