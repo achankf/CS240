@@ -32,16 +32,16 @@ void BubbleUp( int *array, int start){
 		i = j;
 	}
 }
+
 void BubbleDown( int *array, int num_values, int start){
 	int temp = array[start];
-	int i = start, left, right, compare;
+	int i = start, compare;
 	while(true){
-		left = left_child(i);
-		right = left + 1;
-		if (left >= num_values) break;
-		compare = left;
-		if (right < num_values && array[left] < array[right]){
-			compare = right;
+		compare = left_child(i);
+		//right = left + 1;
+		if (compare >= num_values) break;
+		if (compare + 1 < num_values && array[compare] < array[compare+1]){
+			compare++;
 		}
 		if (temp > array[compare]) break;
 		swap(array, i, compare);
@@ -64,7 +64,6 @@ void MaxHeap::Insert( int data )
 	num_values++;
 }
 
-
 // Delete the max value from the heap and return that value.
 // Assume that the caller 
 int MaxHeap::DeleteMax()
@@ -84,17 +83,25 @@ MaxHeap::~MaxHeap(){
 	cout << "Destroying heap" << endl;
 	int temp_num = num_values;
 	int temp[num_values];
-#if 1
 	for (int i = 0; i < temp_num; i++){
 		temp[i] = DeleteMax();
 		Print();
 	}
 	
-	for (int i = 0; i < temp_num; i++){
+	int prev = temp[0];
+{
+	int i = 0;
+	while (true){
 		cout << temp[i] << ' ';
+		i++;
+		if (i >= temp_num) break;
+		if (prev < temp[i]){
+			throw "ERROR";
+		}
+		prev = temp[i];
 	}
+}
 	cout << endl;
-#endif
 }
 
 void MaxHeap::Print(){
