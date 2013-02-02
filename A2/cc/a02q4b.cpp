@@ -34,6 +34,7 @@ void BubbleUp( int *array, int start){
 }
 
 void BubbleDown( int *array, int num_values, int start){
+	//if (start >= num_values) return;
 	int temp = array[start];
 	int i = start, compare;
 	while(true){

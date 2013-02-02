@@ -6,6 +6,7 @@ int main(){
 	int array_sz;
 	cin >> array_sz;
 
+	//int *array = new int[array_sz];
 	int array[array_sz];
 	MaxHeap h(array,array_sz);
 
@@ -13,4 +14,5 @@ int main(){
 		cin >> temp;
 		h.Insert(temp);
 	}
+	//delete array;
 }
