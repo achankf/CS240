@@ -85,7 +85,6 @@ MaxHeap::~MaxHeap(){
 	int temp[num_values];
 	for (int i = 0; i < temp_num; i++){
 		temp[i] = DeleteMax();
-		Print();
 	}
 	
 	int prev = temp[0];
@@ -94,10 +93,10 @@ MaxHeap::~MaxHeap(){
 	while (true){
 		cout << temp[i] << ' ';
 		i++;
-		if (i >= temp_num) break;
-		if (prev < temp[i]){
+		if (i >= temp_num)
+			break;
+		if (prev < temp[i])
 			throw "ERROR";
-		}
 		prev = temp[i];
 	}
 }

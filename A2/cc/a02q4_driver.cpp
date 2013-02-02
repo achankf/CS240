@@ -12,6 +12,5 @@ int main(){
 	for(int i = 0, temp; i < array_sz; i++){
 		cin >> temp;
 		h.Insert(temp);
-		h.Print();
 	}
 }
