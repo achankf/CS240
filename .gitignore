@@ -1,0 +1,32 @@
+# source
+*.class
+*.o
+*.so
+
+# binary
+*.out
+*.exe
+*.pdf
+
+# compression
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# database
+*.log
+*.sql
+*.sqlite
+
+# latex
+*.aux
+
+# temp files and logs
+*.log
+*.swp
+*.temp
