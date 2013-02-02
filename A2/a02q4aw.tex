@@ -1,0 +1,70 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{../thm}
+\usepackage[left=2cm,top=2cm,right=2cm]{geometry}
+\title{Responses for CS240 Assignment 2 Question 1}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\lstset{
+	language=bash,
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
+\maketitle
+Let $k = \log n$, and ignore the ``book-keeping'' comparison cases, like if root = NULL, since they are constant. Examine when a heap does comparison:
+\begin{itemize}
+\item Insertion (one at a time)
+	\begin{enumerate}
+		\item pushes target to the end of array (no comparison)
+		\item bubble up (comparison happens)
+	\end{enumerate}
+\item Insertion (all at once)
+	\begin{enumerate}
+		\item pushes all targets to an array (no comparison)
+		\item for each element from the bottom, bubble down (comparison happens)
+	\end{enumerate}
+\item DeleteMax
+	\begin{enumerate}
+		\item move the root element to a temporary variable (no comparison)
+		\item move the last element to the root (no comparison)
+		\item bubble down from the root (comparison happens)
+	\end{enumerate}
+\item GetMax
+	\begin{enumerate}
+		\item return root element (no comparison)
+	\end{enumerate}
+\end{itemize}
+Therefore, the ``big'' comparisons happen when the heap does ``bubbling'' (up and down).\\
+
+Consider bubbling up.
+The target node transverse at most up to the root, while each time the target does a comparison with the current parent node, which decides whether the target should be swaped with its current parent.
+Similar explaination applys to bubbling down.
+Therefore, bubbling cost $O(\log n) = O(k)$ comparisons, which is ``linear'' with respect to the height of the heap.\\
+
+However, binary search can reduce the number of comparisons to $\log(k) = \log(\log(n)) \in o(\log n)$. 
+
+\begin{lstlisting}
+BubbleUp(A, i)
+	target = A[i]
+	new_position <- binary_heap_search_greater_than(A, i)
+	push down every element starting from new_position
+	A[new_position] <- target
+\end{lstlisting}
+
+Assuming that $binary\_heap\_search\_greater\_than$ searches the branch of a heap ($O(\log n)$) and returns the index of the ancestor nodes that the target node {\bf begins} to be greater than the target node.\\
+
+Therefore, the number of comparisons is $O(\log\log n)$ and number of swaps is $O(\log n)$. Thus, the BubbleUp algorithm is $O(\log n)$. BubbleDown is very simular to BubbleUp, except that new\_position looks for the the nodes that begins to be less than the target, and does push up instead.
+\end{document}
