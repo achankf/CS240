@@ -3,7 +3,6 @@
 
 #ifdef NDEBUG
 #include <iostream>
-#include <cassert>
 using namespace std;
 #endif
 
@@ -22,12 +21,8 @@ void swap(int *array, int i, int j){
 	array[j] = temp;
 }
 
-#if 1
 int binary_branch_less(int *array, int start){
-	//int size = log(start)/log(2);
-//	int indice_temp[start];
 	int indice[start];
-
 	int size = 0;
 	int temp = start;
 	for (int i = 0;; i++){
@@ -38,65 +33,35 @@ int binary_branch_less(int *array, int start){
 	}
 	indice[size] = 0;
 	size++;
-#if 0
-	for (int i = 0;; i++){
-		if (temp == 0) break;
-		indice_temp[i] = temp;
-		temp = parent(temp);
-		size++;
-	}
-	int down = size;
-	int indice[++size];
-	for (int i = 0; i < size; i++){
-		indice[down] = indice_temp[i];
-		down--;
-	}
-	indice[0] = 0;
-#endif
 	
-#if 0
-	if (size == 0) return 0;
-cout << "bs " << size<<endl;
-	for (int i = 0; i < size;i++){
-		cout << indice[i] << endl;
-	}
-#endif
-
 	int low, high;
 	low = 0;
-	high = size-1;
+	high = size -1;
 	int pivot = 0;
 	int islow = 0;
 	int cur = 0;
 	while(true){
 		if (high < low) break;
 		pivot = (high+low)/2;
-//		cur = (start - 1) / pow(2,pivot);
 		cur = indice[pivot];
-//cout << "low:" << low << " high:"<< high << " pivot:"<< pivot<< " cur:" << cur;
-//cout << " arraystart:" << array[start] << " arraycur:"<<array[cur] << endl;
 		if (array[start] > array[cur]){
 			low = pivot + 1;
-			if (high < low){ return cur;}
-			islow = 1;
+			islow = 0;
 		} else if (array[start] < array[cur]){
 			high = pivot - 1;
-			if (high < low){ return cur +1;}
-			islow = 0;
+			islow = 1;
 		} else {
 			return cur;
 		}
 	}
-	//cout << "start:" << start << " cur:" << cur << endl;
-	return cur;
+	return indice[pivot-islow];
 }
-#endif
 
 void BubbleUp( int *array, int num_values, int start){
+#if 1
 	if (num_values <= 0) return;
 	int index = binary_branch_less(array, start);
-#if 0
-	int it = num_values - 1;
+	int it = start;
 	int par;
 	while (it > index){
 		par = parent(it);
@@ -104,7 +69,7 @@ void BubbleUp( int *array, int num_values, int start){
 		it = par;
 	}
 #endif
-#if 1
+#if 0
 	int temp = array[start];
 	int i = start, j;
 	while(true){
@@ -118,13 +83,12 @@ void BubbleUp( int *array, int num_values, int start){
 #endif
 }
 
+#ifdef NDEBUG
 void BubbleDown( int *array, int num_values, int start){
-	//if (start >= num_values) return;
 	int temp = array[start];
 	int i = start, compare;
 	while(true){
 		compare = left_child(i);
-		//right = left + 1;
 		if (compare >= num_values) break;
 		if (compare + 1 < num_values && array[compare] < array[compare+1]){
 			compare++;
@@ -134,6 +98,7 @@ void BubbleDown( int *array, int num_values, int start){
 		i = compare;
 	}
 }
+#endif
 
 // Insert data into array in max-heap order.
 // Assume that the caller never tries to insert too many values.
@@ -143,17 +108,18 @@ void MaxHeap::Insert( int data )
 	// sure
 
 	array[num_values] = data;
-#if 0
+#if 1
 	num_values++;
 	BubbleUp(array, num_values, num_values-1);
 #endif
-#if 1
+#if 0
 	BubbleUp(array, num_values, num_values);
 	num_values++;
 #endif
 	//Print();
 }
 
+#if NDEBUG
 // Delete the max value from the heap and return that value.
 // Assume that the caller 
 int MaxHeap::DeleteMax()
@@ -168,10 +134,9 @@ int MaxHeap::DeleteMax()
 	return ret;
 }
 
-#ifdef NDEBUG
 MaxHeap::~MaxHeap(){
-#if 0
 	cout << "Destroying heap" << endl;
+	//Print();
 	int temp_num = num_values;
 	int temp[num_values];
 	for (int i = 0; i < temp_num; i++){
@@ -186,19 +151,35 @@ MaxHeap::~MaxHeap(){
 		i++;
 		if (i >= temp_num)
 			break;
-		if (prev < temp[i])
+		if (prev < temp[i]){
+			cout << endl << "ERR "<<temp[i] << endl;
 			throw "ERROR";
+		}
 		prev = temp[i];
 	}
 }
 	cout << endl;
-#endif
+}
+
+void MaxHeap::Tree(int i, int d){
+	if (i >= num_values) return;
+	Tree(left_child(i), d+1);
+	for (int k = 0; k < d; k++){
+		cout << "---";
+	}
+	cout << ' '<<array[i] << endl;
+	Tree(left_child(i)+1, d+1);
 }
 
 void MaxHeap::Print(){
+	if (!num_values) return;
+	int prev = array[0];
 	cout << "print: ";
-	for (int i = 0; i < num_values; i++){
-		cout << array[i] << ' ';
+	for (int i = 0;;){
+		cout << prev << ' ';
+		i++;
+		if (i >= num_values) break;
+		prev = array[i];
 	}
 	cout << endl;
 }

@@ -12,6 +12,6 @@ int main(){
 	for(int i = 0, temp; i < array_sz; i++){
 		cin >> temp;
 		h.Insert(temp);
-		//if (temp == 34) return 0;
+		//if (temp == 1953923081) return 0;
 	}
 }

@@ -7,24 +7,20 @@ class MaxHeap
             : array( array )
             , array_sz( array_sz )
             , num_values( 0 ) { }
-#ifdef NDEBUG
-				~MaxHeap();
-#endif
        
         // Insert data into array in max-heap order.
         // Assume that the caller never tries to insert too many values.
         void Insert( int data );
-
-        // Delete the max value from the heap and return that value.
-        // Assume that the caller 
-        int DeleteMax();
-
-        int NumValues() const { return num_values; }
-				void Print();
+#ifdef NDEBUG
+~MaxHeap();
+void Print();
+int DeleteMax();
+void Tree(int i, int d = 0);
+#endif
 
     private:
         // Store the max-heap values with the max value at index 0.
-        int * array;
+        int *const array;
 
         // The number of elements in array.
         const int array_sz;
