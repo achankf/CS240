@@ -25,6 +25,7 @@ int binary_branch_less(int *array, int start){
 	int indice[start];
 	int size = 0;
 	int temp = start;
+int a = 0;
 	for (int i = 0;; i++){
 		if (temp == 0) break;
 		indice[i] = temp;
@@ -33,6 +34,12 @@ int binary_branch_less(int *array, int start){
 	}
 	indice[size] = 0;
 	size++;
+for (int i = 0; i < size; i++){
+	cout << indice[i] <<' ';
+} cout << " | ";
+for (int i = 0; i < size; i++){
+	cout << array[indice[i]] <<' ';
+} cout << endl;
 	
 	int low, high;
 	low = 0;
@@ -47,14 +54,30 @@ int binary_branch_less(int *array, int start){
 		if (array[start] > array[cur]){
 			low = pivot + 1;
 			islow = 0;
+a=1;
 		} else if (array[start] < array[cur]){
 			high = pivot - 1;
 			islow = 1;
+a=2;
 		} else {
+if(a == 0){
+	cout << "EQ ";
+} else if (a==1){
+	cout << "GT ";
+} else if (a==2){
+	cout << "LT ";
+}
 			return cur;
 		}
 	}
-	return indice[pivot-islow];
+if(a == 0){
+	cout << "EQ ";
+} else if (a==1){
+	cout << "GT ";
+} else if (a==2){
+	cout << "LT ";
+}
+	return indice[pivot - islow];
 }
 
 void BubbleUp( int *array, int num_values, int start){
@@ -63,11 +86,25 @@ void BubbleUp( int *array, int num_values, int start){
 	int index = binary_branch_less(array, start);
 	int it = start;
 	int par;
-	while (it > index){
+	int temp = array[start];
+	while (it >= index){
+//	while (true){
+#if 0
 		par = parent(it);
 		swap(array, it, par);
 		it = par;
+#endif
+		par = parent(it);
+		if (temp <= array[par]) break;
+		swap(array, it, par);
+		if (par <= 0) break;
+		it = par;
 	}
+if (it == index){
+	cout << "OKAY" << endl;
+} else {
+cout << it << ' ' << index << endl;
+}
 #endif
 #if 0
 	int temp = array[start];
@@ -107,6 +144,8 @@ void MaxHeap::Insert( int data )
 	// implement me please
 	// sure
 
+Print();
+cout << "Inserting:"<< data<< endl;
 	array[num_values] = data;
 #if 1
 	num_values++;
@@ -116,7 +155,8 @@ void MaxHeap::Insert( int data )
 	BubbleUp(array, num_values, num_values);
 	num_values++;
 #endif
-	//Print();
+	Print();
+cout << " ------------- " << endl;
 }
 
 #if NDEBUG
