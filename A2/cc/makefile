@@ -21,7 +21,7 @@ a02q5b.o: a02q5b.cpp
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $<
 
 a02q5b: a02q5b.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) a02q5_driver.cpp $^ -o $@
 
 .phony: clean
 
