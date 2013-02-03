@@ -51,7 +51,6 @@ cout << "bs " << size<<endl;
 		if (high < low) break;
 		pivot = (high+low)/2;
 		cur = (start - 1) / pow(2,pivot);
-//cout << "low:" << low << " high:"<<high<<" start:" << start << " cur:"<< cur<<" astart:" << array[start] << " acur:" << array[cur] << endl;
 		if (array[start] > array[cur]){
 			low = pivot + 1;
 			//high = pivot - 1;
@@ -127,7 +126,6 @@ void MaxHeap::Insert( int data )
 	BubbleUp(array, num_values, num_values);
 	num_values++;
 #endif
-	Print();
 }
 
 // Delete the max value from the heap and return that value.
@@ -147,7 +145,6 @@ int MaxHeap::DeleteMax()
 #ifdef NDEBUG
 MaxHeap::~MaxHeap(){
 	cout << "Destroying heap" << endl;
-//	Print();
 	int temp_num = num_values;
 	int temp[num_values];
 	for (int i = 0; i < temp_num; i++){
