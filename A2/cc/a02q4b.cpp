@@ -36,6 +36,10 @@ int binary_branch_less(int *array, int start){
 		size++;
 	}
 	if (size == 0) return 0;
+cout << "bs " << size<<endl;
+	for (int i = 0; i < size;i++){
+		cout << indice[i] << endl;
+	}
 
 	int low, high;
 	low = 0;
@@ -46,11 +50,16 @@ int binary_branch_less(int *array, int start){
 	while(true){
 		if (high < low) break;
 		pivot = (high+low)/2;
-		if (array[start] > array[indice[pivot]]){
+		cur = (start - 1) / pow(2,pivot);
+//cout << "low:" << low << " high:"<<high<<" start:" << start << " cur:"<< cur<<" astart:" << array[start] << " acur:" << array[cur] << endl;
+		if (array[start] > array[cur]){
 			low = pivot + 1;
+			//high = pivot - 1;
 			islow = 0;
-		} else if (array[start] < array[indice[pivot]]){
+		} else if (array[start] < array[cur]){
 			high = pivot - 1;
+			//low = pivot + 1;
+			islow = 0;
 		} else {
 			return cur;
 		}
