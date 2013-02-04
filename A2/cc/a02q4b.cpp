@@ -33,12 +33,11 @@ int binary_branch_less(int *array, int start){
 	}
 	indice[size] = 0;
 	size++;
-	
+
 	int low, high;
 	low = 0;
 	high = size -1;
 	int pivot = 0;
-	int islow = 0;
 	int cur = 0;
 	while(true){
 		if (high < low) break;
@@ -46,50 +45,62 @@ int binary_branch_less(int *array, int start){
 		cur = indice[pivot];
 		if (array[start] > array[cur]){
 			low = pivot + 1;
-			islow = 0;
 		} else if (array[start] < array[cur]){
 			high = pivot - 1;
-			islow = 1;
 		} else {
 			return cur;
 		}
 	}
-	return indice[pivot - islow];
+	if (array[start] > array[indice[pivot]]){
+		return indice[pivot-1];
+	} else {
+		int new_p = pivot + 1;
+		new_p = new_p < size? new_p : size-1;
+#if 0
+		cout << "new_p:" << new_p;
+		cout << " array_start:" << array[start] << " array_idx:"<< 
+			array[indice[new_p]] << " array_aaa:" << array[aaa]<< endl;
+#endif
+		return indice[new_p];
+	}
 }
 
 void BubbleUp( int *array, int num_values, int start){
-#if 1
 	if (num_values <= 0) return;
 	int index = binary_branch_less(array, start);
 	int it = start;
 	int par;
 	int temp = array[start];
+
+	cout << "index:"<<index << " parent:";
+	while (it > index){
+		par= parent(it);
+		cout  << par << " ";
+		it = par;
+	}
+	cout << endl;
+
+	it = start;
 	while (it >= index){
-//	while (true){
-#if 0
 		par = parent(it);
+#if 1
+		if (temp <= array[par]){
+			break;
+		}
+#endif
+
+#if 0
+		if (par <= index){
+		swap(array, it, par);
+cout << "ENN1 ";
+cout << "start:" << start;
+			cout << " it:"<<it << " par:" << par << " index:"<< index<<endl;
+			 break;
+		}
+#endif
 		swap(array, it, par);
 		it = par;
-#endif
-		par = parent(it);
-		if (temp <= array[par]) break;
-		swap(array, it, par);
-		if (par <= 0) break;
-		it = par;
 	}
-#endif
-#if 0
-	int temp = array[start];
-	int i = start, j;
-	while(true){
-		j = parent(i);
-		if (temp <= array[j]) break;
-		swap(array, i, j);
-		if (j <= 0) break;
-		i = j;
-	}
-	cout << j << endl;
-#endif
 }
 
 #ifdef NDEBUG
@@ -117,14 +128,8 @@ void MaxHeap::Insert( int data )
 	// sure
 
 	array[num_values] = data;
-#if 1
 	num_values++;
 	BubbleUp(array, num_values, num_values-1);
-#endif
-#if 0
-	BubbleUp(array, num_values, num_values);
-	num_values++;
-#endif
 }
 
 #if NDEBUG
