@@ -39,30 +39,89 @@ int binary_branch_less(int *array, int start){
 	high = size -1;
 	int pivot = 0;
 	int cur = 0;
+	int prev = high; 
 	while(true){
-		if (high < low) break;
 		pivot = (high+low)/2;
+		if (high < low) break;
+//cout << "pivot:" << pivot << " prev:"<<prev<< " low:" << low << " high:"<< high<<endl;
 		cur = indice[pivot];
 		if (array[start] > array[cur]){
 			low = pivot + 1;
 		} else if (array[start] < array[cur]){
 			high = pivot - 1;
 		} else {
-			return cur;
-		}
-	}
-	if (array[start] > array[indice[pivot]]){
-		return indice[pivot-1];
-	} else {
-		int new_p = pivot + 1;
-		new_p = new_p < size? new_p : size-1;
 #if 0
-		cout << "new_p:" << new_p;
-		cout << " array_start:" << array[start] << " array_idx:"<< 
-			array[indice[new_p]] << " array_aaa:" << array[aaa]<< endl;
+cout << "pa "<< array[parent(indice[pivot])] << " "<<parent(indice[pivot]) 
+	<< " "<< pivot << endl;
+			if (array[parent(indice[pivot]) < array[start]]){
+cout << "aaaaa"<<endl;
+				return pivot;
+			}
+			return pivot +1;
 #endif
-		return indice[new_p];
+			break;
+		}
+		prev = pivot;
 	}
+	cout << "high:" << high << " low:" << low<<endl;
+	cout << " size:" << size << " prev:" << prev << " pivot:"<<pivot<< " idx_prev:" << indice[prev] << " idx_pivot:"<<indice[pivot]<<endl;
+cout << array[start] << " " <<array[indice[prev]] << " "<<array[indice[pivot]] << endl;
+
+		if (high > low){
+cout << "NORMAL ";
+			if (array[parent(indice[pivot])] < array[start]){
+				return pivot +1;
+			}
+			return pivot;
+		} else if (high < low){
+cout << "ABNORMAL"<<endl;
+			if (array[parent(indice[pivot])] < array[start]){
+				return pivot +1;
+			}
+			return pivot;
+		} else {
+cout << "MARS"<<endl;
+			return pivot;
+		}
+cout <<"STOP"<<endl;
+throw 1;
+
+	if (pivot == prev){
+cout << "ret_eq:"<<pivot<< endl;
+		if (array[start] < array[indice[pivot]]){
+			return pivot -1;
+		} else if (array[start] > array[indice[pivot]]){
+			return pivot +1;
+		}
+		return pivot;
+	} else if (pivot > prev){
+		if (array[start] > array[indice[prev]]){
+cout << "ret>: PREV"<<pivot<< endl;
+			return pivot;
+		} else if (array[start] < array[indice[prev]]){
+cout << "ret>: PIVOT"<<prev<< endl;
+			return prev;
+		}
+		cout << "RET2 not found\n"; throw 1;
+	} else{ // pivot < prev
+#if 0
+		if (array[start] > array[indice[prev]]){
+cout << "ret<: PREV:"<<prev<< endl;
+			return prev;
+		} else if (array[start] < array[indice[prev]]){
+cout << "ret<: PIVOT:"<< pivot<< endl;
+			return pivot;
+		}
+#endif
+cout << "ret<:"<<endl;
+		if (high > low){
+			return prev;
+		} else if (high < low){
+			return pivot;
+		}
+		cout << "RET3 not found\n"; throw 1;
+	}
+	cout << "unreachable\n"; throw 1;
 }
 
 void BubbleUp( int *array, int num_values, int start){
@@ -70,24 +129,20 @@ void BubbleUp( int *array, int num_values, int start){
 	int index = binary_branch_less(array, start);
 	int it = start;
 	int par;
-	int temp = array[start];
 
-	cout << "index:"<<index << " parent:";
-	while (it > index){
-		par= parent(it);
-		cout  << par << " ";
-		it = par;
-	}
-	cout << endl;
-
+	int acc = 0;
+	cout << "count:"<<index <<" parent:";
+//	while (it > index){
 	it = start;
-	while (it >= index){
+	for (int i = 0; i < index; i++){
+	//while (it >= index){
 		par = parent(it);
-#if 1
-		if (temp <= array[par]){
+#if 0
+		if (array[start] <= array[par]){
 			break;
 		}
 #endif
+	cout << par << ' ';
 
 #if 0
 		if (par <= index){
@@ -100,7 +155,14 @@ cout << "start:" << start;
 #endif
 		swap(array, it, par);
 		it = par;
+acc++;
 	}
+	cout << endl;
+	if (acc != index){
+		cout << "COUNT NOT MATCHED!"<<endl;
+		throw 2;
+	}
+	cout << endl;
 }
 
 #ifdef NDEBUG
@@ -127,9 +189,17 @@ void MaxHeap::Insert( int data )
 	// implement me please
 	// sure
 
+cout << "=--------------= Inserting " << data<<endl;
 	array[num_values] = data;
 	num_values++;
 	BubbleUp(array, num_values, num_values-1);
+#if 0
+Print();
+	if (!integ()){
+		cout << "HEAP PROPERTY VIOLATED"<<endl;
+		throw 1;
+	}
+#endif
 }
 
 #if NDEBUG
@@ -195,5 +265,12 @@ void MaxHeap::Print(){
 		prev = array[i];
 	}
 	cout << endl;
+}
+bool MaxHeap::integ(int i){
+	int left = left_child(i);
+	if (i >= num_values || left >= num_values) return true;
+	bool ret =array[i] > array[left] && integ(left);
+	if (left + 1 >= num_values) return ret;
+	return ret && array[i] > array[left+1] && integ(left+1);
 }
 #endif

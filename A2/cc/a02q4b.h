@@ -16,6 +16,7 @@ class MaxHeap
 void Print();
 int DeleteMax();
 void Tree(int i, int d = 0);
+bool integ(int i = 0);
 #endif
 
     private:
