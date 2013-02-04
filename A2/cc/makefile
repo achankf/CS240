@@ -14,7 +14,10 @@ a02q4_driver.cpp:
 a02q4_driver.o: a02q4_driver.cpp
 	$(CXX) $(CXXFLAGS) -c $<
 
-a02q4b.exe: a02q4b.o a02q4_driver.o
+a02q4_additional.o: a02q4_additional.cpp
+	$(CXX) $(CXXFLAGS) -c $<
+
+a02q4b.exe: a02q4b.o a02q4_driver.o a02q4_additional.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 a02q5b.o: a02q5b.cpp
