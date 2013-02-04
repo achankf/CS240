@@ -24,8 +24,7 @@ void swap(int *array, int i, int j){
 int binary_branch_less(int *array, int start){
 	int indice[start];
 	int size = 0;
-	int temp = start;
-	for (int i = 0;; i++){
+	for (int i = 0, temp = start;; i++){
 		if (temp == 0) break;
 		indice[i] = temp;
 		temp = parent(temp);
@@ -39,89 +38,31 @@ int binary_branch_less(int *array, int start){
 	high = size -1;
 	int pivot = 0;
 	int cur = 0;
-	int prev = high; 
 	while(true){
 		pivot = (high+low)/2;
 		if (high < low) break;
-//cout << "pivot:" << pivot << " prev:"<<prev<< " low:" << low << " high:"<< high<<endl;
 		cur = indice[pivot];
 		if (array[start] > array[cur]){
 			low = pivot + 1;
 		} else if (array[start] < array[cur]){
 			high = pivot - 1;
 		} else {
-#if 0
-cout << "pa "<< array[parent(indice[pivot])] << " "<<parent(indice[pivot]) 
-	<< " "<< pivot << endl;
-			if (array[parent(indice[pivot]) < array[start]]){
-cout << "aaaaa"<<endl;
-				return pivot;
-			}
-			return pivot +1;
-#endif
 			break;
 		}
-		prev = pivot;
 	}
-	cout << "high:" << high << " low:" << low<<endl;
-	cout << " size:" << size << " prev:" << prev << " pivot:"<<pivot<< " idx_prev:" << indice[prev] << " idx_pivot:"<<indice[pivot]<<endl;
-cout << array[start] << " " <<array[indice[prev]] << " "<<array[indice[pivot]] << endl;
-
-		if (high > low){
-cout << "NORMAL ";
-			if (array[parent(indice[pivot])] < array[start]){
-				return pivot +1;
-			}
-			return pivot;
-		} else if (high < low){
-cout << "ABNORMAL"<<endl;
-			if (array[parent(indice[pivot])] < array[start]){
-				return pivot +1;
-			}
-			return pivot;
-		} else {
-cout << "MARS"<<endl;
-			return pivot;
-		}
-cout <<"STOP"<<endl;
-throw 1;
-
-	if (pivot == prev){
-cout << "ret_eq:"<<pivot<< endl;
-		if (array[start] < array[indice[pivot]]){
-			return pivot -1;
-		} else if (array[start] > array[indice[pivot]]){
+	if (high > low){
+		if (array[parent(indice[pivot])] < array[start]){
 			return pivot +1;
 		}
 		return pivot;
-	} else if (pivot > prev){
-		if (array[start] > array[indice[prev]]){
-cout << "ret>: PREV"<<pivot<< endl;
-			return pivot;
-		} else if (array[start] < array[indice[prev]]){
-cout << "ret>: PIVOT"<<prev<< endl;
-			return prev;
+	} else if (high < low){
+		if (array[parent(indice[pivot])] < array[start]){
+			return pivot +1;
 		}
-		cout << "RET2 not found\n"; throw 1;
-	} else{ // pivot < prev
-#if 0
-		if (array[start] > array[indice[prev]]){
-cout << "ret<: PREV:"<<prev<< endl;
-			return prev;
-		} else if (array[start] < array[indice[prev]]){
-cout << "ret<: PIVOT:"<< pivot<< endl;
-			return pivot;
-		}
-#endif
-cout << "ret<:"<<endl;
-		if (high > low){
-			return prev;
-		} else if (high < low){
-			return pivot;
-		}
-		cout << "RET3 not found\n"; throw 1;
+		return pivot;
+	} else {
+		return pivot;
 	}
-	cout << "unreachable\n"; throw 1;
 }
 
 void BubbleUp( int *array, int num_values, int start){
@@ -130,39 +71,12 @@ void BubbleUp( int *array, int num_values, int start){
 	int it = start;
 	int par;
 
-	int acc = 0;
-	cout << "count:"<<index <<" parent:";
-//	while (it > index){
 	it = start;
 	for (int i = 0; i < index; i++){
-	//while (it >= index){
 		par = parent(it);
-#if 0
-		if (array[start] <= array[par]){
-			break;
-		}
-#endif
-	cout << par << ' ';
-
-#if 0
-		if (par <= index){
-		swap(array, it, par);
-cout << "ENN1 ";
-cout << "start:" << start;
-			cout << " it:"<<it << " par:" << par << " index:"<< index<<endl;
-			 break;
-		}
-#endif
 		swap(array, it, par);
 		it = par;
-acc++;
 	}
-	cout << endl;
-	if (acc != index){
-		cout << "COUNT NOT MATCHED!"<<endl;
-		throw 2;
-	}
-	cout << endl;
 }
 
 #ifdef NDEBUG
@@ -189,17 +103,9 @@ void MaxHeap::Insert( int data )
 	// implement me please
 	// sure
 
-cout << "=--------------= Inserting " << data<<endl;
 	array[num_values] = data;
 	num_values++;
 	BubbleUp(array, num_values, num_values-1);
-#if 0
-Print();
-	if (!integ()){
-		cout << "HEAP PROPERTY VIOLATED"<<endl;
-		throw 1;
-	}
-#endif
 }
 
 #if NDEBUG
