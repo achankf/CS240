@@ -8,7 +8,7 @@
 \usepackage{pdfpages}
 \usepackage{../thm}
 \usepackage[left=2cm,top=2cm,right=2cm]{geometry}
-\title{Responses for CS240 Assignment 2 Question 1}
+\title{Responses for CS240 Assignment 2 Question 5}
 \author{Alfred Chan -- 20392255}
 
 \begin{document}
@@ -30,16 +30,16 @@ Consider a min-heap based search:\\
 
 \begin{lstlisting}
 k_smallest(A_in, num, A_out, k) 
-	copy A_in into A_temp 					// O(n), this may be not needed, if the requirement allows mutation on A_in
-	heapify A_temp 									// O(n)
+	copy A_in into A_temp 					// Big Theta(n), this may be not needed, if the requirement allows mutation on A_in
+	heapify A_temp 									// Big Theta(n)
 	for i <- 1 to k
-		A_out[i] <- deleteMin(A_temp)	// O(k lg n)
+		A_out[i] <- deleteMin(A_temp)	// Big Theta(k lg n)
 	return A_out
 \end{lstlisting}
 The worst case of the above algorithm is
 \begin{gather*}
-T(k\_smallest(...)) = n + n + k\log n\\
-= 2n + k\log n\\
+T(k\_smallest(...)) = n + n + k\lg n\\
+= 2n + k\lg n\\
 \intertext{But the question provides the following inequality:}
 k < \frac{n}{\lg n}\\
 k \lg n < n\\
