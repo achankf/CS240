@@ -13,7 +13,7 @@ ancestor(n, 1) = \floor{\frac{n+1}{2}} -1\\
 = \floor{\frac{n+1}{2} - 1}\\
 = \floor{\frac{n-1}{2}}
 \end{gather*}
-The base case matches with formula from the class, as expected.\\
+The base case matches with formula from class, as expected.\\
 {\bf Induction hypothesis:}
 Suppose that $ancestor(n, k-1) = \floor{\frac{n+1}{2^{k-1}}} -1$.
 Then, the $k$-th ancestor of $n$ is just the {\bf parent} of the $(k-1)$-th ancestor.
@@ -29,3 +29,4 @@ ancestor(n, 1) = \floor{ \frac{(\floor{\frac{n+1}{2^k-1}} -1) - 1}{2} }\\
 \end{gather*}
 As required.
 \end{proof}
+{\bf Remark:} The $k$-th ancestor is just the root of the heap, which is 0.\\

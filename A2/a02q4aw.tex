@@ -8,7 +8,7 @@
 \usepackage{pdfpages}
 \usepackage{../thm}
 \usepackage[left=2cm,top=2cm,right=2cm]{geometry}
-\title{Responses for CS240 Assignment 2 Question 1}
+\title{Responses for CS240 Assignment 2 Question 4a}
 \author{Alfred Chan -- 20392255}
 
 \begin{document}
@@ -17,6 +17,7 @@
 	numbers=left,
 	showspaces=false,
 	showstringspaces=false,
+	morekeywords={ancestor},
 	stepnumber=1,
 	basicstyle=\ttfamily,
 	frame=single,
@@ -24,49 +25,44 @@
 	tabsize=2
 }
 \maketitle
-First, assume that ``book-keeping'' tests, like testing a counter range, are not considered in the number of comparisons of data. In particular, assume that only comparisons that test data within the target heap counts.
-Consider a function that looks for the number of ancestors in a given node:
+
+Assume that taking exponents or logs cost constant comparison.
+Let's consider the following formula that allows MaxHeap to find the indice of ancestors with a constant number of comparisons.
+\input{../lemma/heap_nth_parent.texin}
+Now consider a binary-search-based function that looks for the number of ancestors in a given node. Let $start$ be the target node to search from.
 \begin{lstlisting}
 num_ancestor_to_be_swapped(A[1..n], start)
-	allocate indice[1..n]
-	temp <- start
-	size <- 0
-
-	// look and store the parent of node i into the array ``indice''
-	for i <- 1 to lg(start)
-		indice[i] <- temp
-		temp <- parent of temp
-		size++
-
 	low <- 0
-	high <- size
+	high <- lg(start + 1)
 
-	// look for the count with a binary search on the branch based on the array ``indice''
+	// look for the count with a binary search on the branch
 	while true
 		pivot <- (low + high) / 2
+		// apply the formula to cur_node
+		cur_node <- ancestor(start, pivot)
+
 		if high < low then break
-		if A[start] > A[indice[pivot]]
+
+		if A[start] > A[cur_node]
 			low <- pivot + 1
-		else if A[start] < array[indice[pivot]]
+		else if A[start] < A[cur_node]
 			high <- pivot - 1
 		else
 			break
 
 	// boundary case
-	if array[parent of indice[pivot]] < array[start]
+	if A[parent of indice[pivot]] < A[start]
 		return pivot + 1
 	else
 		return pivot
 \end{lstlisting}
 The number of comparisons of the above function is the following:
 \begin{align*}
-\text{inserting parents into indice} = O(1)\\
 \text{binary search on a branch of the heap} = O(\lg\lg n)\\
 \text{boundary case} = O(1)
 \end{align*}
-Therefore $num\_ancestor\_to\_be\_swapped$ needs $(\lg\lg n)$ comparisons.
-
-Consider BubbleUp:
+Therefore $num\_ancestor\_to\_be\_swapped$ needs $(\lg\lg n)$ comparisons.\\
+Consider $BubbleUp$:
 \begin{lstlisting}
 BubbleUp(A[1..n], start)
 	num <- num_ancestor_to_be_swapped(A, start)
@@ -85,7 +81,8 @@ Insert(A[1..n], size, data) // the starter codes provides a MaxHeap class, so in
 	BubbleUp(A, size)
 	size++ // assuming that ``size'' is pass-by-reference
 \end{lstlisting}
-The number of comparisons of data for $Insert$ is the number in $BubbleUp$, which is $O(\lg\lg n)$ comparisons.
+The number of comparisons of data for $Insert$ is the number for $num\_ancestor\_to\_be\_swapped$, which is $O(\lg\lg n)$ comparisons.
 But $O(\lg\lg n) \in o(\lg n)$, as required.
-\hfill $\blacksquare$
+\hfill $\blacksquare$\\
+{\bf Comment} I finally realize the power of induction.
 \end{document}
