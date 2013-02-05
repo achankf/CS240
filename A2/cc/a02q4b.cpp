@@ -2,8 +2,13 @@
 #include "cmath"
 
 // O(1) comparison
-int parent(int i){
-	return (i - 1) / 2;
+int ancestor(int n, int k){
+	return (n + 1) / pow(2,k) - 1;
+}
+
+// O(1) comparison
+int parent(int n){
+	return ancestor(n, 1);
 }
 
 // O(1) comparison
@@ -25,9 +30,7 @@ int num_ancestor_to_be_swapped(int *array, int start){
 	// binary search on a branch of heap -- O(lglg n) comparisions
 	while(true){
 		pivot = (high+low)/2;
-		int power = pow(2,pivot);
-		cur = (start - power + 1) / power;
-		cur = (start + 1) / power - 1;
+		cur = ancestor(start, pivot);
 		if (high < low) break;
 		if (array[start] > array[cur]){
 			low = pivot + 1;
