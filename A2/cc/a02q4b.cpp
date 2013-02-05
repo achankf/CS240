@@ -27,6 +27,7 @@ int num_ancestor_to_be_swapped(int *array, int start){
 		pivot = (high+low)/2;
 		int power = pow(2,pivot);
 		cur = (start - power + 1) / power;
+		cur = (start + 1) / power - 1;
 		if (high < low) break;
 		if (array[start] > array[cur]){
 			low = pivot + 1;
@@ -37,8 +38,11 @@ int num_ancestor_to_be_swapped(int *array, int start){
 		}
 	}
 
+	// return statement can be combined into one line... but don't want to risk it
 	// pivot + boundary case adjustment -- O(1) comparison
-	return pivot + (array[parent(cur)] < array[start]);
+	if (array[parent(cur)] < array[start])
+		return pivot + 1;
+	return pivot;
 }
 
 // O(lglg n) due to num_ancestor_to_be_swapped
