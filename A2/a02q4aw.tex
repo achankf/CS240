@@ -26,7 +26,7 @@
 }
 \maketitle
 
-Assume that taking exponents or logs cost constant comparison.
+Assume that taking exponents or logs cost constant comparison, and that ``book-keeping'' comparisons are ``out of the question,'' like counters in a for loop.
 Let's consider the following formula that allows MaxHeap to find the indice of ancestors with a constant number of comparisons.
 \input{../lemma/heap_nth_parent.texin}
 Now consider a binary-search-based function that looks for the number of ancestors in a given node. Let $start$ be the target node to search from.
@@ -49,9 +49,10 @@ num_ancestor_to_be_swapped(A[1..n], start)
 			high <- pivot - 1
 		else
 			break
+	// end of while loop
 
-	// boundary case
-	if A[parent of indice[pivot]] < A[start]
+	// boundary case -- comparing the parent of cur_node with the target node
+	if A[ancestor(cur_node,1)] < A[start]
 		return pivot + 1
 	else
 		return pivot
