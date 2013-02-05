@@ -1,0 +1,31 @@
+\begin{lemma}\label{split_n_by_2}
+Assuming $n$ is the index of a node in an 0-based binary heap array that has at most $K$ ancestors.
+Then the index of the $k$-th ancestor, where $1 \ge k \ge K$ is given by the following formula:
+\begin{equation}\label{eq:n_th_ancestor}
+ancestor(n, k) = \floor{\frac{n+1}{2^k}} -1
+\end{equation}
+\end{lemma}
+\begin{proof}
+Let's prove by induction.
+{\bf Base Case: the immediate parent of $N$}
+\begin{gather*}
+ancestor(n, 1) = \floor{\frac{n+1}{2}} -1\\
+= \floor{\frac{n+1}{2} - 1}\\
+= \floor{\frac{n-1}{2}}
+\end{gather*}
+The base case matches with formula from the class, as expected.\\
+{\bf Induction hypothesis:}
+Suppose that $ancestor(n, k-1) = \floor{\frac{n+1}{2^{k-1}}} -1$.
+Then, the $k$-th ancestor of $n$ is just the {\bf parent} of the $(k-1)$-th ancestor.
+Hence, with the formula from the base case,
+\begin{gather*}
+ancestor(n, 1) = \floor{ \frac{(\floor{\frac{n+1}{2^k-1}} -1) - 1}{2} }\\
+= \floor{ \frac{\floor{\frac{n+1}{2^{k-1}}} - 2 }{2} }\\
+= \floor{ \frac{\floor{\frac{n+1}{2^{k-1}}}}{2} - \frac{2}{2} }\\
+= \floor{ \floor{\frac{\frac{n+1}{2^{k-1}}}{2}} - 1 }\\
+= \floor{ \floor{\frac{n+1}{2^k}} -1 }\\
+= \floor{ \floor{\frac{n+1}{2^k}} } - 1\\
+= \floor{\frac{n+1}{2^k}} -1
+\end{gather*}
+As required.
+\end{proof}
