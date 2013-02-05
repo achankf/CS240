@@ -31,10 +31,6 @@ T(TwiceIsNice(n)) = T(SeqSearch(A[1..\frac{n}{2^0}])) + \dots + T(SeqSearch(A[1 
 	= \Theta(n)
 \end{gather*}
 Therefore, $TwiceIsNice$ will run at most $\Theta(n)$ times.
-
-On the other, the best case happens when sequential search finds the target in the first iteration, hence $\Theta(1)$.
-Therefore, $TwiceIsNice$ will run at least $\lg n$ times, each with $\Theta(1)$ sequential search.
-Thus, the best case is $\Theta(\lg n)$.
 \hfill $\blacksquare$
 \end{document}
 

@@ -14,17 +14,17 @@
 \maketitle
 
 \begin{enumerate}
-\item Useless extra data -- time.
-Since student's priority is determined on a first-come first-serve basis and students' name are unique, so time is not needed if the IA uses a last-in first-out deque (like the C++ one).
-Hence, extra memory is wasted.
+\item 
+Since student's priority is determined on a first-come first-serve basis, so time is not needed if the IA uses a first-in first-out queue.
+Also, since students' names are unique, so for every sets of students going into the queue, there is a deterministic and fair ordering.
 \item After 5 minutes of meeting, a student has to be reinserted in the priority queue with the current time, so the heap has to be adjusted in order to fit the heap properties.
-So the heap can either do heapify $O(n)$, or just a normal insert $O(\log n)$.
-On the other hand, inserting to the end of a deque is $O(1)$.
+So the heap can either do heapify $O(n)$, or just a normal insert $O(\lg n)$.
+On the other hand, re-inserting to the end of a FIFO queue is $O(1)$.
 \item Removal of nodes when student in the middle of queue decides to leave:
 The IA has to search the entire heap in order to find the location of the student, which is a $O(n)$ operation.
-However, deleting a random node from a deque is also $O(n)$.
+However, deleting a node from a FIFO queue is also $O(n)$.
 \item Also, when a student finish asking questions, his/her node has to be removed from the heap.
-Deleting from a heap is $O(\log n)$, whereas deleting from a deque is just deleting the first element, hence $O(1)$.
+Deleting from a heap is $O(\lg n)$, whereas deleting from a FIFO queue is just deleting the first element, hence $O(1)$.
 \item Both heap and deque can get the next element in $O(1)$.
 \end{enumerate}
 
@@ -32,11 +32,13 @@ Deleting from a heap is $O(\log n)$, whereas deleting from a deque is just delet
   \hline
 	Operation & Heap & Deque\\
   \hline
-	insertOneAtATime & $O(\log(n))$ & $O(1)$\\
+	insertOneAtATime & $O(\lg(n))$ & $O(1)$\\
 	insertAllAtOnce & with heapify $O(n)$ & $O(n)$\\
 	getMin & $O(1)$ & $O(1)$\\
-	deleteMin & $O(\log n)$ & $O(1)$\\
+	deleteMin & $O(\lg n)$ & $O(1)$\\
 	deleteWithoutKnowingPosition & $O(n)$ & $O(n)$\\
   \hline  
 \end{tabular}
+
+\hfill $\blacksquare$
 \end{document}

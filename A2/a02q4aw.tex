@@ -13,7 +13,7 @@
 
 \begin{document}
 \lstset{
-	language=bash,
+	language=c,
 	numbers=left,
 	showspaces=false,
 	showstringspaces=false,
@@ -24,47 +24,68 @@
 	tabsize=2
 }
 \maketitle
-Let $k = \log n$, and ignore the ``book-keeping'' comparison cases, like if root = NULL, since they are constant. Examine when a heap does comparison:
-\begin{itemize}
-\item Insertion (one at a time)
-	\begin{enumerate}
-		\item pushes target to the end of array (no comparison)
-		\item bubble up (comparison happens)
-	\end{enumerate}
-\item Insertion (all at once)
-	\begin{enumerate}
-		\item pushes all targets to an array (no comparison)
-		\item for each element from the bottom, bubble down (comparison happens)
-	\end{enumerate}
-\item DeleteMax
-	\begin{enumerate}
-		\item move the root element to a temporary variable (no comparison)
-		\item move the last element to the root (no comparison)
-		\item bubble down from the root (comparison happens)
-	\end{enumerate}
-\item GetMax
-	\begin{enumerate}
-		\item return root element (no comparison)
-	\end{enumerate}
-\end{itemize}
-Therefore, the ``big'' comparisons happen when the heap does ``bubbling'' (up and down).\\
-
-Consider bubbling up.
-The target node transverse at most up to the root, while each time the target does a comparison with the current parent node, which decides whether the target should be swaped with its current parent.
-Similar explaination applys to bubbling down.
-Therefore, bubbling cost $O(\log n) = O(k)$ comparisons, which is ``linear'' with respect to the height of the heap.\\
-
-However, binary search can reduce the number of comparisons to $\log(k) = \log(\log(n)) \in o(\log n)$. 
-
+First, assume that ``book-keeping'' tests, like testing a counter range, are not considered in the number of comparisons of data. In particular, assume that only comparisons that test data within the target heap counts.
+Consider a function that looks for the number of ancestors in a given node:
 \begin{lstlisting}
-BubbleUp(A, i)
-	target = A[i]
-	new_position <- binary_heap_search_greater_than(A, i)
-	push down every element starting from new_position
-	A[new_position] <- target
+num_ancestor_to_be_swapped(A[1..n], start)
+	allocate indice[1..n]
+	temp <- start
+	size <- 0
+
+	// look and store the parent of node i into the array ``indice''
+	for i <- 1 to lg(start)
+		indice[i] <- temp
+		temp <- parent of temp
+		size++
+
+	low <- 0
+	high <- size
+
+	// look for the count with a binary search on the branch based on the array ``indice''
+	while true
+		pivot <- (low + high) / 2
+		if high < low then break
+		if A[start] > A[indice[pivot]]
+			low <- pivot + 1
+		else if A[start] < array[indice[pivot]]
+			high <- pivot - 1
+		else
+			break
+
+	// boundary case
+	if array[parent of indice[pivot]] < array[start]
+		return pivot + 1
+	else
+		return pivot
 \end{lstlisting}
+The number of comparisons of the above function is the following:
+\begin{align*}
+\text{inserting parents into indice} = O(1)\\
+\text{binary search on a branch of the heap} = O(\lg\lg n)\\
+\text{boundary case} = O(1)
+\end{align*}
+Therefore $num\_ancestor\_to\_be\_swapped$ needs $(\lg\lg n)$ comparisons.
 
-Assuming that $binary\_heap\_search\_greater\_than$ searches the branch of a heap ($O(\log n)$) and returns the index of the ancestor nodes that the target node {\bf begins} to be greater than the target node.\\
+Consider BubbleUp:
+\begin{lstlisting}
+BubbleUp(A[1..n], start)
+	num <- num_ancestor_to_be_swapped(A, start)
+	prev <- start
+	for i <- 0 to num
+		par <- parent(prev)
+		swap elements par and prev in A
+		prev <- par
+\end{lstlisting}
+The number of comparisons of data for $BubbleUp$ is the number in $num\_ancestor\_to\_be\_swapped$, which is $O(\lg\lg n)$ comparisons.
 
-Therefore, the number of comparisons is $O(\log\log n)$ and number of swaps is $O(\log n)$. Thus, the BubbleUp algorithm is $O(\log n)$. BubbleDown is very simular to BubbleUp, except that new\_position looks for the the nodes that begins to be less than the target, and does push up instead.
+Finally, consider the insertion function:
+\begin{lstlisting}
+Insert(A[1..n], size, data) // the starter codes provides a MaxHeap class, so in the final implementation, only data is needed in the parameter
+	A[size] <- data
+	BubbleUp(A, size)
+	size++ // assuming that ``size'' is pass-by-reference
+\end{lstlisting}
+The number of comparisons of data for $Insert$ is the number in $BubbleUp$, which is $O(\lg\lg n)$ comparisons.
+But $O(\lg\lg n) \in o(\lg n)$, as required.
+\hfill $\blacksquare$
 \end{document}
