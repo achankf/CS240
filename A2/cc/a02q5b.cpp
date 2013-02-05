@@ -39,6 +39,8 @@ void heapify(int *array, int *heap_size){
 
 void k_smallest( int* input_array, int num_input_values, int* output_array, int k )
 {
+	if (k == 0) return;
+
 	// copy input array into a temporary array -- should not contaminate input_array
 	int temp[num_input_values], heap_size = num_input_values;
 	for (int i = 0; i < num_input_values; i++){

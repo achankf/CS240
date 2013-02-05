@@ -13,8 +13,16 @@ int main(){
 		cin >> input_array[i];
 	}
 	k_smallest( input_array, num_input_values, output_array, k);
-	for (int i = 0; i < k; i++){
+	int prev = output_array[0];
+	if (k == 0) return 0;
+	for (int i = 0;;){
 		cout << output_array[i] << ' ';
+		i++;
+		if (i >= k || i >= num_input_values) break;
+		if (output_array[i] < prev){
+			cout << "ERROR"<<endl;
+			return 0;
+		}
 	}
 	cout << endl;
 }
