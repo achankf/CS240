@@ -2,12 +2,12 @@
 The number of times $T(n)$ that a positive number n can be split in half until $n =1$ is $\Theta(\lg n)$
 \end{lemma}
 \begin{proof}
-Since for $n > 0$, there will be one split in addition to rest of the splits, hence the recurrence relation is
+Since for $n > 1$, there will be one split in addition to rest of the splits, hence the recurrence relation is
 \begin{equation}\label{eq:split_n_by_2_recurrence}
 T(n) =
 	\begin{cases}
 		0 \text{ if } n=0 \text{ of } 1\\
-		1 + T(\frac{n}{2}) \text{ if } n > 0
+		1 + T(\frac{n}{2}) \text{ if } n > 1
 	\end{cases}
 \end{equation}
 First, show that $T(n) = \floor{\lg(n)}$ by induction:\\
