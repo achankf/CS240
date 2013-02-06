@@ -6,14 +6,20 @@ Since for $n > 0$, there will be one split in addition to rest of the splits, he
 \begin{equation}\label{eq:split_n_by_2_recurrence}
 T(n) =
 	\begin{cases}
-		0 \text{ if } n=0\\
+		0 \text{ if } n=0 \text{ of } 1\\
 		1 + T(\frac{n}{2}) \text{ if } n > 0
 	\end{cases}
 \end{equation}
-First, show that $T(n) = \floor{\lg(\frac{n}{2})}$ by induction:\\
-{\bf Base Cases}
-When $n = 1, T(n)=0 = \floor{\lg(1)}$.\\
-{\bf Induction hypothesis}
+First, show that $T(n) = \floor{\lg(n)}$ by induction:\\
+{\bf Base Cases:} Ignore the trivial $n=0$ and $n=1$ cases, because they map to a fixed value, 0.
+When $n = 2$,
+\begin{gather*}
+T(2) = 1 + T(\frac{2}{2})\\
+= 1 + T(1)\\
+= 1 = \floor{\lg(2)}
+\end{gather*}
+As expected.\\
+{\bf Induction hypothesis:}
 Suppose that $T(\frac{n}{2}) = \floor{\lg(\frac{n}{2})}$, then
 \begin{gather*}
 T(n) = 1 + T(\frac{n}{2})\\
@@ -25,6 +31,7 @@ T(n)= \floor{1 +\lg(\frac{n}{2})}\\
  = \floor{\lg 2 + \lg(\frac{n}{2})}\\
  = \floor{\lg n}
 \end{gather*}
+Hence, $T(n) = \floor{\lg(n)}$.\\
 Now show that $T(n)=\Theta(\lg n)$. The following is true:
 \begin{gather*}
 \floor{T(n)} \le T(n) \le \ceil{T(n)}\\

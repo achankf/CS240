@@ -7,7 +7,7 @@
 \usepackage{courier}
 \usepackage{pdfpages}
 \usepackage{../thm}
-\usepackage[left=2cm,top=2cm,right=2cm]{geometry}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
 \title{Responses for CS240 Assignment 2 Question 1}
 \author{Alfred Chan -- 20392255}
 
@@ -16,7 +16,8 @@
 First show that the number of times that the array can be split is $\Theta(\lg n)$.
 \input{../lemma/split_n_by_2.texin}
 Simularly, the maximum number of times that a binary search has to search on an array is the number of times the array can be split in halves.
-Therefore $BinarySearch(A) \in O(\lg n)$.
+Therefore $BinarySearch(A) \in O(\lg n)$.\\
+
 Now, let $k = \Theta(\lg n)$.
 Since $DoubleTrouble$ does a binary search on an array $A$ and then on an array of $\frac{size(A)}{2}$, which is less than $size(A)$, and then go on and on until the size is 
 $1 = \frac{n}{n} = \frac{n}{2^k}$.

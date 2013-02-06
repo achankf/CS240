@@ -7,7 +7,7 @@
 \usepackage{courier}
 \usepackage{pdfpages}
 \usepackage{../thm}
-\usepackage[left=2cm,top=2cm,right=2cm]{geometry}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
 \title{Responses for CS240 Assignment 2 Question 5}
 \author{Alfred Chan -- 20392255}
 
@@ -40,11 +40,12 @@ The worst case of the above algorithm is
 \begin{gather*}
 T(k\_smallest(...)) = n + n + k\lg n\\
 = 2n + k\lg n\\
-\intertext{But the question provides the following inequality:}
+\intertext{But the question provides the following constraint}\\
 k < \frac{n}{\lg n}\\
 k \lg n < n\\
-\intertext{ So, back to the wosrt case running time:}
-\implies T(k\_smallest(...)) \le 2n + n\\
+\intertext{ So, under the above constraint the wosrt case running time is}
+\implies T(k\_smallest(...)) = 2n + k\lg n\\
+\le 2n + n\\
 \le 3n \in O(n)
 \end{gather*}
 As required
