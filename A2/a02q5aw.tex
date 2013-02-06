@@ -26,16 +26,16 @@
 	tabsize=2
 }
 
-Consider a min-heap based search:\\
-
+Consider a very straight forward heap sort such that the heap is constructred by one heapify call:
 \begin{lstlisting}
 k_smallest(A_in, num, A_out, k) 
-	copy A_in into A_temp 					// Big Theta(n), this may be not needed, if the requirement allows mutation on A_in
+	copy A_in into A_temp 					// Big Theta(n), unecessary but good practice to not contaminate A_in
 	heapify A_temp 									// Big Theta(n)
 	for i <- 1 to k
 		A_out[i] <- deleteMin(A_temp)	// Big Theta(k lg n)
 	return A_out
 \end{lstlisting}
+The above worst-case results are based on the lecture notes.
 The worst case of the above algorithm is
 \begin{gather*}
 T(k\_smallest(...)) = n + n + k\lg n\\

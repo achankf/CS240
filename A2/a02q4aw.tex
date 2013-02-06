@@ -30,7 +30,9 @@ Assume that taking exponents or logs cost constant comparison, and that ``book-k
 Let's consider the following formula that allows MaxHeap to find the indice of ancestors with a constant number of comparisons.
 \input{../lemma/heap_nth_parent.texin}
 The important part of the above proof is that a closed formula exists, which cost $O(1)$ comparison.\\
-Now consider a binary-search-based function that looks for the number of ancestors in a given node. Let $start$ be the target node to search from.
+
+Now consider a binary-search-based function that looks for the number of ancestors to be swapped for a given node.
+Let $start$ be the target node to search from.
 \begin{lstlisting}
 num_ancestor_to_be_swapped(A[1..n], start)
 	low <- 0
@@ -70,10 +72,13 @@ BubbleUp(A[1..n], start)
 	num <- num_ancestor_to_be_swapped(A, start)
 	prev <- start
 	for i <- 0 to num
-		par <- parent(prev)
+		par <- ancestor(prev, 1) // parent of previous node
 		swap elements par and prev in A
 		prev <- par
 \end{lstlisting}
+
+It looks for the number of ancestors to be swapped, and then it uses the number as a counter in a for loop in order to do a series of buttom-up swaps to the target.
+The total swapping cost $O(\lg n)$ times, since the number of ancestors is bounded by a branch of the heap. 
 The number of comparisons of data for $BubbleUp$ is the number in $num\_ancestor\_to\_be\_swapped$, which is $O(\lg\lg n)$ comparisons.
 
 Finally, consider the insertion function:
@@ -85,6 +90,5 @@ Insert(A[1..n], size, data) // the starter codes provides a MaxHeap class, so in
 \end{lstlisting}
 The number of comparisons of data for $Insert$ is the number for $num\_ancestor\_to\_be\_swapped$, which is $O(\lg\lg n)$ comparisons.
 But $O(\lg\lg n) \in o(\lg n)$, as required.
-\hfill $\blacksquare$\\
-{\bf Comment} I finally realize the power of induction.
+\hfill $\blacksquare$
 \end{document}
