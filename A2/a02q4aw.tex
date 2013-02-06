@@ -7,7 +7,7 @@
 \usepackage{courier}
 \usepackage{pdfpages}
 \usepackage{../thm}
-\usepackage[left=2cm,top=2cm,right=2cm]{geometry}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
 \title{Responses for CS240 Assignment 2 Question 4a}
 \author{Alfred Chan -- 20392255}
 
@@ -29,6 +29,7 @@
 Assume that taking exponents or logs cost constant comparison, and that ``book-keeping'' comparisons are ``out of the question,'' like counters in a for loop.
 Let's consider the following formula that allows MaxHeap to find the indice of ancestors with a constant number of comparisons.
 \input{../lemma/heap_nth_parent.texin}
+The important part of the above proof is that a closed formula exists, which cost $O(1)$ comparison.\\
 Now consider a binary-search-based function that looks for the number of ancestors in a given node. Let $start$ be the target node to search from.
 \begin{lstlisting}
 num_ancestor_to_be_swapped(A[1..n], start)
