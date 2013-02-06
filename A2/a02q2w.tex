@@ -15,9 +15,11 @@
 \maketitle
 First show that the number of times that the array can be split is $\Theta(\lg n)$. The proof of lemma \ref{split_n_by_2} is the same as in the response to question 1.
 \input{../lemma/split_n_by_2.texin}
-Since sequential search looks at the array until the target is found, which the target can be at the end, so $T(SeqSearch(A[1..n])) = O(n)$.
+Since sequential search looks at the array until the target is found, which can be at the end, so $T(SeqSearch(A[1..n])) = O(n)$.
 Now, let $k = \Theta(\lg n)$.
-Since $TwiceIsNice$ does a sequential search on an array $A$ and then on an array of size $\frac{size(A)}{2}$, so the worst case is
+Since $TwiceIsNice$ does a sequential search on an array $A$ and then on an array of size $\frac{size(A)}{2}$, and then go on and on until the size is 
+$1 = \frac{n}{n} = \frac{n}{2^k}$.
+So the worst case is
 \begin{gather*}
 T(TwiceIsNice(n)) = T(SeqSearch(A[1..\frac{n}{2^0}])) + \dots + T(SeqSearch(A[1 .. \frac{n}{2^k}]))\\
 	= n + \frac{n}{2} + \dots + \frac{n}{2^k}\\
