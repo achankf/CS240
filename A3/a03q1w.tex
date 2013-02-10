@@ -13,8 +13,8 @@
 
 \begin{document}
 \maketitle
-Assume a MaxHeap. Consider the input array $In =(8,6,5,4,2,3,4')$, which the $4'$ is just an indicator of the order of the 4's.
-Consider the output array $Sorted = ()$ is empty. Then let's sort:
+Assume a MaxHeap. Consider a MaxHeap array $In =(8,6,5,4,2,3,4')$, which the $4'$ is just an indicator of the order of the 4's.
+Consider the output array $Sorted = ()$ is empty. Then sort by calling $deleteMax$:
 \begin{align*}
 \intertext{First round:}
 Sorted &= (8)\\
@@ -25,12 +25,14 @@ In &= (5,4',3,4,2)
 \intertext{Third round:}
 Sorted &= (8,6,5)\\
 In &= (4',2,3,4)
-\intertext{Third round:}
+\intertext{Fourth round:}
 Sorted &= (8,6,5,4')\\
 In &= (4,2,3)
+\intertext{Continue on until $In$ is empty...}
+Sorted &= (8,6,5,4',4,3,2)\\
+In &= ()
 \end{align*}
-Stop because $4'$ appears before $4$, but $4'$ was originally the last element in $In$. Hence, heap sort is unstable.
-
+Therefore, $4'$ appears before $4$, but $4'$ was originally the last element in $In$. Hence, heap sort is unstable.
 \hfill $\blacksquare$
 \end{document}
 

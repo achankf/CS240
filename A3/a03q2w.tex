@@ -42,16 +42,16 @@ Let's sort:
 	&\implies A = (1_3,1_2,1_1)
 \intertext{Return pivot index:}
 	\text{return } i &\implies \text{return } 0
-\intertext{Sort the Right of pivot $i$:}
+\intertext{Sort the ``Left'' of pivot $i$:}
 	QuickSort(A,left,i-1) &= QuickSort(A,0,-1)\\
-	&\implies \text{``Right'' side is sorted}
-\intertext{Sort the Left of pivot $i$:}
+	&\implies \text{``Left'' side is sorted}
+\intertext{Sort the ``Right'' of pivot $i$:}
 	QuickSort(A,i+1,right) &= QuickSort(A,1,2)\\
 	&\implies \text{Go on...}
 \end{align*}
-At this point, the ``right'' side ($[0..0]$) is sorted, and $QuickSort$ will only recurse on the ``left'' side ($[1..2]$). 
-Hence after the sort is complete, $A$ begins with $1_3$, the third $1$ in the original array.
-Therefore, Quicksort that uses the given algorithm is unstable.
+At this point, the ``left'' side ($[0..0]$) is sorted, and $QuickSort$ will only recurse on the ``right'' side ($[1..2]$). 
+Hence after the sort is complete, $A = (1_3,1,1)$ (the other 2 one's do not matter), but $1_3$ was the third ``one'' in the original array.
+Therefore, the given Quicksort algorithm is unstable.
 \hfill $\blacksquare$
 \end{document}
 
