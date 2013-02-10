@@ -1,0 +1,57 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\title{Responses for CS240 Assignment 3 Question 2}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+Consider the array $A = (1_1,1_2,1_3)$ of three ones, with a subscript to distinguish amongst them. 
+Then consider the local variables as an array $Var = (i,j,v)$ for convenience.\\
+(Idea: the following is a trace of the first partition in $QuickSort(A,0,2)$, showing that $A[0] = 1_3$, and that QuickSort will then recurse only on $index > 1$.)\\
+Let's sort:
+\begin{align*}
+\intertext{$QuickSort(A,0,2)$}
+	left \leftarrow 0\\
+	right \leftarrow 2
+\intertext{Is $size(A) \le 1$?}
+	size(A) = 3 &\implies No\\
+	&\implies \text{Continue QuickSort}
+	\intertext{Start $Partition(A, 0, 2)$.}
+	Var &= (-1,2,1_3)
+\intertext{Start the while loop that search for i:}
+	i &\leftarrow 0\\
+	a[0] < v \implies 1_1 < 1_3 &\implies false\\
+	&\implies break
+\intertext{Start the while loop that search for j:}
+	j &\leftarrow 1\\
+	v < a[1] \implies 1_3 < 1_2 &\implies false\\
+	&\implies break
+\intertext{Is $i \ge j$?}
+	i = 0 \ge 1 = j &\implies false\\
+	&\implies break \text{ (end for loop)}
+\intertext{Exchange keys:}
+	exch(a,i,r) &\implies exch(a,0,2)\\
+	&\implies A = (1_3,1_2,1_1)
+\intertext{Return pivot index:}
+	\text{return } i &\implies \text{return } 0
+\intertext{Sort the Right of pivot $i$:}
+	QuickSort(A,left,i-1) &= QuickSort(A,0,-1)\\
+	&\implies \text{``Right'' side is sorted}
+\intertext{Sort the Left of pivot $i$:}
+	QuickSort(A,i+1,right) &= QuickSort(A,1,2)\\
+	&\implies \text{Go on...}
+\end{align*}
+At this point, the ``right'' side ($[0..0]$) is sorted, and $QuickSort$ will only recurse on the ``left'' side ($[1..2]$). 
+Hence after the sort is complete, $A$ begins with $1_3$, the third $1$ in the original array.
+Therefore, Quicksort that uses the given algorithm is unstable.
+\hfill $\blacksquare$
+\end{document}
+
