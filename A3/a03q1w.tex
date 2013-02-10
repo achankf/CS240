@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\title{Responses for CS240 Assignment 3 Question 1}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+Assume a MaxHeap. Consider the input array $In =(8,6,5,4,2,3,4')$, which the $4'$ is just an indicator of the order of the 4's.
+Consider the output array $Sorted = ()$ is empty. Then let's sort:
+\begin{align*}
+\intertext{First round:}
+Sorted &= (8)\\
+In &= (6,4',5,4,2,3)
+\intertext{Second round:}
+Sorted &= (8,6)\\
+In &= (5,4',3,4,2)
+\intertext{Third round:}
+Sorted &= (8,6,5)\\
+In &= (4',2,3,4)
+\intertext{Third round:}
+Sorted &= (8,6,5,4')\\
+In &= (4,2,3)
+\end{align*}
+Stop because $4'$ appears before $4$, but $4'$ was originally the last element in $In$. Hence, heap sort is unstable.
+
+\hfill $\blacksquare$
+\end{document}
+
