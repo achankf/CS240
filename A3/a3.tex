@@ -1,0 +1,80 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,ifthen,enumerate,algo,url}
+
+\begin{document}
+%
+% Headings
+%
+\begin{center}
+UNIVERSITY OF WATERLOO\\
+Cheriton School of Computer Science\\[\baselineskip]
+{\bf CS240\hfill Data Structures and Data Management \hfill
+Winter 2013}\\[\baselineskip]
+{\sc \large ASSIGNMENT 3}\\
+(Due: Wednesday, February 15, 2013, 9:30am)\\[2\baselineskip]
+\end{center}
+%
+% Main body
+%
+
+%\maketitle
+\noindent
+Please read \url{http://www.student.cs.uwaterloo.ca/~cs240/w13/guidelines.pdf} for
+guidelines on submission. All problems are written problems; submit your solutions as PDF files named {\tt a03w.pdf} for all or individual question files named {\tt a03q1w.pdf}, ... , {\tt a03q4w.pdf}.
+\noindent
+\begin{enumerate}
+
+
+\item {[8 marks]}  Show with an example that Heapsort is not stable.
+
+\item {[12 marks]} Show that Quicksort using the partitioning method in the textbook (Program 7.2 page 319) is not stable. In case you don't have the textbook, here's the code. It partitions the range l..r using the last element of the range as pivot:
+
+\begin{verbatim}
+static int partition(ITEM a[], int l, int r)
+  { int i = l-1, j = r; ITEM v = a[r];
+    for (;;)
+      {
+        while (less(a[++i], v)) ;
+        while (less(v, a[--j])) if (j == l) break;
+        if (i >= j) break;
+        exch(a, i, j);
+      }
+    exch(a, i, r);
+    return i;
+  }
+\end{verbatim}
+
+\item {[30 marks total]}
+Consider a query to the Quest database for the students with the highest ranking score. The students are returned ten at time in a web page with a "next" button to retrieve the next ten top students as a set (i.e. in no particular order). This is called an "iceberg" query in which we were only interested in the top k elements, where k is unknown before hand.
+\begin{enumerate}
+\item {[8 marks]} Consider the algorithm QuickPriorityQueue(range, k), which is inspired by Quicksort. The procedure QuickPriorityQueue  (QPQ)is initially called with parameters QPQ(1..n, 10). The first step is to take a random element in the range as a pivot and split the array in left and right parts as in quicksort. Let $\ell$ be the number of elements in the left partition after pivoting. Observe that either $\ell < k$, $\ell =k$  or $\ell > k$. Give pseudocode describing how to proceed in a similar fashion from there until the first ten elements are produced.
+\item {[8 marks]} Describe how to implement an algorithm to produce the next ten elements, i.e. 11..20 after the first ten have been produced in time that is never more (and in most cases less) than a straightforward call to QuickPriorityQueue(11…range, 10).
+\item {[6 marks]} Let $f(n)$ be expected time taken by the algorithm in part (a). Show that $f(n)=\Theta(n)$.
+\item {[8 marks]} Sketch an argument to show that the time to produce the first ten together with the 
+ second ten combined takes expected time $f(n)+O(1)$.
+\end{enumerate}
+\item {[8 marks total]} Consider the following insertion sort algorithm:
+
+\begin{verbatim}
+insertionSort(array A)
+{
+    for i = 1 to length[A]-1 do
+    {
+        value = A[i];
+        j = i-1;
+        while j >= 0 and A[j] > value do
+        {
+            A[j + 1] = A[j];
+            j = j-1;
+        }
+        A[j+1] = value;
+    }
+}
+\end{verbatim}
+\begin{enumerate}
+\item {[4pt]} Draw the comparison tree for this algorithm on an input of 3 elements.
+\item {[4pt]} Compare the number of comparisons in the tree to those predicted by the lower bound for comparison based sorting. Is insertion sort optimal in the worst case for sorting three elements?
+Remember, the comparison tree only includes comparisons between values corresponding to keys being sorted.
+\end{enumerate}
+\end{enumerate}
+\end{document}
