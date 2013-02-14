@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{pdfpages}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\title{Responses for CS240 Assignment 3 Question 3}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\lstset{
+	language=C++,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{OliveGreen}\bfseries,
+  stringstyle=\ttfamily\color{red!50!brown},
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	morekeywords={swap, and, then, initialize, push},
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
+
+\maketitle
+\begin{enumerate}[(a)]
+\item Consider a modified version of $QuickSelect$ such that each result of the partition function is stored in a global variable linked list $L$.
+
+Consider a partition function that partition an array into two parts:
+\begin{itemize}
+\item[left:] items that are greater or equal to the pivot element
+\item[right:] items that are less than the pivot element
+\end{itemize}
+\begin{lstlisting}
+partition(A[1..n], pivot)
+	swap A[1] with A[pivot]
+	i <- 2
+	j <- n
+	while true
+		while i <= n and A[i] >= A[1]
+				i++
+		while j >= 1 and A[j] < A[1]
+				j--
+		if i < j then break
+		swap A[i] with A[j]
+	swap A[i] with A[1]
+	return i
+\end{lstlisting}
+The returned index is the i-th largest element in the array.
+
+Now consider $QPQ$ as a modified version of $QuickSelect$.
+Notice that the result of partition is being pushed into the linked list $L$:
+
+\begin{lstlisting}
+QPQ(1..n,k)
+	p <- random number from 1 to n
+	p <- partition(A[1..n], p)
+	push p into L
+	
+	if k = p
+		ret <- A
+		A <- A + k // increment the address of A by k (k * size of data). This effectively "pops" k elements out of the array in constant time.
+		return ret
+	if k < p
+		return QPQ(1..p, k)
+	if k > p
+		return QPQ(p..n, k)
+\end{lstlisting}
+\hfill $\blacksquare$
+
+\item
+The key idea: look for an {\bf index} in $L$ that is closest to 20, and then use it as a boundary for $QPQ$.
+Let's call the function $A3Q3b$.
+\begin{lstlisting}
+A3Q3b(k <- 20) // k, by default 20
+	QPQ(1..n,10) // mutate the array
+	big <- n - 10 // size changed due to popping in QPQ
+	small <- 1
+	node_pt <- pointer to the head of L
+
+	for each index in L
+		if index = k // the first k-th elements have being found (very lucky)
+			ret <- A
+			A <- A + k // increment the address of A by k (k * size of data)
+			return ret
+		else if index < k
+			// small gets closer to k
+			if small < k
+				small <- k
+		else // index > k
+			// small gets closer to k
+			if big < k
+				big <- k
+
+	// if nothing happened, the worst expected case is still QPQ(11..n,10);
+	return QPQ(small..big, 10);
+\end{lstlisting}
+The main reason that the above algorithm works is because whenever a partition is finish, the value of the returned index, $i$, is in the proper sorted place.
+Hence, if the partition function is being called for a second time, $A[i]$ will not be affected because it is already in its sorted location. Consequently, the indice in $L$ remain valid.
+Lastly, $small$ and $big$ try to minimize the range for the second $QPQ$ call.
+Hence, the algorithm can either be faster than or as fast as calling $QPQ(11..n,10)$.
+\hfill $\blacksquare$
+
+\item
+Let's consider each part:
+\begin{itemize}
+\item[partition]
+Notice that the array indice $i$ and $j$ go towards each other, and then the infinite while loop breaks whenever they pass each other.
+So partition will always check the entire array.
+In addition, the swap function is a constant operation. Therefore, the expected case for partition is $\Theta(n)$.
+\item[QPQ]
+The only difference between $QPQ$ and $QuickSelect$ is the line where the result of partition is pushed into $L$, which is a constant operation.
+Now show that the expected case of $QPQ$ is $\Theta(n)$:
+
+Consider the ``good'' and ``bad'' pivots from a sorted sequence of $A$ that is being split into 4 parts.
+The values in between the second and the third parts are considered as ``good'' pivots, because these parts are close to the median, which allows $QPQ$ to eliminate about half of the elements.
+Since the pivot is randomly chosen, the probability of selecting the second and the third is $\frac{1}{2}$, and selecting the rest is also $\frac{1}{2}$.
+
+The worst case of a ``good'' pivot happens if the pivot is at the first or fourth quartile (25\% and 75\% of the data), which is based on $\frac{3}{4}n$.
+Also, the worst case of a ``bad'' pivot happens if the pivot is the first or last element in the sorted sequence, hence $O(n)$.
+Therefore, the worst case for $QPQ$ is
+
+\begin{align*}
+T(n) &= T(partition(n)) + \frac{1}{2}T(\text{bad pivots}) + \frac{1}{2}T(\text{good pivots})\\
+	&= \Theta(n) + \frac{1}{2}n + \frac{1}{2}T(\frac{3}{4}n)\\
+	&= \Theta(n) + \frac{1}{2}T(\frac{3}{4}n)\\
+	&= \Theta(n) + \sum_{i = 0}^{\text{number of times n can be split by $\frac{3}{4}$}} (\frac{3}{4})^i\\
+	\intertext{The following is true because $\sum_{i = 0}^{\infty} (\frac{3}{4})^i = 4$ (by geometric series)}\\
+	&= \Theta(n) + O(1)\\
+	&= \Theta(n)
+\end{align*}
+
+The expected best case is also $\Theta(n)$ because each element has to be compared at least once (otherwise there may be items that are greater/less/equal to the target element).
+Hence, the expected time of $QPQ$ is bounded.
+\end{itemize}
+Thus, the expected time of $QPQ \in \Theta(n)$
+\hfill $\blacksquare$
+
+\item
+Consider that each element in $A$ has a ``marker'' that distinguishes the duplicated elements.
+Then the probability of selecting a random index $i$ out of $n$ elements is $\frac{1}{n}$.
+Consequently, the probability of selecting the 20-th element is $\frac{1}{n}$.
+
+Consider $QPQ(1..n,10)$ is being called already.
+
+If the index 20 is found, then $A3Q3b$ returns the array address immediately.
+Hence $\Theta(c)$, where $c$ is a constant.
+
+Otherwise, $A3Q3b$ will call the second $QPQ$ with a possibly smaller bound, as explain near the pseudocode.
+Though, the expected time of the second $QPQ$ call is still $\Theta(n)$ because $QPQ$'s expected time is $\Theta(n)$.
+
+Then the expected time of $A3Q3b$ is
+\begin{align*}
+T(A3Q3b) &= T(\text{first QPQ call}) + \frac{1}{n}T(\text{k is in L}) + \big (1-\frac{1}{n} \big ) T(\text{second QPQ call})\\
+	&= n + \frac{1}{n} c + \big (1-\frac{1}{n} \big ) n\\
+	&= n +  \frac{c}{n} + \frac{n-1}{n} n\\
+	&= n + \frac{c}{n} + \frac{n^2 -n}{n}\\
+	&= n + \frac{c}{n} + n - 1\\
+	&= 2n + (\frac{c}{n}-1)\\
+\intertext{The following is true because $\frac{c}{n} \in o(1)$ (by high school math).}
+	&= \Theta(n) + O(1)\\
+	&= f(n) + O(1)
+\end{align*}
+As required.
+\hfill $\blacksquare$
+
+\end{enumerate}
+\end{document}
+
