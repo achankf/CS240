@@ -32,7 +32,7 @@
 \maketitle
 \begin{enumerate}[(a)]
 \item Consider a modified version of $QuickSelect$ such that each result of the partition function is stored in a global variable linked list $L$. 
-$num\_pop$ indicates the number of elements being popped.
+Another global variable, $num\_pop$, indicates the number of elements being popped.
 
 Consider a partition function that partition an array into two parts:
 \begin{itemize}
@@ -114,22 +114,24 @@ Hence, the algorithm can either be faster than or as fast as calling $QPQ(11..n,
 \hfill $\blacksquare$
 
 \item
-Let's consider each part:
+Let's consider the expected running time for each part:
 \begin{itemize}
 \item[partition]
 Notice that the array indice $i$ and $j$ go towards each other, and then the infinite while loop breaks whenever they pass each other.
 So partition will always check the entire array.
 In addition, the swap function is a constant operation. Therefore, the expected case for partition is $\Theta(n)$.
 \item[QPQ]
-The only difference between $QPQ$ and $QuickSelect$ is the line where the result of partition is pushed into $L$, which is a constant operation.
+The only difference between $QPQ$ and $QuickSelect$ are the lines where $A$ pops out elements, and where the result of partition is pushed into $L$.
+Both operations are constant.
 Now show that the expected case of $QPQ$ is $\Theta(n)$:
 
 Consider the ``good'' and ``bad'' pivots from a sorted sequence of $A$ that is being split into 4 parts.
-The values in between the second and the third parts are considered as ``good'' pivots, because these parts are close to the median, which allows $QPQ$ to eliminate about half of the elements.
+The values in between the second and the third parts are considered as ``good'' pivots, because these parts are close to the median, which allows $partition$ to eliminate about half of the elements.
 Since the pivot is randomly chosen, the probability of selecting the second and the third is $\frac{1}{2}$, and selecting the rest is also $\frac{1}{2}$.
 
-The worst case of a ``good'' pivot happens if the pivot is at the first or fourth quartile (25\% and 75\% of the data), so the worst case for ``good'' pivots is based on $\frac{3}{4}$ splits.
-Also, the worst case of a ``bad'' pivot happens if the pivot is the first or last element in the sorted sequence, hence $O(n)$.
+The worst case of a ``good'' pivot happens if the pivot is at the first or fourth quartile (25\% and 75\% of the data), so the worst case for ``good'' pivots is based on many $\frac{3}{4}$-split splits.
+Also, the worst case of a ``bad'' pivot happens if the pivot belongs to the first or fourth parts of the sorted sequence, which $QPQ$ has to look for (almost) the entire list, hence $O(n)$.
+
 Therefore, the worst case for $QPQ$ is
 
 \begin{align*}
@@ -164,13 +166,11 @@ Though, the expected time of the second $QPQ$ call is still $\Theta(n)$ because 
 
 Then the expected time of $A3Q3b$ is
 \begin{align*}
-T(A3Q3b) &= \frac{1}{n}T(\text{k is in L}) + \big (1-\frac{1}{n} \big ) T(\text{second QPQ call})\\
-	&= \frac{1}{n} c + \big (1-\frac{1}{n} \big ) n\\
-	&= \frac{c}{n} + \frac{n-1}{n} n\\
-	&= \frac{c}{n} + \frac{n^2 -n}{n}\\
-	&= \frac{c}{n} + n - 1\\
-	&= n + (\frac{c}{n}-1)\\
-\intertext{The following is true because $\frac{c}{n} \in O(1)$.}
+T(A3Q3b) &= \frac{1}{n}T(\text{k is in L}) + \big (1-\frac{1}{n} \big ) T(\text{k not in L, call $QPQ$})\\
+	&= \frac{1}{n} \times 1 + \big (1-\frac{1}{n} \big ) n\\
+	&= \frac{1}{n} + \frac{n-1}{n} n\\
+	&= \frac{1 + n^2 -n}{n}\\
+	&= n + \frac{n-1}{n}\\
 	&= \Theta(n) + O(1)\\
 	&= f(n) + O(1)
 \end{align*}
