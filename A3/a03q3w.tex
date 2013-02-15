@@ -31,7 +31,8 @@
 
 \maketitle
 \begin{enumerate}[(a)]
-\item Consider a modified version of $QuickSelect$ such that each result of the partition function is stored in a global variable linked list $L$.
+\item Consider a modified version of $QuickSelect$ such that each result of the partition function is stored in a global variable linked list $L$. 
+$num\_pop$ indicates the number of elements being popped.
 
 Consider a partition function that partition an array into two parts:
 \begin{itemize}
@@ -39,10 +40,10 @@ Consider a partition function that partition an array into two parts:
 \item[right:] items that are less than the pivot element
 \end{itemize}
 \begin{lstlisting}
-partition(A[1..n], pivot)
-	swap A[1] with A[pivot]
-	i <- 2
+partition(A[1..n], pivot) // start with element that is not popped
+	i <- 1
 	j <- n
+	swap A[i] with A[pivot]
 	while true
 		while i <= n and A[i] >= A[1]
 				i++
@@ -53,57 +54,61 @@ partition(A[1..n], pivot)
 	swap A[i] with A[1]
 	return i
 \end{lstlisting}
-The returned index is the i-th largest element in the array.
+The returned index is the i-th largest element in the array, and it is in its sorted position.
 
 Now consider $QPQ$ as a modified version of $QuickSelect$.
-Notice that the result of partition is being pushed into the linked list $L$:
+Notice that the ``absolute'' position, resulting from partition, is being pushed into the linked list $L$:
 
 \begin{lstlisting}
 QPQ(1..n,k)
 	p <- random number from 1 to n
 	p <- partition(A[1..n], p)
-	push p into L
+	push (p + num_pop) into L // aka the ``absolute" position
 	
 	if k = p
 		ret <- A
 		A <- A + k // increment the address of A by k (k * size of data). This effectively "pops" k elements out of the array in constant time.
+		num_pop += k
 		return ret
 	if k < p
-		return QPQ(1..p, k)
+		return QPQ(1..p-1, k)
 	if k > p
-		return QPQ(p..n, k)
+		return QPQ(p+1..n, k)
 \end{lstlisting}
 \hfill $\blacksquare$
 
 \item
-The key idea: look for an {\bf index} in $L$ that is closest to 20, and then use it as a boundary for $QPQ$.
+The key idea: look for the upper and lower bound of indice in $L$ that are closest to 20. Then use them to bound $A$.
+
 Let's call the function $A3Q3b$.
 \begin{lstlisting}
-A3Q3b(k <- 20) // k, by default 20
-	QPQ(1..n,10) // mutate the array
-	big <- n - 10 // size changed due to popping in QPQ
+A3Q3b(k <- 10) // k, by default 10
+	big <- n - num_pop // size changed due to popping in QPQ
 	small <- 1
 	node_pt <- pointer to the head of L
 
 	for each index in L
+		index = index - num_pop // pointer arithmetics for retriving the relative position
 		if index = k // the first k-th elements have being found (very lucky)
 			ret <- A
-			A <- A + k // increment the address of A by k (k * size of data)
+			A <- A + k // pop k elements
 			return ret
 		else if index < k
 			// small gets closer to k
-			if small < k
-				small <- k
+			if small < index
+				small <- index
 		else // index > k
-			// small gets closer to k
-			if big < k
-				big <- k
+			// big gets closer to k
+			if big < index
+				big <- index
 
-	// if nothing happened, the worst expected case is still QPQ(11..n,10);
-	return QPQ(small..big, 10);
+	// if nothing happened, the worst case is still QPQ(11..n,10);
+	return QPQ(small..big, k);
 \end{lstlisting}
 The main reason that the above algorithm works is because whenever a partition is finish, the value of the returned index, $i$, is in the proper sorted place.
-Hence, if the partition function is being called for a second time, $A[i]$ will not be affected because it is already in its sorted location. Consequently, the indice in $L$ remain valid.
+Hence, if the partition function is being called for a second time, $A[i]$ will not be affected because it is already in its sorted location. 
+Also, the algorithm keeps track of the number of pops, which can be use to derieve the ``relative'' position.
+Thus, even if $QPQ$ pops some elements, the indice in $L$ remain valid.
 Lastly, $small$ and $big$ try to minimize the range for the second $QPQ$ call.
 Hence, the algorithm can either be faster than or as fast as calling $QPQ(11..n,10)$.
 \hfill $\blacksquare$
@@ -123,7 +128,7 @@ Consider the ``good'' and ``bad'' pivots from a sorted sequence of $A$ that is b
 The values in between the second and the third parts are considered as ``good'' pivots, because these parts are close to the median, which allows $QPQ$ to eliminate about half of the elements.
 Since the pivot is randomly chosen, the probability of selecting the second and the third is $\frac{1}{2}$, and selecting the rest is also $\frac{1}{2}$.
 
-The worst case of a ``good'' pivot happens if the pivot is at the first or fourth quartile (25\% and 75\% of the data), which is based on $\frac{3}{4}n$.
+The worst case of a ``good'' pivot happens if the pivot is at the first or fourth quartile (25\% and 75\% of the data), so the worst case for ``good'' pivots is based on $\frac{3}{4}$ splits.
 Also, the worst case of a ``bad'' pivot happens if the pivot is the first or last element in the sorted sequence, hence $O(n)$.
 Therefore, the worst case for $QPQ$ is
 
@@ -144,27 +149,28 @@ Thus, the expected time of $QPQ \in \Theta(n)$
 \hfill $\blacksquare$
 
 \item
-Consider that each element in $A$ has a ``marker'' that distinguishes the duplicated elements.
-Then the probability of selecting a random index $i$ out of $n$ elements is $\frac{1}{n}$.
+Consider that each element in $A$ has a ``marker'' that distinguishes duplicated elements.
+Then the probability of selecting a random index out of $n$ elements is $\frac{1}{n}$.
 Consequently, the probability of selecting the 20-th element is $\frac{1}{n}$.
+Also, the probabily of selecting pivots other than the 20-th element is $1-\frac{1}{n}$.
 
 Consider $QPQ(1..n,10)$ is being called already.
 
-If the index 20 is found, then $A3Q3b$ returns the array address immediately.
-Hence $\Theta(c)$, where $c$ is a constant.
+If the index 20 is found in $L$, then $A3Q3b$ returns the array address immediately.
+Hence $\Theta(1)$.
 
 Otherwise, $A3Q3b$ will call the second $QPQ$ with a possibly smaller bound, as explain near the pseudocode.
 Though, the expected time of the second $QPQ$ call is still $\Theta(n)$ because $QPQ$'s expected time is $\Theta(n)$.
 
 Then the expected time of $A3Q3b$ is
 \begin{align*}
-T(A3Q3b) &= T(\text{first QPQ call}) + \frac{1}{n}T(\text{k is in L}) + \big (1-\frac{1}{n} \big ) T(\text{second QPQ call})\\
-	&= n + \frac{1}{n} c + \big (1-\frac{1}{n} \big ) n\\
-	&= n +  \frac{c}{n} + \frac{n-1}{n} n\\
-	&= n + \frac{c}{n} + \frac{n^2 -n}{n}\\
-	&= n + \frac{c}{n} + n - 1\\
-	&= 2n + (\frac{c}{n}-1)\\
-\intertext{The following is true because $\frac{c}{n} \in o(1)$ (by high school math).}
+T(A3Q3b) &= \frac{1}{n}T(\text{k is in L}) + \big (1-\frac{1}{n} \big ) T(\text{second QPQ call})\\
+	&= \frac{1}{n} c + \big (1-\frac{1}{n} \big ) n\\
+	&= \frac{c}{n} + \frac{n-1}{n} n\\
+	&= \frac{c}{n} + \frac{n^2 -n}{n}\\
+	&= \frac{c}{n} + n - 1\\
+	&= n + (\frac{c}{n}-1)\\
+\intertext{The following is true because $\frac{c}{n} \in O(1)$.}
 	&= \Theta(n) + O(1)\\
 	&= f(n) + O(1)
 \end{align*}
