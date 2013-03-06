@@ -1,14 +1,17 @@
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
+#include <ctime> // for setting seed
 #include <cstring>
-#include <sys/time.h>
+#include <sys/time.h> // for setting seed
+#include <list>
 using namespace std;
+
+typedef list<int> keylist;
 
 enum {
 	MAX = 10000,
 	NUM_WANTED = 40,
-	MODULO = 40
+	MODULUS = 40
 };
 
 int h(int EID){
@@ -20,28 +23,26 @@ int h(int EID){
 	return ret;
 }
 
-void printRet(int *ret){
-	for (int i = 0; i < MODULO; i++){
-		cout << i << " " << ret[i] << endl;
+void printRet(keylist *hashtable){
+	for (int i = 0; i < MODULUS; i++){
+		cout << i << " " << hashtable[i].size() << endl;
 	}
 }
 
-void numFromStdIn(){
-	int ret[MODULO] = {0};
+void numFromStdIn(keylist *hashtable){
 	for (int i = 0, temp; i < NUM_WANTED; i++){
 		cin >> temp;
-		ret[h(temp)]++;
+		hashtable[h(temp)].push_front(temp);
 	}
 
-	printRet(ret);
+	printRet(hashtable);
 }
 
-void numFromRand(){
+void numFromRand(keylist *hashtable){
 	bool countArray[MAX] = {false};
-	int ret[MODULO] = {0};
 
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
+	// get time
+	struct timeval tv; gettimeofday(&tv, NULL);
 	// set seed
 	srand(tv.tv_sec * 1000000 + tv.tv_usec);
 
@@ -50,19 +51,24 @@ void numFromRand(){
 		int temp = rand() % MAX;
 		if (countArray[temp]) continue;
 		countArray[temp] = true;
-		ret[h(temp)]++;
+		hashtable[h(temp)].push_front(temp);
 		count++;
 	}
 
-	printRet(ret);
+	printRet(hashtable);
 }
 
 int main(int argc, char **argv){
+
+	// could be vector if you want it to be more robust
+	keylist hashtable[MODULUS];
+
 	if (argc == 2 && strcmp(argv[1], "-t") == 0){
-		numFromStdIn();
+		numFromStdIn(hashtable);
 	} else {
-		numFromRand();
+		numFromRand(hashtable);
 	}
 
+	// do things with the hashtable
 	return 0;
 }
