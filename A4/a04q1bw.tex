@@ -13,7 +13,7 @@
 
 \begin{document}
 \maketitle
-After several tries, it seems that the distribution is biased towards the centre.\\
+After several tries, it seems that the keys are clustered towards the centre.\\
 
 {\bf Mathematical Explaination:} Consider the distribution of the hash function.
 Notice that the number of possibility of getting $h(EID) = k$,
@@ -34,9 +34,9 @@ simplify(expand((1+x+x^2+x^3+x^4+x^5+x^6+x^7+x^8+x^9+x^10)^4))\\
 \end{gather*}
 The above result means that there are
 \begin{itemize}
-\item 1 way to sum 4 digits to 0;
-\item 4 way to sum 4 digits to 1;
-\item 891 way to sum 4 digits to 20, and so on.
+\item 1 way to sum 4 digits (base 10) to 0;
+\item 4 way to sum 4 digits (base 10) to 1;
+\item 891 way to sum 4 digits (base 10) to 20, and so on.
 \end{itemize}
 
 Notice that the coefficient of the generating function
@@ -44,6 +44,6 @@ Notice that the coefficient of the generating function
 	and then shrinks from 891 to 1 ($x^{20}$ to $x^{40}$).
 This means that {\bf the distribution is biased towards the centre (reaches the maximum when $k=20$)}.
 Since the input values to $h$ are randomly generated in uniform distribution (assumption),
-it is more likely that $h(EID)$ gets closer to the centre than the ones that are near the end of the distribution.
+by the distribution of $k$ it is more likely that $h(EID)$ gets closer to the centre than the ones that are near the end of the distribution.
 \hfill $\blacksquare$
 \end{document}
