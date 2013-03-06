@@ -1,0 +1,105 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,ifthen,enumerate,algo,url,amsmath}
+
+\begin{document}
+%
+% Headings
+%
+\begin{center}
+UNIVERSITY OF WATERLOO\\
+Cheriton School of Computer Science\\[\baselineskip]
+{\bf CS240\hfill Data Structures and Data Management \hfill
+Winter 2013}\\[\baselineskip]
+{\sc \large ASSIGNMENT 4}\\
+(Due: Friday, March 15, 2013, 9:30am)\\[2\baselineskip]
+\end{center}
+%
+% Main body
+%
+
+%\maketitle
+\noindent
+Please read \url{http://www.student.cs.uwaterloo.ca/~cs240/w13/guidelines.pdf} for guidelines on submission. 
+Problems 1b, 1d and 2b are written problems; submit your solutions as PDF files named {\tt a04w.pdf} for all or individual question files named {\tt a04q1bw.pdf}, ... , {\tt a04q2bw.pdf}. 
+Implement your programming solutions in C++ and make sure the code you submit runs in the student environment.
+Submit only the cpp files {\tt a04q1a.cpp}, ... , {\tt a04q2a.cpp}.
+\noindent
+
+\begin{enumerate}
+\item Consider an employee database. 
+Each employee is given a sequential unique ID when first hired, which is never re-used. 
+Over the years the company has hired 10,000 workers. 
+That is to say employee IDs from 0 to 9,999 have been issued. 
+However due to retirements and ``redundancies'' there are presently only 40 employees working for the company, with a uniformly random employee ID between 0 and 9,999. 
+
+Jonah decides to hash the key space  $\{0,1,2,\ldots,9999\}$ to the set $\{0,1,2,\ldots,39\}$. 
+He proposes as a hash function 
+
+\[ h(EID)=\sum_{i=1 \ldots 4} d_i\]
+
+where $EID=d_1d_2d_3d_4$ are the digits of the employee ID. 
+
+\begin{enumerate}
+\item {[20 marks]}   
+Write a program that generates 40 unique random employee IDs between 0 and 9999. 
+Create a table of 40 entries and hash the employee IDs into it using separate chaining. 
+Then print for each entry the number of keys contained in that entry. 
+E.g.,
+
+\begin{verbatim}
+0 - 0
+1 - 0
+2 - 0
+3 - 4
+4 - 1
+.
+.
+39 - 0
+\end{verbatim}
+
+For testing purposes your program should look for a command line switch "-t" stored in argv{[1]}.
+If this switch is present, the program should read 40 IDs from the standard input instead (e.g., using scanf).
+Submit the code for this program in {\tt a04q1a.cpp}.
+
+\item {[5 marks]}  
+Repeat a few times. 
+Observe the pattern in the distribution of collisions. 
+Explain the pattern obtained.
+
+\item {[5 marks]} 
+Jarmila replaces the hash function above with 
+
+\[ h(EID) = EID \bmod 40\]
+
+Implement this hash function and resubmit your program.
+Submit the code for this program in {\tt a04q1c.cpp}.
+
+\item {[4 marks]} 
+Run the new program a few times. 
+Observe the pattern in the distribution of collisions. 
+Explain.
+\end{enumerate}
+
+\item The skeleton code in {\tt a04q2a.cpp} shows a simplified implementation of a binary search tree (not necessarily balanced) in C++. 
+\begin{enumerate}
+\item {[25 marks]}  
+Modify and resubmit the code in {\tt a04q2a.cpp} to use the leftDescendants, rightDescendants and balance fields.
+The leftDescendants and rightDescendants fields should contain the number of descendants in each of the subtrees, and the balance field should contain the ratio between the left and right subtree sizes.
+I.e., 
+$$
+balance=
+\begin{cases}
+rightDescendants/leftDescendants & \mbox{if } leftDescendants \neq 0 \\
+0 & \mbox{otherwise}
+\end{cases}
+$$
+The idea now is that a tree is ``balanced'' if it is: empty, a leaf, the parent of exactly one leaf, or the left and right subtrees are balanced and within a multiplicative factor of two of each other. 
+As for AVL trees if the balance condition is broken we apply left, right, double left and double right rotations. 
+Modify the code so that after an insertion in a size balanced tree it recomputes the tree sizes and it rebalances the tree using the appropriate rotation, if needed. 
+
+\item {[15 marks]} 
+Prove or disprove that the AVL style rotations used above suffice to place the tree back in balance.
+\end{enumerate}
+\end{enumerate}
+\end{document}
+
