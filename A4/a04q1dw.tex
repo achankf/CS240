@@ -1,0 +1,29 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\title{Responses for CS240 Assignment 4 Question 1b}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+After several tries, it seems the values are spread pretty equally over the whole range.
+
+{\bf Mathematical Explaination:} Consider the distribution of the hash function.
+Notice that the number of possibility of getting $h(EID) = k$,
+where $0 \le k < 40$, is the number of values that has the same remainder when they are divided by 40.
+
+Notice that $EID \in \{0,\cdots,9999\}$ which has 10000 {\bf consecutive} values,
+and that 40 divides 10000. Hence there are $\frac{10000}{40}=250$ equally-sized partitions,
+such that each has the same remainder.
+
+Since the input values are uniformly distributed (assumption), so the probability of having $k$ is $P(h(EID) = k) = \frac{1}{250}$, for $0 \le k < 40$.
+Hence, the distribution of $k$ is also uniformly distributed.
+\hfill $\blacksquare$
+\end{document}
