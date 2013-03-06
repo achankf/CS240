@@ -154,27 +154,34 @@ Thus, the expected time of $QPQ \in \Theta(n)$
 Consider that each element in $A$ has a ``marker'' that distinguishes duplicated elements.
 Then the probability of selecting a random index out of $n$ elements is $\frac{1}{n}$.
 Consequently, the probability of selecting the 20-th element is $\frac{1}{n}$.
-Also, the probabily of selecting pivots other than the 20-th element is $1-\frac{1}{n}$.
+Also, the probabily of selecting pivots other than the 20-th element is $1-\frac{1}{n} = \frac{n-1}{n}$.
 
 Consider $QPQ(1..n,10)$ is being called already.
 
-If the index 20 is found in $L$, then $A3Q3b$ returns the array address immediately.
-Hence $\Theta(1)$.
+Let $s \le n$ be the size of $L$. For the time that is used to look for small and big: 
+it is either $\Theta(s)$ if 20 is not in $L$, since each element has to be compared; otherwise it is $O(s)$ (searching up to the size of $L$ until 20 has been found).
+But the probability that an index is in $L$ is still based on $n$.
+
+For executing $QPQ$, if the index 20 is found in $L$, then $A3Q3b$ returns the array address immediately.
+Hence the time of execution of $QPQ$ is $0$.
 
 Otherwise, $A3Q3b$ will call the second $QPQ$ with a possibly smaller bound, as explain near the pseudocode.
 Though, the expected time of the second $QPQ$ call is still $\Theta(n)$ because $QPQ$'s expected time is $\Theta(n)$.
 
-Then the expected time of $A3Q3b$ is
+Then the expected time of $A3Q3b$ is (ignore the $\Theta$'s first)
 \begin{align*}
-T(A3Q3b) &= \frac{1}{n}T(\text{k is in L}) + \big (1-\frac{1}{n} \big ) T(\text{k not in L, call $QPQ$})\\
-	&= \frac{1}{n} \times 1 + \big (1-\frac{1}{n} \big ) n\\
-	&= \frac{1}{n} + \frac{n-1}{n} n\\
-	&= \frac{1 + n^2 -n}{n}\\
-	&= n + \frac{n-1}{n}\\
+T(A3Q3b) &= T(\text{searching small and big in L}) + T(\text{calling QPQ})\\
+	&= \bigg( \frac{1}{n}T(\text{k in L}) + \frac{n-1}{n}T(\text{k not in L}) \bigg) + \bigg( \frac{1}{n}T(\text{k is in L}) + \frac{n-1}{n} T(\text{k not in L}) \bigg)\\
+	&= \bigg( \frac{1}{n} O(s) + \frac{n-1}{n} s \bigg) + \frac{1}{n} \times 0 +  \frac{n-1}{n} n\\
+	&= \bigg( O(1) + s-\frac{s}{n} \bigg) + \frac{n^2 -n}{n}\\
+	&= \bigg( O(1) + s-\frac{s}{n} \bigg) + n - 1\\
+	&= \bigg( n + s \bigg) + \bigg( O(1) + \frac{s}{n} - 1\bigg)\\
+\intertext{Notice that $s$ is linear and $\frac{c}{n} \in o(1)$ for $c \le n$. Hence,}
 	&= \Theta(n) + O(1)\\
 	&= f(n) + O(1)
 \end{align*}
-As required.
+As required.\\
+Note: $T(\text{k in L})$ and $T(\text{k in L})$ are relative to either searching boundary or $QPQ$.
 \hfill $\blacksquare$
 
 \end{enumerate}
