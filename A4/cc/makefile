@@ -2,11 +2,14 @@ CXX = g++
 OLEVEL = -ggdb -O2
 DEBUG = -DNDEBUG -pedantic-errors -Werror -march=native -Wall
 CXXFLAGS = -march=native $(DEBUG) $(INCLUDE_DIR) $(OLEVEL) -pipe
-EXE = a04q1a.exe
+EXE = a04q1c.exe
 
 all: $(EXE)
 
 a04q1a.exe: a04q1a.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+a04q1c.exe: a04q1c.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 .phony: clean
