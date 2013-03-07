@@ -47,12 +47,12 @@ bool BinarySearchTree::Search(int value) {
 
 bool BSTNode::Search(int value) {
 	BSTNode *next = NULL;
-	if (value == this->value){
-		return true;
-	} else if (value < this->value) {
+	if (value < this->value) {
 		next = left;
 	} else if (value > this->value) {
 		next = right;
+	} else {
+		return true;
 	}
 	return next ? next->Search(value) : false;
 }
