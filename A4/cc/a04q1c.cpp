@@ -1,63 +1,68 @@
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
+#include <ctime> // for setting seed
 #include <cstring>
-#include <sys/time.h>
+#include <sys/time.h> // for setting seed
+#include <list>
+#include <vector>
 using namespace std;
+
+// vector is a bit overkill
+typedef vector<list<int> > hashtable;
 
 enum {
 	MAX = 10000,
 	NUM_WANTED = 40,
-	MODULO = 40
+	MODULUS = 40
 };
 
 int h(int EID){
-	return EID % MODULO;
+	return EID % MODULUS;
 }
 
-void printRet(int *ret){
-	for (int i = 0; i < MODULO; i++){
-		cout << i << " " << ret[i] << endl;
+void printCollision(hashtable &table){
+	for (int i = 0; i < MODULUS; i++){
+		cout << i << " " << table[i].size() << endl;
 	}
 }
 
-void numFromStdIn(){
-	int ret[MODULO] = {0};
+// -t specified
+void numFromStdIn(hashtable &table){
 	for (int i = 0, temp; i < NUM_WANTED; i++){
 		cin >> temp;
-		ret[h(temp)]++;
+		table[h(temp)].push_front(temp);
 	}
-
-	printRet(ret);
 }
 
-void numFromRand(){
+// -t is not specified
+void numFromRand(hashtable &table){
+	// countArray makes sure all numbers are unique
 	bool countArray[MAX] = {false};
-	int ret[MODULO] = {0};
 
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
+	// get time
+	struct timeval tv; gettimeofday(&tv, NULL);
 	// set seed
 	srand(tv.tv_sec * 1000000 + tv.tv_usec);
 
 	// generate 40 unique random numbers
-	for (int count = 0; count < 40;){
+	for (int count = 0; count < NUM_WANTED;){
 		int temp = rand() % MAX;
 		if (countArray[temp]) continue;
 		countArray[temp] = true;
-		ret[h(temp)]++;
+		table[h(temp)].push_front(temp);
 		count++;
 	}
-
-	printRet(ret);
 }
 
 int main(int argc, char **argv){
+	hashtable table(MODULUS);
+
 	if (argc == 2 && strcmp(argv[1], "-t") == 0){
-		numFromStdIn();
+		numFromStdIn(table);
 	} else {
-		numFromRand();
+		numFromRand(table);
 	}
 
+	printCollision(table);
 	return 0;
 }
