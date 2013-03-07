@@ -4,9 +4,11 @@
 #include <cstring>
 #include <sys/time.h> // for setting seed
 #include <list>
+#include <vector>
 using namespace std;
 
-typedef list<int> keylist;
+// vector is a bit overkill
+typedef vector<list<int> > hashtable;
 
 enum {
 	MAX = 10000,
@@ -23,22 +25,23 @@ int h(int EID){
 	return ret;
 }
 
-void printRet(keylist *hashtable){
+void printCollision(hashtable &table){
 	for (int i = 0; i < MODULUS; i++){
-		cout << i << " " << hashtable[i].size() << endl;
+		cout << i << " " << table[i].size() << endl;
 	}
 }
 
-void numFromStdIn(keylist *hashtable){
+// -t specified
+void numFromStdIn(hashtable &table){
 	for (int i = 0, temp; i < NUM_WANTED; i++){
 		cin >> temp;
-		hashtable[h(temp)].push_front(temp);
+		table[h(temp)].push_front(temp);
 	}
-
-	printRet(hashtable);
 }
 
-void numFromRand(keylist *hashtable){
+// -t is not specified
+void numFromRand(hashtable &table){
+	// countArray makes sure all numbers are unique
 	bool countArray[MAX] = {false};
 
 	// get time
@@ -47,28 +50,24 @@ void numFromRand(keylist *hashtable){
 	srand(tv.tv_sec * 1000000 + tv.tv_usec);
 
 	// generate 40 unique random numbers
-	for (int count = 0; count < 40;){
+	for (int count = 0; count < NUM_WANTED;){
 		int temp = rand() % MAX;
 		if (countArray[temp]) continue;
 		countArray[temp] = true;
-		hashtable[h(temp)].push_front(temp);
+		table[h(temp)].push_front(temp);
 		count++;
 	}
-
-	printRet(hashtable);
 }
 
 int main(int argc, char **argv){
-
-	// could be vector if you want it to be more robust
-	keylist hashtable[MODULUS];
+	hashtable table(MODULUS);
 
 	if (argc == 2 && strcmp(argv[1], "-t") == 0){
-		numFromStdIn(hashtable);
+		numFromStdIn(table);
 	} else {
-		numFromRand(hashtable);
+		numFromRand(table);
 	}
 
-	// do things with the hashtable
+	printCollision(table);
 	return 0;
 }
