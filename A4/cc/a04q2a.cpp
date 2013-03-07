@@ -17,9 +17,8 @@ bool BinarySearchTree::Insert(int value) {
 	if (root == NULL) {
 		root = new BSTNode(value);
 		return true;
-	} else {
-		return root->Insert(value);
 	}
+	return root->Insert(value);
 }
 
 bool BSTNode::Insert(int value) {
@@ -43,28 +42,17 @@ bool BSTNode::Insert(int value) {
 }
 
 bool BinarySearchTree::Search(int value) {
-	if (root == NULL){
-		return false;
-	} else {
-		return root->Search(value);
-	}
+	return root ? root->Search(value) : false;
 }
 
 bool BSTNode::Search(int value) {
+	BSTNode *next = NULL;
 	if (value == this->value){
 		return true;
 	} else if (value < this->value) {
-		if (left == NULL){
-			return false;
-		} else {
-			return left->Search(value);
-		}
+		next = left;
 	} else if (value > this->value) {
-		if (right == NULL){
-			return false;
-		} else {
-			return right->Search(value);
-		}
+		next = right;
 	}
-	return false;
+	return next ? next->Search(value) : false;
 }
