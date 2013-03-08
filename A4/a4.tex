@@ -11,7 +11,7 @@ Cheriton School of Computer Science\\[\baselineskip]
 {\bf CS240\hfill Data Structures and Data Management \hfill
 Winter 2013}\\[\baselineskip]
 {\sc \large ASSIGNMENT 4}\\
-(Due: Friday, March 15, 2013, 9:30am)\\[2\baselineskip]
+(Due: Wednesday, March 13, 2013, 9:30am)\\[2\baselineskip]
 \end{center}
 %
 % Main body
@@ -20,9 +20,9 @@ Winter 2013}\\[\baselineskip]
 %\maketitle
 \noindent
 Please read \url{http://www.student.cs.uwaterloo.ca/~cs240/w13/guidelines.pdf} for guidelines on submission. 
-Problems 1b, 1d and 2b are written problems; submit your solutions as PDF files named {\tt a04w.pdf} for all or individual question files named {\tt a04q1bw.pdf}, ... , {\tt a04q2bw.pdf}. 
+Problems 1b, 1d, 2a-b and 2d are written problems; submit your solutions as PDF files named {\tt a04w.pdf} for all or individual question files named {\tt a04q1bw.pdf}, ... , {\tt a04q2dw.pdf}. 
 Implement your programming solutions in C++ and make sure the code you submit runs in the student environment.
-Submit only the cpp files {\tt a04q1a.cpp}, ... , {\tt a04q2a.cpp}.
+Submit code files {\tt a04q1a.cpp}, {\tt a04q1c.cpp}, and {\tt a04q2c.\{h,cpp\}}.
 \noindent
 
 \begin{enumerate}
@@ -80,12 +80,34 @@ Observe the pattern in the distribution of collisions.
 Explain.
 \end{enumerate}
 
-\item The skeleton code in {\tt a04q2a.cpp} shows a simplified implementation of a binary search tree (not necessarily balanced) in C++. 
+\item 
+Suppose that we have a binary search tree with root $t$, right and left subtrees $r$ and $l$.
+Let $w_r$ and $w_l$ be the number of nodes in $r$ and $l$, respectively.
+Then a binary search tree is {\bf weight-balanced} iff: 
+\begin{itemize}
+\item it is empty; or, 
+\item it is a leaf; or, 
+\item $t$ is the parent of exactly one leaf; or, 
+\item $r$ and $l$ are weight-balanced and $w_r$ and $w_l$ are within a multiplicative factor of two of each other.
+\end{itemize}
+
+Using plain binary search tree insertion on a weight-balanced tree may trigger an imbalance in the weights (i.e., $w_r \leq 2w_l$ and $w_l \leq 2w_r$ before the insertion, but not after).
+This is analogous to how plain insertion into an AVL tree may upset the height balance, except that we apply left, right, double left and double right rotations to restore the height. 
+
 \begin{enumerate}
-\item {[25 marks]}  
-Modify and resubmit the code in {\tt a04q2a.cpp} to use the leftDescendants, rightDescendants and balance fields.
-The leftDescendants and rightDescendants fields should contain the number of descendants in each of the subtrees, and the balance field should contain the ratio between the left and right subtree sizes.
-I.e., 
+\item {[10 marks]}
+Describe an insertion algorithm for weight-balanced trees that uses rotations (similar in nature to AVL rotations) to preserve/restore the weight balance.
+
+\item {[15 marks]} 
+Prove that the rotations used above place the tree back in balance after the insertion proper.
+
+\item {[15 marks]}  
+The skeleton code in {\tt a04q2c.\{h,cpp\}} implements a simple binary search tree (not necessarily balanced) in C++.
+Resubmit both of these files after modifying {\tt BSTNode::Insert} to rebalance the subtrees using the rotation-based algorithm proposed above.
+You may add private member functions to the {\tt BSTNode} class, but do not add fields or modify any functions implemented in the header file.
+
+{\tt BSTNode::Insert} must also update the {\tt leftDescendants}, {\tt rightDescendants} and {\tt balance} fields for marking purposes: the {\tt leftDescendants} and {\tt rightDescendants} fields must contain the number of descendants in each of the subtrees, and the {\tt balance} field must contain the ratio between the left and right subtree sizes.
+I.e.,  
 $$
 balance=
 \begin{cases}
@@ -93,12 +115,10 @@ rightDescendants/leftDescendants & \mbox{if } leftDescendants \neq 0 \\
 0 & \mbox{otherwise}
 \end{cases}
 $$
-The idea now is that a tree is ``balanced'' if it is: empty, a leaf, the parent of exactly one leaf, or the left and right subtrees are balanced and within a multiplicative factor of two of each other. 
-As for AVL trees if the balance condition is broken we apply left, right, double left and double right rotations. 
-Modify the code so that after an insertion in a size balanced tree it recomputes the tree sizes and it rebalances the tree using the appropriate rotation, if needed. 
 
-\item {[15 marks]} 
-Prove or disprove that the AVL style rotations used above suffice to place the tree back in balance.
+\item {[BONUS - 10 marks]}
+Suppose a student wishes to submit a simple AVL implementation as their solution to {\tt a04q2a-c}.
+Prove whether or not such a solution is correct.
 \end{enumerate}
 \end{enumerate}
 \end{document}

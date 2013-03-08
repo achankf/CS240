@@ -1,5 +1,5 @@
-#ifndef A04Q2A_H
-#define A04Q2A_H
+#ifndef A04Q2C_H
+#define A04Q2C_H
 
 
 #include <cstddef>
@@ -16,22 +16,18 @@ private:
       int rightDescendants;
 
 public:
-      BSTNode(int value) {
-            this->value = value;
-            left = NULL;
-            right = NULL;
-      }
+      BSTNode( int value );
 
       bool Insert(int value);
       bool Search(int value);
 
-      int GetValue() const { return value; }
-      BSTNode* GetLeft() const { return left; }
-      BSTNode* GetRight() const { return right; }
+      int Value() const { return value; }
+      BSTNode* Left() const { return left; }
+      BSTNode* Right() const { return right; }
 
       float Balance() const { return balance; }
-      int GetLeftDescendants() const { return leftDescendants; }
-      int GetRightDescendants() const { return rightDescendants; } 
+      int LeftDescendants() const { return leftDescendants; }
+      int RightDescendants() const { return rightDescendants; } 
 };
 
 
@@ -47,7 +43,7 @@ public:
       bool Insert(int value);
       bool Search(int value);
 
-      BSTNode* GetRoot() const { return root; }
+      BSTNode* Root() const { return root; }
 };
 
 
