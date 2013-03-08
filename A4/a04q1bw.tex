@@ -21,28 +21,29 @@ where $0 \le k < 40$, is the same as solving the number of turples
 	$(a_1,a_2,a_3,a_4) \in \{1, \cdots, 10\}^4$ such that $a_1 + a_2 + a_3 + a_4 = k$.
 Notice that this is a {\bf Partition Problem}.
 
-The generating function for this problem is
+The generating function (from Math 239) for this problem is
 \begin{align}
-(1+x+x^2+x^3+x^4+x^5+x^6+x^7+x^8+x^9+x^{10})^4
+(1+x+x^2+x^3+x^4+x^5+x^6+x^7+x^8+x^9)^4
 \end{align}
 Using Maple to expand and simplify gives the following:
 \begin{gather*}
-simplify(expand((1+x+x^2+x^3+x^4+x^5+x^6+x^7+x^8+x^9+x^10)^4))\\
+simplify(expand((1+x+x^2+x^3+x^4+x^5+x^6+x^7+x^8+x^9)^4))\\
 = 1+4x+10x^2+ \cdots
-	+ 880x^{19} + 891x^{20} + 880x^{21} + \cdots
-	+ 4x^{39} + x^{40}
+	+ 660x^{17} + 670x^{18} + 660x^{19} + \cdots
+	+ 4x^{35} + x^{36}
 \end{gather*}
 The above result means that there are
 \begin{itemize}
 \item 1 way to sum 4 digits (base 10) to 0;
 \item 4 way to sum 4 digits (base 10) to 1;
-\item 891 way to sum 4 digits (base 10) to 20, and so on.
+\item 670 way to sum 4 digits (base 10) to 18, and so on.
 \end{itemize}
+Notice that the coefficients sum up to 10000, and it is impossible to get $k > 36$.
 
 Notice that the coefficient of the generating function
-	grows from 1 to 891 ($x^{0}$ to $x^{20}$),
-	and then shrinks from 891 to 1 ($x^{20}$ to $x^{40}$).
-This means that {\bf the distribution is biased towards the centre (reaches the maximum when $k=20$)}.
+	grows from 1 to 670 ($x^{0}$ to $x^{18}$),
+	and then shrinks from 670 to 1 ($x^{18}$ to $x^{36}$).
+This means that {\bf the distribution is biased towards the centre (reaches the maximum when $k=18$)}.
 Since the input values to $h$ are randomly generated in uniform distribution (assumption),
 by the distribution of $k$ it is more likely that $h(EID)$ gets closer to the centre than the ones that are near the end of the distribution.
 \hfill $\blacksquare$
