@@ -1,0 +1,26 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{qtree}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\title{Responses for CS240 Assignment 4 Question 2d}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+\input{../lemma/weight_balance_tree_des_constraints.texin}
+{\bf Counter Example and Proof and Contradiction} Suppose that an AVL tree is a weight-balanced tree. Consider the following AVL Tree.\\
+
+{\centering \Tree[.4 [.3 1 3 ] 5 ]\\}
+The root (4) has an AVL balance of -1, while the rest of the nodes have AVL balance of 0.
+However, the weight-balance ratio of the root (4) is $\frac{w_r}{w_l} = \frac{1}{3} < \frac{1}{2}$, which contradicts lemma \ref{lem:weight_tree_bounded}.
+Therefore, an AVL Tree is not a weight-balanced tree.
+Thus, the student's solution is incorrect.
+\hfill $\blacksquare$
+\end{document}
