@@ -1,4 +1,4 @@
-DEBUG = -DDEBUG -DALFRED_DEBUG
+DEBUG = -DDEBUG -DALFRED_DEBUG -ggdb
 CXXFLAGS = $(DEBUG) -pedantic-errors -Werror -march=native $(INCLUDE_DIR) -Wall $(OLEVEL) -pipe
 
 all: a04q2cdriver.exe a04q1a.exe a04q1c.exe
