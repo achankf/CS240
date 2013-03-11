@@ -1,9 +1,10 @@
 \begin{lemma}\label{lem:weight_tree_bounded}
-From the given information, the weight-balanced ratio $\frac{w_r}{w_l}$ is bounded by 
+From the given information, subtrees that have at least 3 nodes has a weight-balanced ratio $\frac{w_r}{w_l}$ is bounded by 
 	$\frac{1}{2} \le \frac{w_r}{w_l} \le 2$.
 \end{lemma}
 \begin{proof}
-From the question, $w_r \le 2 w_l$ and $w_l \le 2 w_r$, so
+For subtrees that have less than 3 nodes, they are balanced by definition.
+For subtrees that have at least tree 3 nodes, the question has given that  $w_r \le 2 w_l$ and $w_l \le 2 w_r$, so
 \begin{align}
 w_l \le 2 w_r &\iff \frac{w_l}{2} \le w_r\\
 \implies \frac{w_l}{2} \le w_r \le 2w_l
