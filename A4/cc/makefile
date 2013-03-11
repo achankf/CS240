@@ -1,13 +1,20 @@
-IN= $(shell find -name "*.tex")
-OUT= $(IN:.tex=.pdf)
+DEBUG = -DDEBUG -DALFRED_DEBUG
+CXXFLAGS = $(DEBUG) -pedantic-errors -Werror -march=native $(INCLUDE_DIR) -Wall $(OLEVEL) -pipe
 
-all: $(OUT)
-%.pdf:%.tex
-	pdflatex $<
-	pdflatex $<
+all: a04q2cdriver.exe a04q1a.exe a04q1c.exe
+
+a04q1a.exe : a04q1a.cpp
+	g++ $(CXXFLAGS) $< -o $@
+
+a04q1c.exe : a04q1c.cpp
+	g++ $(CXXFLAGS) $< -o $@
+
+a04q2c.o: a04q2c.cpp a04q2c.h
+	g++ $(CXXFLAGS) -c $< -o $@
+
+a04q2cdriver.exe : a04q2cdriver.cpp a04q2c.o
+	g++ $(CXXFLAGS) a04q2cdriver.cpp a04q2c.o -o $@
 
 .phony: clean
 clean:
-	rm -f *.log *.aux
-cleanall:clean
-	rm -f *.pdf
+	rm -f *.o *.exe
