@@ -13,7 +13,7 @@ static int weight(BSTNode *node){
 static float calBalance(BSTNode *node){
 	int left = node->LeftDescendants();
 	int right = node->RightDescendants();
-	cout << *node << ' ' << (left ? (float) right / left : 0) << endl;
+	//cout << *node << ' ' << (left ? (float) right / left : 0) << endl;
 	return left ? (float) right / left : 0;
 }
 
@@ -25,12 +25,18 @@ BSTNode::BSTNode( int value ) {
 
 
 bool BinarySearchTree::Insert( int value ){
-	print_helper(root);
+	std::cout << set_color(RED) << "Inserting " << value << ' ';
+	print();
+	std::cout << set_color() << endl;
 	if (root == NULL) {
 		root = new BSTNode(value);
 		return true;
 	}
-	return root->Insert(value);
+	bool ret = root->Insert(value);
+	std::cout << set_color(GREEN) << "Inserted " << value << ' ';
+	print();
+	std::cout << set_color();
+	return ret;
 }
 
 static bool isBalance(BSTNode *node){
@@ -78,19 +84,51 @@ bool BSTNode::Insert( int value ){
 
 	if (balance > 2){
 cout << *this << " RIGHT HEAVY"<<endl;
-		BSTNode *newNode = new BSTNode(value);
+#if 0
+		BSTNode *newNode = new BSTNode(this->value);
 		newNode->left = left;
-		newNode->right = right->left;
-		value = right->Value();
+		newNode->right= right->left;
+		this->value = right->Value();
 		right = right->right;
-		
-	} else if (balance < 0.5){
-cout << *this<< " LEFT HEAVY"<<endl;
-		BSTNode *newNode = new BSTNode(value);
+		left = newNode;
+#endif 
+
+		BSTNode *newNode = new BSTNode(this->value);
 		newNode->right = right;
 		newNode->left= left->right;
-		value = left->Value();
+		this->value = left->Value();
 		left = left->left;
+		right = newNode;
+	} else if (balance < 0.5){
+cout << *this<< " LEFT HEAVY"<<endl;
+		BSTNode *newNode = new BSTNode(this->value);
+		newNode->left = left;
+		newNode->right= right->left;
+		this->value = right->Value();
+		right = right->right;
+		left = newNode;
+		
+#if 0
+		BSTNode *newNode = new BSTNode(this->value);
+		newNode->right = right;
+		newNode->left= left->right;
+		this->value = left->Value();
+		left = left->left;
+		right = newNode;
+#endif
+	}
+	this->leftDescendants = weight(this->left);
+	this->rightDescendants = weight(this->right);
+	this->balance = calBalance(this);
+	if (left){
+		left->leftDescendants = weight(left->left);
+		left->rightDescendants = weight(left->right);
+		left->balance = calBalance(left);
+	}
+	if (right){
+		right->leftDescendants = weight(right->left);
+		right->rightDescendants = weight(right->right);
+		right->balance = calBalance(right);
 	}
 
 	return temp;

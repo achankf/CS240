@@ -7,6 +7,17 @@
 #include <ostream>
 #include <iostream>
 
+#include <string>
+#include <cstdio>
+enum Color {
+    NONE = 0,
+    BLACK, RED, GREEN,
+    YELLOW, BLUE, MAGENTA,
+    CYAN, WHITE
+};
+
+std::string set_color(Color foreground = NONE, Color background = NONE);
+
 class BSTNode {
 private:
       int value;
@@ -68,6 +79,12 @@ public:
 				}
 				cout << *n << endl;
 				print_helper(n->Left(), new_d);
+			}
+			void print(){
+				using namespace std;
+				cout << set_color(BLUE)<<"Start of tree" << set_color(YELLOW)<< endl;
+				print_helper(root);
+				cout << set_color(BLUE)<< "End of tree" << set_color()<<endl;
 			}
 			~BinarySearchTree(){
 				print_helper(root);
