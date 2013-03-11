@@ -1,24 +1,13 @@
-CXX = g++
-OLEVEL = -ggdb -O2
-DEBUG = -DNDEBUG -pedantic-errors -Werror -march=native -Wall
-CXXFLAGS = -march=native $(DEBUG) $(INCLUDE_DIR) $(OLEVEL) -pipe
-EXE = a04q1a.exe a04q1c.exe a04q2cdriver.exe
+IN= $(shell find -name "*.tex")
+OUT= $(IN:.tex=.pdf)
 
-all: $(EXE)
-
-a04q1a.exe: a04q1a.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
-
-a04q1c.exe: a04q1c.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
-
-a04q2c.o : a04q2c.cpp a04q2c.h
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-a04q2cdriver.exe: a04q2cdriver.cpp a04q2c.o
-	$(CXX) $(CXXFLAGS) $< -o $@
+all: $(OUT)
+%.pdf:%.tex
+	pdflatex $<
+	pdflatex $<
 
 .phony: clean
-
 clean:
-	rm -rf *.o depend.temp $(EXE)
+	rm -f *.log *.aux
+cleanall:clean
+	rm -f *.pdf

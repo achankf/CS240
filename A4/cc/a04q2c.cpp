@@ -1,16 +1,20 @@
 #include "a04q2c.h"
-#include <algorithm> // std::max
 
-float calBalance(BSTNode node){
-	int left = node.LeftDescendants();
-	int right = node.RightDescendants();
-	return left ? right / left : 0;
+#include <iostream>
+using namespace std;
+
+static int weight(BSTNode *node){
+	if (node == NULL) return 0;
+	int left = node->LeftDescendants();
+	int right = node->RightDescendants();
+	return 1 + left + right;
 }
 
-int height(BSTNode node){
-	int left = node.LeftDescendants();
-	int right = node.RightDescendants();
-	return 1 + std::max(left,right);
+static float calBalance(BSTNode *node){
+	int left = node->LeftDescendants();
+	int right = node->RightDescendants();
+	cout << *node << ' ' << (left ? (float) right / left : 0) << endl;
+	return left ? (float) right / left : 0;
 }
 
 BSTNode::BSTNode( int value ) {
@@ -33,12 +37,16 @@ bool BSTNode::Insert( int value ){
 	BSTNode *next = NULL;
 	if (value < this->value) {
 		if (left == NULL) {
+			leftDescendants++;
+			balance = calBalance(this);
 			left = new BSTNode(value);
 			return true;
 		}
 		next = left;
 	} else if (value > this->value) {
 		if (right == NULL) {
+			rightDescendants++;
+			balance = calBalance(this);
 			right = new BSTNode(value);
 			return true;
 		}
@@ -46,7 +54,20 @@ bool BSTNode::Insert( int value ){
 	} else { // equal
 		return false;
 	}
-	return next ? next->Insert(value) : false;
+	bool temp = false;
+	if (next){
+		temp = next->Insert(value);
+	}
+	this->leftDescendants = weight(left);
+	this->rightDescendants = weight(right);
+	this->balance = calBalance(this);
+	if (balance > 2){
+cout << *this << " RIGHT HEAVY"<<endl;
+	} else if (balance < (float)1/2){
+cout << *this<< " LEFT HEAVY"<<endl;
+	}
+
+	return temp;
 }
 
 
