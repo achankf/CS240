@@ -25,6 +25,7 @@ BSTNode::BSTNode( int value ) {
 
 
 bool BinarySearchTree::Insert( int value ){
+	print_helper(root);
 	if (root == NULL) {
 		root = new BSTNode(value);
 		return true;
@@ -32,6 +33,16 @@ bool BinarySearchTree::Insert( int value ){
 	return root->Insert(value);
 }
 
+static bool isBalance(BSTNode *node){
+	if (!node) return true;
+	BSTNode *left = node->Left();
+	BSTNode *right = node->Right();
+
+	// at most one child
+	if ((!left && !right) &&
+		((left || right) && (!left || !right))) return true;
+	return node->Balance() >= 0.5 && node->Balance() <= 2;
+}
 
 bool BSTNode::Insert( int value ){
 	BSTNode *next = NULL;
@@ -61,10 +72,25 @@ bool BSTNode::Insert( int value ){
 	this->leftDescendants = weight(left);
 	this->rightDescendants = weight(right);
 	this->balance = calBalance(this);
+
+	// is already in balance
+	if(isBalance(this)) return temp;
+
 	if (balance > 2){
 cout << *this << " RIGHT HEAVY"<<endl;
-	} else if (balance < (float)1/2){
+		BSTNode *newNode = new BSTNode(value);
+		newNode->left = left;
+		newNode->right = right->left;
+		value = right->Value();
+		right = right->right;
+		
+	} else if (balance < 0.5){
 cout << *this<< " LEFT HEAVY"<<endl;
+		BSTNode *newNode = new BSTNode(value);
+		newNode->right = right;
+		newNode->left= left->right;
+		value = left->Value();
+		left = left->left;
 	}
 
 	return temp;
