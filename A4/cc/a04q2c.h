@@ -45,6 +45,10 @@ public:
 				using namespace std;
 				return os << '(' << bn.value << ',' << bn.leftDescendants << ',' << bn.rightDescendants << ',' << bn.balance << ')';
 			}
+			void fixMetaData();
+			bool isBalance();
+
+			friend class BinarySearchTree;
 };
 
 
@@ -59,6 +63,10 @@ public:
 
       bool Insert(int value);
       bool Search(int value);
+			void rotateLeft(BSTNode **tar);
+			void rotateRight(BSTNode **tar);
+			void doubleLeft(BSTNode **tar);
+			void doubleRight(BSTNode **tar);
 
       BSTNode* Root() const { return root; }
 
