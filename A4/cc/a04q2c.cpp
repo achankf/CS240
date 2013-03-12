@@ -13,7 +13,6 @@ static int weight(BSTNode *node){
 static float calBalance(BSTNode *node){
 	int left = node->LeftDescendants();
 	int right = node->RightDescendants();
-	//cout << *node << ' ' << (left ? (float) right / left : 0) << endl;
 	return left ? (float) right / left : 0;
 }
 
@@ -29,62 +28,68 @@ bool BinarySearchTree::Insert( int value ){
 	print();
 	std::cout << set_color() << endl;
 	if (root == NULL) {
-	root = new BSTNode(value);
-	return true;
+		root = new BSTNode(value);
+		return true;
 	}
+	if (!root->Insert(value)) return false;
+
 	bool ret = root->Insert(value);
 	std::cout << set_color(GREEN) << "Inserted " << value << ' ';
 	print();
 	std::cout << set_color();
 
-	if (!ret) return false;
-
 	BSTNode **iterator = &root;
+int i = 0;
 	while(*iterator){
+if (i++ == 10){
+	throw 3;
+}
+cout <<"START"<<endl;
 		BSTNode *cur = *iterator;
-		BSTNode *left = cur->left;
-		BSTNode *right = cur->right;
 
-cout << "IS " << *cur  << " " << " BALANCED? "<<(int)cur->isBalance() << endl;
+cout << "IS " << *cur  << " " << **iterator<< " BALANCED? "<<(int)cur->isBalance() << endl;
+
 		if(cur->isBalance()){
 			if (value > cur->value){
-				iterator = &right;
+				// notice that I want the POSITION of cur->right, and not BSTNode *right above
+				iterator = &(cur->right);
 			} else if (value < cur->value){
-				iterator = &left;
+				iterator = &(cur->left);
 			} else {
 				return true;
 			}
+cout << "TEMP"<<endl;
 			continue;
 		}
 
+	print();
 		if (cur->leftDescendants > cur->rightDescendants){
 			cout << *cur  << "  " << **iterator<< " LEFT HEAVY"<<endl;
 			rotateRight(iterator);
-		} else {
+		} else if (cur->leftDescendants < cur->rightDescendants){
 			cout << *cur  << "  " << **iterator<< " RIGHT HEAVY"<<endl;
+			if (cur->
 			rotateLeft(iterator);
+		} else {
+			throw 3;
 		}
-		cur = *iterator;
-		left = cur->left;
-		right = cur->right;
-		if (cur->left){
-			left->fixMetaData();
-		}
-		if (cur->right){
-			right->fixMetaData();
-		}
-		cur->fixMetaData();
-cout << "PPPP"<<endl;
-print();
+
+		// cur is now INVALID since rotateLeft/Right mutates the position of the tree
+
+		// update meta data in ORDER (chilren then root)
+		(*iterator)->left->fixMetaData();
+		(*iterator)->right->fixMetaData();
+		(*iterator)->fixMetaData();
 	}
 
 	return ret;
 }
 
 void BSTNode::fixMetaData(){
-	cout << "Fixing " << *this << endl;
+	cout << "Fixing " << *this << " ";
 	leftDescendants = weight(left);
 	rightDescendants = weight(right);
+cout << weight(left) << " " << weight(right) << endl;
 	balance = calBalance(this);
 }
 
