@@ -24,23 +24,22 @@ BSTNode::BSTNode( int value ) {
 
 
 bool BinarySearchTree::Insert( int value ){
-cout << endl << "START"<<endl;
-	print();
+	cout << endl << "START"<<endl;
+	print(value);
 	if (root == NULL) {
 		root = new BSTNode(value);
 		return true;
 	}
-cout << endl << "START"<<endl;
-	print();
-	return root->Insert(value);
+	cout << endl << "START"<<endl;
+	bool ret = root->Insert(value);
+	print(value);
+	return ret;
 }
 
 void BSTNode::fixMetaData(){
 	if (!this) return;
-	//cout << "Fixing " << *this << " ";
 	leftDescendants = weight(left);
 	rightDescendants = weight(right);
-//cout << weight(left) << " " << weight(right) << endl;
 	balance = calBalance(this);
 }
 
@@ -61,6 +60,10 @@ cout << *this << " Single Left"<<endl;
 	this->left = bak;
 	this->right = this->right->right;
 	delete rightBak;
+
+	this->fixMetaData();
+	this->left->fixMetaData();
+	this->right->fixMetaData();
 }
 
 void BSTNode::rotateRight(){
@@ -74,24 +77,25 @@ cout << *this << " Single Right"<<endl;
 	this->left = this->left->left;
 	delete leftBak;
 	//cout << *this<< " " << *(this->right) <<endl;
+	this->fixMetaData();
+	this->left->fixMetaData();
+	this->right->fixMetaData();
 }
 
 void BSTNode::doubleLeft(){
 cout << *this << " Double Left"<<endl;
 	right->rotateRight();
-	this->fixMetaData();
-	this->left->fixMetaData();
-	this->right->fixMetaData();
 	rotateLeft();
+	if (!right->isBalance()) right->rotateLeft();
+	if (!left->isBalance()) left->rotateRight();
 }
 
 void BSTNode::doubleRight(){
 cout << *this << " Double Right"<<endl;
 	left->rotateLeft();
-	this->fixMetaData();
-	this->left->fixMetaData();
-	this->right->fixMetaData();
 	rotateRight();
+	if (!left->isBalance()) left->rotateRight();
+	if (!right->isBalance()) right->rotateLeft();
 }
 
 int BSTNode::numChildren(){
@@ -115,20 +119,12 @@ bool BSTNode::Insert( int value ){
 cout << "left: " << balance <<" is balance? " << (int) isBalance() << " " << *this<< endl;
 //cout << "HEY:" << *this << " " <<*left<< " " << (int) isBalance() << " " << left->isBalance()<<endl;
 		if (isBalance()) return true;
-		if (rightDescendants < leftDescendants){
-cout << "left is balance : " << (int)left->isBalance() << " " << *left<< endl;
-			if (left->isBalance() && left->numChildren() > 1){
-				doubleRight();
-			} else {
-				rotateRight();
-			}
-		} else{
-// throw "HIH";
-			if (right->isBalance()&& right->numChildren() > 1){
-				doubleLeft();
-			} else {
-				rotateLeft();
-			}
+		//if (left->rightDescendants >= left->leftDescendants){
+		if ((rightDescendants == left->rightDescendants && rightDescendants != 0)
+			|| (left->isBalance() && left->rightDescendants > left->leftDescendants)){
+			doubleRight();
+		} else {
+			rotateRight();
 		}
 	} else if (value > this->value) {
 		if (right == NULL) {
@@ -142,19 +138,13 @@ cout << "left is balance : " << (int)left->isBalance() << " " << *left<< endl;
 		fixMetaData();
 cout << "right: " << balance <<" is balance? " << (int) isBalance() << " " << *this<< endl;
 		if(isBalance()) return true;
-		if (leftDescendants < rightDescendants){
-			if (right->isBalance()&& right->numChildren() > 1){
-				doubleLeft();
-			} else {
-				rotateLeft();
-			}
+		//if (right->leftDescendants >= right->rightDescendants){
+		//if (numChildren() > 2 && right->isBalance()){
+		if ((leftDescendants == right->leftDescendants && leftDescendants != 0)
+			|| (right->isBalance() && right->leftDescendants > right->rightDescendants)){
+			doubleLeft();
 		} else {
-			//throw 1;
-			if (left->isBalance()&& left->numChildren() > 1){
-				doubleRight();
-			} else {
-				rotateRight();
-			}
+			rotateLeft();
 		}
 	} else { // equal
 		return false;

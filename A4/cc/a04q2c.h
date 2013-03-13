@@ -43,7 +43,7 @@ public:
       int RightDescendants() const { return rightDescendants; } 
 			friend std::ostream &operator<<(std::ostream &os,BSTNode &bn){
 				using namespace std;
-				return os << '(' << bn.value << ',' << bn.leftDescendants << ',' << bn.rightDescendants << ',' << bn.balance << ')';
+				return os << '(' << bn.value << ',' << set_color(GREEN) << bn.leftDescendants << set_color(RED) << ',' << bn.rightDescendants << ',' << set_color() << bn.balance <<  ')';
 			}
 			void fixMetaData();
 			bool isBalance();
@@ -82,22 +82,23 @@ public:
 				clean_helper(n->Right());
 				delete n;
 			}
-			void print_helper(BSTNode *n, int depth = 0){
+			void print_helper(BSTNode *n, int depth = 0, int val = -1){
 				using namespace std;
 				if (!n) return;
 				int new_d = depth + 4;
-				print_helper(n->Right(), new_d);
+				print_helper(n->Right(), new_d, val);
 				for (int i = 0; i < depth; i++){
 					cout << ' ';
 				}
-				cout << *n << endl;
-				print_helper(n->Left(), new_d);
+				if (val == n->Value()) cout << set_color(YELLOW);
+				cout << *n << set_color() << endl;
+				print_helper(n->Left(), new_d, val);
 			}
 
-			void print(){
+			void print(int val = -1){
 				using namespace std;
-				cout << set_color(BLUE)<<"Start of tree" << set_color(YELLOW)<< endl;
-				print_helper(root);
+				cout << set_color(BLUE)<<"Start of tree" << set_color()<< endl;
+				print_helper(root,0,val);
 				cout << set_color(BLUE)<< "End of tree" << set_color()<<endl;
 			}
 
@@ -114,9 +115,12 @@ public:
 				if (!n) return true;
 				int left = nodesize(n->left);
 				int right = nodesize(n->right);
-				bool ret = (left + right <= 2);
+				bool ret = (left + right <= 1);
+std::cout << "Integ: "<<*n << ' ' << (int)ret << ' ';
 				float temp = left ? (float)right / left : 0;
 				ret |= (temp <= 2 && temp >= 0.5);
+std::cout << temp << ' ' <<(int)(temp <= 2 && temp >= 0.5)<< ' ';
+std::cout << std::endl;
 				return ret && integ_helper(n->left) && integ_helper(n->right);
 			}
 			bool integ(){
