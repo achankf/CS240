@@ -3,19 +3,15 @@
 #include <iostream>
 using namespace std;
 
-static int weight(BSTNode *node){
-	if (node == NULL) return 0;
-#if 0
-	int left = node->LeftDescendants();
-	int right = node->RightDescendants();
-	return 1 + left + right;
-#endif
-	return nodesize(node);
+int BSTNode::weight(){
+	if (!this) return 0;
+	return 1 + numChildren();
 }
 
-static float calBalance(BSTNode *node){
-	int left = node->LeftDescendants();
-	int right = node->RightDescendants();
+float BSTNode::calBalance(){
+	if (!this) return 0;
+	int left = leftDescendants;
+	int right = rightDescendants;
 	return left ? (float) right / left : 0;
 }
 
@@ -27,34 +23,32 @@ BSTNode::BSTNode( int value ) {
 
 
 bool BinarySearchTree::Insert( int value ){
-	cout << endl << "START"<<endl;
-	print(value);
 	if (root == NULL) {
 		root = new BSTNode(value);
 		return true;
 	}
-	cout << endl << "START"<<endl;
-	bool ret = root->Insert(value);
-	print(value);
-	return ret;
+	return root->Insert(value);
 }
 
 void BSTNode::fixMetaData(){
 	if (!this) return;
-	leftDescendants = weight(left);
-	rightDescendants = weight(right);
-	balance = calBalance(this);
+	leftDescendants = left->weight();
+	rightDescendants = right->weight();
+	balance = calBalance();
 }
 
 bool BSTNode::isBalance(){
-	// at most one child
 	if (!this || numChildren() <= 1)
 		return true;
 	return balance >= 0.5 && balance <= 2;
 }
 
 void BSTNode::rotateLeft(){
-cout << *this << " Single Left"<<endl;
+#ifdef ALFRED_DEBUG
+cout << *this << " before " << set_color(YELLOW) << "LEFT rotation" << set_color()<<endl;
+print();
+cout << endl;
+#endif
 	BSTNode *bak = new BSTNode(this->value);
 	BSTNode *rightBak = this->right;
 	bak->left = this->left;
@@ -64,14 +58,22 @@ cout << *this << " Single Left"<<endl;
 	this->right = this->right->right;
 	delete rightBak;
 
-	this->fixMetaData();
+#ifdef ALFRED_DEBUG
+cout << "END RESULT" << endl;
+print();
+cout << endl;
+#endif
 	this->left->fixMetaData();
 	this->right->fixMetaData();
-	cout << "SUBTREE:" << endl;print_helper(this, 0, this->value);
+	this->fixMetaData();
 }
 
 void BSTNode::rotateRight(){
-cout << *this << " Single Right"<<endl;
+#ifdef ALFRED_DEBUG
+cout << *this << " before " << set_color(YELLOW) << "RIGHT rotation" << set_color()<<endl;
+print();
+cout << endl;
+#endif
 	BSTNode *bak = new BSTNode(this->value);
 	BSTNode *leftBak = this->left;
 	bak->right = this->right;
@@ -81,87 +83,53 @@ cout << *this << " Single Right"<<endl;
 	this->left = this->left->left;
 	delete leftBak;
 
-	this->fixMetaData();
+#ifdef ALFRED_DEBUG
+cout << "END RESULT" << endl;
+print();
+cout << endl;
+#endif
 	this->left->fixMetaData();
 	this->right->fixMetaData();
-
-	cout << "SUBTREE:" << endl;print_helper(this, 0, this->value);
-	cout << endl;
+	this->fixMetaData();
 }
 
 void BSTNode::doubleLeft(){
-cout << *this << " Double Left"<<endl;
+#if ALFRED_DEBUG
+cout << *this << " before " << set_color(GREEN) << "DOUBLE LEFT rotation" << set_color()<<endl;
+#endif
 	right->rotateRight();
 	rotateLeft();
-	if (!right->isBalance()){
-cout << "Encore: " << *this << " (right in DL) " << *right << endl;
-		//if (right && right->rightDescendants > right->leftDescendants){
-		BSTNode *grandchild = right->right;
-cout << "grandchild: "; if (grandchild){
-	cout << *grandchild << " " << grandchild->leftDescendants << ' ' <<  right->leftDescendants;
-	} cout<<std::endl;
-		if (grandchild && (
-			(grandchild->leftDescendants == right->leftDescendants && right->leftDescendants != 0) ||
-			(grandchild->rightDescendants < grandchild->leftDescendants))){
-		//if (grandchild && grandchild->rightDescendants < grandchild->leftDescendants){
-			right->doubleLeft();
-		} else{
-			right->rotateLeft();
-		}
-	}
-	if (!left->isBalance()){
-cout << "Encore: " << *this <<" (left in DL) " << *left<< endl;
-		BSTNode *grandchild = left->left;
-cout << "grandchild: "; if (grandchild){
-	cout << *grandchild << " " << grandchild->rightDescendants << ' ' <<  left->rightDescendants ;
-	} cout<<std::endl;
-		if (grandchild && (
-			(grandchild->rightDescendants == left->rightDescendants && left->rightDescendants != 0) ||
-			(grandchild->leftDescendants < grandchild->rightDescendants))){
-		//if (grandchild && grandchild->leftDescendants < grandchild->rightDescendants){
-			left->doubleRight();
-		} else{
-			left->rotateRight();
-		}
-	}
 }
 
 void BSTNode::doubleRight(){
-cout << *this << " Double Right"<<endl;
+#if ALFRED_DEBUG
+cout << *this << " before " << set_color(GREEN) << "DOUBLE RIGHT rotation" << set_color()<<endl;
+#endif
 	left->rotateLeft();
 	rotateRight();
-#if 0
-	if (!left->isBalance()) left->rotateRight();
-	if (!right->isBalance()) right->rotateLeft();
-#endif
-	if (!right->isBalance()){
-cout << "Encore: " << *this << " (right in DL) " << *right << endl;
-		BSTNode *grandchild = right->right;
-cout << "grandchild: "; if (grandchild){
-	cout << *grandchild << " " << grandchild->leftDescendants << ' ' <<  right->leftDescendants;
-	} cout<<std::endl;
-		if (grandchild && (
-			(grandchild->leftDescendants == right->leftDescendants && right->leftDescendants != 0) ||
-			(grandchild->rightDescendants < grandchild->leftDescendants))){
-			right->doubleLeft();
-		} else{
-			right->rotateLeft();
-		}
+}
+
+void BSTNode::prepareRotateRight(){
+	if (isBalance()) return;
+	if ((left->rightDescendants == rightDescendants && rightDescendants != 0) ||
+		(left->leftDescendants < left->rightDescendants)){
+		doubleRight();
+		right->prepareRotateLeft();
+		left->prepareRotateRight();
+	} else{
+		rotateRight();
 	}
-	if (!left->isBalance()){
-cout << "Encore: " << *this <<" (left in DL) " << *left<< endl;
-		BSTNode *grandchild = left->left;
-cout << "grandchild: "; if (grandchild){
-	cout << *grandchild << " " << grandchild->rightDescendants << ' ' <<  left->rightDescendants ;
-	} cout<<std::endl;
-		if (grandchild && (
-			(grandchild->rightDescendants == left->rightDescendants && left->rightDescendants != 0) ||
-			(grandchild->leftDescendants < grandchild->rightDescendants))){
-		//if (grandchild && grandchild->leftDescendants < grandchild->rightDescendants){
-			left->doubleRight();
-		} else{
-			left->rotateRight();
-		}
+}
+
+void BSTNode::prepareRotateLeft(){
+	if (isBalance()) return;
+	if ((leftDescendants == right->leftDescendants && leftDescendants != 0)
+		|| (right->leftDescendants > right->rightDescendants)){
+		doubleLeft();
+		right->prepareRotateLeft();
+		left->prepareRotateRight();
+	} else {
+		rotateLeft();
 	}
 }
 
@@ -174,48 +142,26 @@ bool BSTNode::Insert( int value ){
 	if (value < this->value) {
 		if (left == NULL) {
 			leftDescendants++;
-			balance = calBalance(this);
+			balance = calBalance();
 			left = new BSTNode(value);
 			return true;
 		}
 		left->Insert(value);
 		fixMetaData();
-		cout << "left: " << balance <<" is balance? " << (int) isBalance() << " " << *this<< endl;
-		if (isBalance()) return true;
-		if ((rightDescendants == left->rightDescendants && rightDescendants != 0)
-			|| (left->isBalance() && left->rightDescendants > left->leftDescendants)){
-			doubleRight();
-		} else {
-			rotateRight();
-		}
+		prepareRotateRight();
 	} else if (value > this->value) {
 		if (right == NULL) {
 			rightDescendants++;
-			balance = calBalance(this);
+			balance = calBalance();
 			right = new BSTNode(value);
 			return true;
 		}
-		//next = right;
 		right->Insert(value);
 		fixMetaData();
-cout << "right: " << balance <<" is balance? " << (int) isBalance() << " " << *this<< endl;
-		if(isBalance()) return true;
-		if ((leftDescendants == right->leftDescendants && leftDescendants != 0)
-			|| (right->isBalance() && right->leftDescendants > right->rightDescendants)){
-			doubleLeft();
-		} else {
-			rotateLeft();
-		}
+		prepareRotateLeft();
 	} else { // equal
 		return false;
 	}
-
-	this->fixMetaData();
-#if 0
-	this->fixMetaData();
-	this->left->fixMetaData();
-	this->right->fixMetaData();
-#endif
 	return true;
 }
 
@@ -226,13 +172,10 @@ bool BinarySearchTree::Search( int value ) {
 
 
 bool BSTNode::Search( int value ) {
-	BSTNode *next = NULL;
-	if (value < this->value) {
-		next = left;
-	} else if (value > this->value) {
-		next = right;
-	} else {
+	if (value < this->value)
+		return left ? left->Search(value) : false;
+	else if (value > this->value)
+		return right ? right->Search(value) : false;
+	else
 		return true;
-	}
-	return next ? next->Search(value) : false;
 }

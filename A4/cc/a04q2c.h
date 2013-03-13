@@ -51,7 +51,11 @@ public:
 			void rotateRight();
 			void doubleLeft();
 			void doubleRight();
+			void prepareRotateLeft();
+			void prepareRotateRight();
 			int numChildren();
+			int weight();
+			float calBalance();
 
 			friend class BinarySearchTree;
 
@@ -72,6 +76,9 @@ public:
 				cout << *n << set_color() << endl;
 				print_helper(n->Left(), new_d, val);
 			}
+			void print(){
+				print_helper(this,0);
+			}
 };
 
 
@@ -86,14 +93,8 @@ public:
 
       bool Insert(int value);
       bool Search(int value);
-			void rotateLeft(BSTNode **tar);
-			void rotateRight(BSTNode **tar);
-			void doubleLeft(BSTNode **tar);
-			void doubleRight(BSTNode **tar);
-
       BSTNode* Root() const { return root; }
 
-#ifdef ALFRED_DEBUG
 			void clean_helper(BSTNode *n){
 				if (!n) return;
 				clean_helper(n->Left());
@@ -121,7 +122,6 @@ public:
 			}
 
 			~BinarySearchTree(){
-//				print_helper(root);
 				clean_helper(root);
 			}
 
@@ -135,20 +135,19 @@ public:
 				int right = nodesize(n->right);
 				bool ret = (left + right <= 1);
 				if (left != n->LeftDescendants() || right != n->RightDescendants()){
-					std::cout << "Integ: " << *n << " metadata not matched " << left << " " << right << std::endl;
 					return false;
 				}
-std::cout << "Integ: "<<*n << ' ' << (int)ret << ' ';
 				float temp = left ? (float)right / left : 0;
 				ret |= (temp <= 2 && temp >= 0.5);
-std::cout << temp << ' ' <<(int)(temp <= 2 && temp >= 0.5)<< ' ';
-std::cout << std::endl;
-				return ret && integ_helper(n->left) && integ_helper(n->right);
+				if (!ret) {
+					n->print();
+					return false;
+				}
+				return integ_helper(n->left) && integ_helper(n->right);
 			}
 			bool integ(){
 				return integ_helper(root);
 			}
-#endif
 };
 
 

@@ -10,8 +10,8 @@
 using namespace std;
 
 enum {
-	MAX = 10000,
-	NUM_WANTED = 40
+	MAX = 100000,
+	NUM_WANTED = 30
 };
 
 list<int> inserted;
@@ -23,14 +23,15 @@ void numFromStdIn(BinarySearchTree &bst){
 	for (int i = 0, temp; i < num; i++){
 		cin >> temp;
 		bst.Insert(temp);
-			inserted.push_back(temp);
-bst.print();
-			if (!bst.integ()) throw 1;
+		inserted.push_back(temp);
+		bst.print();
+		if (!bst.integ()) throw 1;
 	}
 }
 
 // -t is not specified
 void numFromRand(BinarySearchTree &bst){
+cout << "Running from Rand" << endl;
 	// countArray makes sure all numbers are unique
 	bool countArray[MAX] = {false};
 
@@ -44,14 +45,12 @@ void numFromRand(BinarySearchTree &bst){
 		int temp = rand() % MAX;
 		if (countArray[temp]) continue;
 		countArray[temp] = true;
-cout << "Inserting:"<<temp<<endl;
 		if (bst.Insert(temp)){
-bst.print();
 			inserted.push_back(temp);
-			if (!bst.integ()) throw 1;
 			i++;
 		}
 	}
+	if (!bst.integ()) throw 1;
 }
 
 int main(int argc, char **argv){
@@ -70,6 +69,8 @@ int main(int argc, char **argv){
 			cerr << *it << ' ';
 		} cerr << endl;
 		cout << set_color(RED)<< "Exception catched at " << inserted.size() <<"th item"<< endl;
+		cout << set_color();
+		return 1;
 	}
 	cout << set_color();
 
