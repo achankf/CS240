@@ -11,7 +11,7 @@ using namespace std;
 
 enum {
 	MAX = 10000,
-	NUM_WANTED = 40
+	NUM_WANTED = 1000
 };
 
 // -t specified
@@ -21,6 +21,8 @@ void numFromStdIn(BinarySearchTree &bst){
 	for (int i = 0, temp; i < num; i++){
 		cin >> temp;
 		bst.Insert(temp);
+bst.print();
+			if (!bst.integ()) throw 1;
 	}
 }
 
@@ -39,8 +41,12 @@ void numFromRand(BinarySearchTree &bst){
 		int temp = rand() % MAX;
 		if (countArray[temp]) continue;
 		countArray[temp] = true;
-		if (bst.Insert(temp)) i++;
-		bst.Insert(temp);
+cout << "Inserting:"<<temp<<endl;
+		if (bst.Insert(temp)){
+bst.print();
+			if (!bst.integ()) throw 1;
+			i++;
+		}
 	}
 }
 

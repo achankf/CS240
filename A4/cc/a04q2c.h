@@ -47,6 +47,11 @@ public:
 			}
 			void fixMetaData();
 			bool isBalance();
+			void rotateLeft();
+			void rotateRight();
+			void doubleLeft();
+			void doubleRight();
+			int numChildren();
 
 			friend class BinarySearchTree;
 };
@@ -88,15 +93,34 @@ public:
 				cout << *n << endl;
 				print_helper(n->Left(), new_d);
 			}
+
 			void print(){
 				using namespace std;
 				cout << set_color(BLUE)<<"Start of tree" << set_color(YELLOW)<< endl;
 				print_helper(root);
 				cout << set_color(BLUE)<< "End of tree" << set_color()<<endl;
 			}
+
 			~BinarySearchTree(){
 				print_helper(root);
 				clean_helper(root);
+			}
+
+			int nodesize(BSTNode *n){
+				if (!n) return 0;
+				return 1+ nodesize(n->left) + nodesize(n->right);
+			}
+			bool integ_helper(BSTNode *n){
+				if (!n) return true;
+				int left = nodesize(n->left);
+				int right = nodesize(n->right);
+				bool ret = (left + right <= 2);
+				float temp = left ? (float)right / left : 0;
+				ret |= (temp <= 2 && temp >= 0.5);
+				return ret && integ_helper(n->left) && integ_helper(n->right);
+			}
+			bool integ(){
+				return integ_helper(root);
 			}
 #endif
 };

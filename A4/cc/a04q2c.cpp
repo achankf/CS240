@@ -24,139 +24,146 @@ BSTNode::BSTNode( int value ) {
 
 
 bool BinarySearchTree::Insert( int value ){
-	std::cout << set_color(RED) << "Inserting " << value << ' ';
+cout << endl << "START"<<endl;
 	print();
-	std::cout << set_color() << endl;
 	if (root == NULL) {
 		root = new BSTNode(value);
 		return true;
 	}
-	if (!root->Insert(value)) return false;
-
-	bool ret = root->Insert(value);
-	std::cout << set_color(GREEN) << "Inserted " << value << ' ';
+cout << endl << "START"<<endl;
 	print();
-	std::cout << set_color();
-
-	BSTNode **iterator = &root;
-int i = 0;
-	while(*iterator){
-if (i++ == 10){
-	throw 3;
-}
-cout <<"START"<<endl;
-		BSTNode *cur = *iterator;
-
-cout << "IS " << *cur  << " " << **iterator<< " BALANCED? "<<(int)cur->isBalance() << endl;
-
-		if(cur->isBalance()){
-			if (value > cur->value){
-				// notice that I want the POSITION of cur->right, and not BSTNode *right above
-				iterator = &(cur->right);
-			} else if (value < cur->value){
-				iterator = &(cur->left);
-			} else {
-				return true;
-			}
-cout << "TEMP"<<endl;
-			continue;
-		}
-
-	print();
-		if (cur->leftDescendants > cur->rightDescendants){
-			cout << *cur  << "  " << **iterator<< " LEFT HEAVY"<<endl;
-			rotateRight(iterator);
-		} else if (cur->leftDescendants < cur->rightDescendants){
-			cout << *cur  << "  " << **iterator<< " RIGHT HEAVY"<<endl;
-			if (cur->
-			rotateLeft(iterator);
-		} else {
-			throw 3;
-		}
-
-		// cur is now INVALID since rotateLeft/Right mutates the position of the tree
-
-		// update meta data in ORDER (chilren then root)
-		(*iterator)->left->fixMetaData();
-		(*iterator)->right->fixMetaData();
-		(*iterator)->fixMetaData();
-	}
-
-	return ret;
+	return root->Insert(value);
 }
 
 void BSTNode::fixMetaData(){
-	cout << "Fixing " << *this << " ";
+	if (!this) return;
+	//cout << "Fixing " << *this << " ";
 	leftDescendants = weight(left);
 	rightDescendants = weight(right);
-cout << weight(left) << " " << weight(right) << endl;
+//cout << weight(left) << " " << weight(right) << endl;
 	balance = calBalance(this);
 }
 
 bool BSTNode::isBalance(){
 	// at most one child
-	if (leftDescendants + rightDescendants <= 1)
+	if (!this || numChildren() <= 1)
 		return true;
 	return balance >= 0.5 && balance <= 2;
 }
 
-void BinarySearchTree::rotateLeft(BSTNode **tar){
-	cout << **tar << " Rotate Left"<<endl;
-	BSTNode *bak = *tar;
-	BSTNode *root = bak->right;
-	bak->right = root->left;
-	*tar = root;
-	root->left = bak;
+void BSTNode::rotateLeft(){
+cout << *this << " Single Left"<<endl;
+	BSTNode *bak = new BSTNode(this->value);
+	BSTNode *rightBak = this->right;
+	bak->left = this->left;
+	bak->right = this->right->left;
+	this->value = this->right->value;
+	this->left = bak;
+	this->right = this->right->right;
+	delete rightBak;
 }
 
-void BinarySearchTree::rotateRight(BSTNode **tar){
-	cout << **tar << " Rotate Right"<<endl;
-	BSTNode *bak = *tar;
-	BSTNode *root = bak->left;
-	bak->left = root->right;
-	*tar = root;
-	root->right = bak;
+void BSTNode::rotateRight(){
+cout << *this << " Single Right"<<endl;
+	BSTNode *bak = new BSTNode(this->value);
+	BSTNode *leftBak = this->left;
+	bak->right = this->right;
+	bak->left = this->left->right;
+	this->value = this->left->value;
+	this->right = bak;
+	this->left = this->left->left;
+	delete leftBak;
+	//cout << *this<< " " << *(this->right) <<endl;
 }
 
-void BinarySearchTree::doubleLeft(BSTNode **tar){
-	rotateRight(&((*tar)->right));
-	rotateLeft(tar);
+void BSTNode::doubleLeft(){
+cout << *this << " Double Left"<<endl;
+	right->rotateRight();
+	this->fixMetaData();
+	this->left->fixMetaData();
+	this->right->fixMetaData();
+	rotateLeft();
 }
 
-void BinarySearchTree::doubleRight(BSTNode **tar){
-	rotateLeft(&((*tar)->left));
-	rotateRight(tar);
+void BSTNode::doubleRight(){
+cout << *this << " Double Right"<<endl;
+	left->rotateLeft();
+	this->fixMetaData();
+	this->left->fixMetaData();
+	this->right->fixMetaData();
+	rotateRight();
+}
+
+int BSTNode::numChildren(){
+	if (!this) return 0;
+	return leftDescendants + rightDescendants;
 }
 
 bool BSTNode::Insert( int value ){
-	BSTNode *next = NULL;
+//cout << "this: "<<value << " " << *this<<endl;
+	//BSTNode *next = NULL;
 	if (value < this->value) {
-	if (left == NULL) {
-		leftDescendants++;
-		balance = calBalance(this);
-		left = new BSTNode(value);
-		return true;
-	}
-	next = left;
+		if (left == NULL) {
+			leftDescendants++;
+			balance = calBalance(this);
+			left = new BSTNode(value);
+			return true;
+		}
+		//next = left;
+		left->Insert(value);
+		fixMetaData();
+cout << "left: " << balance <<" is balance? " << (int) isBalance() << " " << *this<< endl;
+//cout << "HEY:" << *this << " " <<*left<< " " << (int) isBalance() << " " << left->isBalance()<<endl;
+		if (isBalance()) return true;
+		if (rightDescendants < leftDescendants){
+cout << "left is balance : " << (int)left->isBalance() << " " << *left<< endl;
+			if (left->isBalance() && left->numChildren() > 1){
+				doubleRight();
+			} else {
+				rotateRight();
+			}
+		} else{
+// throw "HIH";
+			if (right->isBalance()&& right->numChildren() > 1){
+				doubleLeft();
+			} else {
+				rotateLeft();
+			}
+		}
 	} else if (value > this->value) {
-	if (right == NULL) {
-		rightDescendants++;
-		balance = calBalance(this);
-		right = new BSTNode(value);
-		return true;
-	}
-	next = right;
+		if (right == NULL) {
+			rightDescendants++;
+			balance = calBalance(this);
+			right = new BSTNode(value);
+			return true;
+		}
+		//next = right;
+		right->Insert(value);
+		fixMetaData();
+cout << "right: " << balance <<" is balance? " << (int) isBalance() << " " << *this<< endl;
+		if(isBalance()) return true;
+		if (leftDescendants < rightDescendants){
+			if (right->isBalance()&& right->numChildren() > 1){
+				doubleLeft();
+			} else {
+				rotateLeft();
+			}
+		} else {
+			//throw 1;
+			if (left->isBalance()&& left->numChildren() > 1){
+				doubleRight();
+			} else {
+				rotateRight();
+			}
+		}
 	} else { // equal
-	return false;
+		return false;
 	}
-	bool temp = false;
-	if (next){
-	temp = next->Insert(value);
-	}
-	this->leftDescendants = weight(left);
-	this->rightDescendants = weight(right);
-	this->balance = calBalance(this);
-	return temp;
+
+	this->fixMetaData();
+	this->left->fixMetaData();
+	this->right->fixMetaData();
+	return true;
 }
 
 
@@ -168,11 +175,11 @@ bool BinarySearchTree::Search( int value ) {
 bool BSTNode::Search( int value ) {
 	BSTNode *next = NULL;
 	if (value < this->value) {
-	next = left;
+		next = left;
 	} else if (value > this->value) {
-	next = right;
+		next = right;
 	} else {
-	return true;
+		return true;
 	}
 	return next ? next->Search(value) : false;
 }
