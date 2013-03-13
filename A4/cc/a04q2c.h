@@ -54,6 +54,24 @@ public:
 			int numChildren();
 
 			friend class BinarySearchTree;
+
+			friend int nodesize(BSTNode *n){
+				if (!n) return 0;
+				return 1+ nodesize(n->left) + nodesize(n->right);
+			}
+
+			friend void print_helper(BSTNode *n, int depth = 0, int val = -1){
+				using namespace std;
+				if (!n) return;
+				int new_d = depth + 4;
+				print_helper(n->Right(), new_d, val);
+				for (int i = 0; i < depth; i++){
+					cout << ' ';
+				}
+				if (val == n->Value()) cout << set_color(YELLOW);
+				cout << *n << set_color() << endl;
+				print_helper(n->Left(), new_d, val);
+			}
 };
 
 
@@ -103,7 +121,7 @@ public:
 			}
 
 			~BinarySearchTree(){
-				print_helper(root);
+//				print_helper(root);
 				clean_helper(root);
 			}
 
@@ -116,6 +134,10 @@ public:
 				int left = nodesize(n->left);
 				int right = nodesize(n->right);
 				bool ret = (left + right <= 1);
+				if (left != n->LeftDescendants() || right != n->RightDescendants()){
+					std::cout << "Integ: " << *n << " metadata not matched " << left << " " << right << std::endl;
+					return false;
+				}
 std::cout << "Integ: "<<*n << ' ' << (int)ret << ' ';
 				float temp = left ? (float)right / left : 0;
 				ret |= (temp <= 2 && temp >= 0.5);

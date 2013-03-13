@@ -11,8 +11,10 @@ using namespace std;
 
 enum {
 	MAX = 10000,
-	NUM_WANTED = 1000
+	NUM_WANTED = 40
 };
+
+list<int> inserted;
 
 // -t specified
 void numFromStdIn(BinarySearchTree &bst){
@@ -21,6 +23,7 @@ void numFromStdIn(BinarySearchTree &bst){
 	for (int i = 0, temp; i < num; i++){
 		cin >> temp;
 		bst.Insert(temp);
+			inserted.push_back(temp);
 bst.print();
 			if (!bst.integ()) throw 1;
 	}
@@ -44,6 +47,7 @@ void numFromRand(BinarySearchTree &bst){
 cout << "Inserting:"<<temp<<endl;
 		if (bst.Insert(temp)){
 bst.print();
+			inserted.push_back(temp);
 			if (!bst.integ()) throw 1;
 			i++;
 		}
@@ -53,11 +57,21 @@ bst.print();
 int main(int argc, char **argv){
 	BinarySearchTree bst;
 
-	if (argc == 2 && strcmp(argv[1], "-t") == 0){
-		numFromStdIn(bst);
-	} else {
-		numFromRand(bst);
+	try{
+		if (argc == 2 && strcmp(argv[1], "-t") == 0){
+			numFromStdIn(bst);
+		} else {
+			numFromRand(bst);
+		}
+		cout << set_color(GREEN) << "Execution Successful"<<endl;
+	} catch (int a){
+		cerr << inserted.size() << endl;
+		for (std::list<int>::iterator it = inserted.begin(); it != inserted.end(); it++){
+			cerr << *it << ' ';
+		} cerr << endl;
+		cout << set_color(RED)<< "Exception catched at " << inserted.size() <<"th item"<< endl;
 	}
+	cout << set_color();
 
 	return 0;
 }
