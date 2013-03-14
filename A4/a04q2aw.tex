@@ -6,6 +6,7 @@
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{pdfpages}
+\usepackage{qtree}
 \usepackage{../thm}
 \usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
 \title{Responses for CS240 Assignment 4 Question 2a}
@@ -13,5 +14,40 @@
 
 \begin{document}
 \maketitle
+This {\bf bottom-up} algorithm works from balancing the the subtree in the insertion path from the newly inserted node, and then up to the root of the subtree, using AVL-style single/double rotation.  
+The tricky part, however, is that AVL tree single/double rotations are not enough and there are more cases to think of.\\
+
+\noindent Consider the main idea of the algorithm:\\
+\begin{itemize}
+\item
+{\bf Make sub-subtree balanced and then do double rotation on the subtree.}
+Consider a case that adds complexity to the algorithm, with the following insertion sequence: $4, 3, 5, 1, 2$.\\
+
+\Tree[.4 [.3 [.1 nil 2 ] nil ] 5 ]\\ 
+
+There is no way to do them in 1 AVL rotation.
+The idea is to make the heavy subtree (left) balance and then do one AVL double rotation on the target (4).
+\\{\centering
+$\xrightarrow{\text{Double Rotate Right on 3}}$
+\Tree[.4 [.2 1 3 ] 5 ]
+$\xrightarrow{\text{Double Rotate Right on 4}}$
+\Tree[.3 [.2 1 nil ] [.4 nil 5 ] ] }
+
+In 4b, I will try to prove that double-rotating on an unbalanced subtree that has weight-balanced sub-subtrees will weight-balance the subtree.
+The problem with this approach is that there are more cases to consider, though the next idea solves this issue.
+\item
+{\bf Use mutual recursion to reduce complicated rotation cases to just single/double rotations.}\\
+Consider two functions: $decidesRotateDirection$, which decides which direction shall a node rotate; and $prepareLeftRotate$ (and a symmetric one for Right), which decides which of single/double rotation will the node run.\\
+
+As you saw in the example above, the first double rotation is only a stepping stone for the second double rotation, but the result of the first rotation the subtree is AVL-balanced but not weight-balanced.\\
+
+Basically, $prepareLeftRotate$ runs either single/double rotation, after which the subtree may or may not be balanced, so it calls $decidesRotateDirection$ {\bf again} to decide whether it should rotate again.\\
+\end{itemize}
+So here is the algorithm:
+\begin{enumerate}
+\item Insert a value as a normal BST
+\item Before Insert returns to the previous Insert recursion call, run $decidesRotateDirection$. This ensures that the subtree is balanced, and is ready for more rotations by its ancestors.
+\end{enumerate}
+That's it! The recursion magic will do the heavy work.
 \hfill $\blacksquare$
 \end{document}
