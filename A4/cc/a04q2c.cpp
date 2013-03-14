@@ -111,26 +111,74 @@ cout << *this << " before " << set_color(GREEN) << "DOUBLE RIGHT rotation" << se
 
 void BSTNode::prepareRotateRight(){
 	if (isBalance()) return;
-	if ((left->rightDescendants == rightDescendants && rightDescendants != 0) ||
-		(left->leftDescendants < left->rightDescendants)){
+	if ( (
+		(left->rightDescendants == rightDescendants && rightDescendants != 0) ||
+		(left->leftDescendants < left->rightDescendants))){
 		doubleRight();
-		right->prepareRotateLeft();
-		left->prepareRotateRight();
 	} else{
 		rotateRight();
 	}
+	if (!isBalance()){
+#ifdef ALFRED_DEBUG
+cout << "Rebalance itself " << *this << " to the ";
+#endif
+		if (leftDescendants < rightDescendants){
+#ifdef ALFRED_DEBUG
+cout << "LEFT"<<endl;
+#endif
+			prepareRotateLeft();
+		} else {
+#ifdef ALFRED_DEBUG
+cout << "RIGHT"<<endl;
+#endif
+			prepareRotateRight();
+		}
+	}
+#ifdef ALFRED_DEBUG
+cout << "Rebalance left"<<endl;
+#endif
+	right->prepareRotateLeft();
+#ifdef ALFRED_DEBUG
+cout << "Rebalance right"<<endl;
+#endif
+	left->prepareRotateRight();
 }
 
 void BSTNode::prepareRotateLeft(){
+	if (this->value == 22673) {print();cout<<endl;}
 	if (isBalance()) return;
-	if ((leftDescendants == right->leftDescendants && leftDescendants != 0)
-		|| (right->leftDescendants > right->rightDescendants)){
+	if ( (
+		(leftDescendants == right->leftDescendants && leftDescendants != 0)
+		|| (right->leftDescendants > right->rightDescendants))){
 		doubleLeft();
-		right->prepareRotateLeft();
-		left->prepareRotateRight();
 	} else {
 		rotateLeft();
 	}
+	if (!isBalance()){
+#ifdef ALFRED_DEBUG
+cout << "Rebalance itself " << *this << " to the ";
+#endif
+		if (leftDescendants < rightDescendants){
+#ifdef ALFRED_DEBUG
+cout << "LEFT"<<endl;
+#endif
+			prepareRotateLeft();
+		} else {
+#ifdef ALFRED_DEBUG
+cout << "RIGHT"<<endl;
+#endif
+			prepareRotateRight();
+		}
+	}
+#ifdef ALFRED_DEBUG
+cout << "Rebalance left "<<endl;
+#endif
+	right->prepareRotateLeft();
+#ifdef ALFRED_DEBUG
+cout << "Rebalance right"<<endl;
+#endif
+	left->prepareRotateRight();
+		prepareRotateLeft();
 }
 
 int BSTNode::numChildren(){

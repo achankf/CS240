@@ -10,8 +10,8 @@
 using namespace std;
 
 enum {
-	MAX = 100000,
-	NUM_WANTED = 30
+	MAX = 1000000,
+	NUM_WANTED = 100000
 };
 
 list<int> inserted;
@@ -24,14 +24,13 @@ void numFromStdIn(BinarySearchTree &bst){
 		cin >> temp;
 		bst.Insert(temp);
 		inserted.push_back(temp);
-		bst.print();
+		//bst.print();
 		if (!bst.integ()) throw 1;
 	}
 }
 
 // -t is not specified
 void numFromRand(BinarySearchTree &bst){
-cout << "Running from Rand" << endl;
 	// countArray makes sure all numbers are unique
 	bool countArray[MAX] = {false};
 
