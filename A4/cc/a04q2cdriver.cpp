@@ -23,11 +23,9 @@ void numFromStdIn(BinarySearchTree &bst){
 	for (int i = 0, temp; i < num; i++){
 		cin >> temp;
 		bst.Insert(temp);
-		inserted.push_back(temp);
-cout << i << endl;
-		//bst.print();
+		//inserted.push_back(temp);
+		cout << i << endl;
 	}
-		if (!bst.integ()) throw 1;
 }
 
 // -t is not specified
@@ -46,7 +44,7 @@ void numFromRand(BinarySearchTree &bst){
 		if (countArray[temp]) continue;
 		countArray[temp] = true;
 		if (bst.Insert(temp)){
-			inserted.push_back(temp);
+			//inserted.push_back(temp);
 			i++;
 		}
 	}
@@ -62,7 +60,7 @@ int main(int argc, char **argv){
 		} else {
 			numFromRand(bst);
 		}
-		cout << set_color(GREEN) << "Execution Successful"<<endl;
+		//cout << "Execution Successful"<<endl;
 	} catch (int a){
 #if 0
 		cerr << inserted.size() << endl;
@@ -70,11 +68,8 @@ int main(int argc, char **argv){
 			cerr << *it << ' ';
 		} cerr << endl;
 #endif
-		cout << set_color(RED)<< "Exception catched at " << inserted.size() <<"th item"<< endl;
-		cout << set_color();
+		//cout << "Exception catched at " << inserted.size() <<"th item"<< endl;
 		return 1;
 	}
-	cout << set_color();
-
 	return 0;
 }

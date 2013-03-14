@@ -1,26 +1,31 @@
 #include "a04q2c.h"
 
-#include <iostream>
-using namespace std;
+// for the descriptions of the function, please refer to the header file
+// though the order of implemention is mixed up, so if you haven't read
+// a function, like "numChildren", please just assumes what it is as 
+// described in the header file
 
-int BSTNode::weight(){
+int BSTNode::weight() const{
+	// note the use of (!this) ... this allows the main codes to
+	// avoid explicitly writting the NULL test, which save
+	// spaces and more importantly increases readability
 	if (!this) return 0;
 	return 1 + numChildren();
 }
 
-float BSTNode::calBalance(){
+float BSTNode::calBalance() const{
 	if (!this) return 0;
 	int left = leftDescendants;
 	int right = rightDescendants;
 	return left ? (float) right / left : 0;
 }
 
+// constructor
 BSTNode::BSTNode( int value ) {
 	this->value = value;
 	left = right = NULL;
 	leftDescendants = rightDescendants = balance = 0;
 }
-
 
 bool BinarySearchTree::Insert( int value ){
 	if (root == NULL) {
@@ -37,18 +42,14 @@ void BSTNode::fixMetaData(){
 	balance = calBalance();
 }
 
-bool BSTNode::isBalance(){
+bool BSTNode::isBalance() const{
 	if (!this || numChildren() <= 1)
 		return true;
 	return balance >= 0.5 && balance <= 2;
 }
 
 void BSTNode::rotateLeft(){
-#ifdef ALFRED_DEBUG
-cout << *this << " before " << set_color(YELLOW) << "LEFT rotation" << set_color()<<endl;
-print();
-cout << endl;
-#endif
+	// backup the old root node in a NEW node
 	BSTNode *bak = new BSTNode(this->value);
 	BSTNode *rightBak = this->right;
 	bak->left = this->left;
@@ -56,24 +57,18 @@ cout << endl;
 	this->value = this->right->value;
 	this->left = bak;
 	this->right = this->right->right;
+
+	// remove the original right node because it is "stuck" and not used
 	delete rightBak;
 
-#ifdef ALFRED_DEBUG
-cout << "END RESULT" << endl;
-print();
-cout << endl;
-#endif
+	// fix the metadata
 	this->left->fixMetaData();
 	this->right->fixMetaData();
 	this->fixMetaData();
 }
 
 void BSTNode::rotateRight(){
-#ifdef ALFRED_DEBUG
-cout << *this << " before " << set_color(YELLOW) << "RIGHT rotation" << set_color()<<endl;
-print();
-cout << endl;
-#endif
+	// backup the old root node in a NEW node
 	BSTNode *bak = new BSTNode(this->value);
 	BSTNode *leftBak = this->left;
 	bak->right = this->right;
@@ -81,70 +76,42 @@ cout << endl;
 	this->value = this->left->value;
 	this->right = bak;
 	this->left = this->left->left;
+
+	// remove the original right node because it is "stuck" and not used
 	delete leftBak;
 
-#ifdef ALFRED_DEBUG
-cout << "END RESULT" << endl;
-print();
-cout << endl;
-#endif
+	// fix the metadata
 	this->left->fixMetaData();
 	this->right->fixMetaData();
 	this->fixMetaData();
 }
 
 void BSTNode::doubleLeft(){
-#if ALFRED_DEBUG
-cout << *this << " before " << set_color(GREEN) << "DOUBLE LEFT rotation" << set_color()<<endl;
-#endif
 	right->rotateRight();
 	rotateLeft();
 }
 
 void BSTNode::doubleRight(){
-#if ALFRED_DEBUG
-cout << *this << " before " << set_color(GREEN) << "DOUBLE RIGHT rotation" << set_color()<<endl;
-#endif
 	left->rotateLeft();
 	rotateRight();
 }
 
 void BSTNode::prepareRotateRight(){
 	if (isBalance()) return;
-	if ( (
-		(left->rightDescendants == rightDescendants && rightDescendants != 0) ||
-		(left->leftDescendants < left->rightDescendants))){
+	if ((left->rightDescendants == rightDescendants && rightDescendants != 0)
+		|| (left->leftDescendants < left->rightDescendants)){
 		doubleRight();
 	} else{
 		rotateRight();
 	}
-	if (!isBalance()){
-#ifdef ALFRED_DEBUG
-cout << "Rebalance itself " << *this << " to the ";
-#endif
-		if (leftDescendants < rightDescendants){
-#ifdef ALFRED_DEBUG
-cout << "LEFT"<<endl;
-#endif
-			prepareRotateLeft();
-		} else {
-#ifdef ALFRED_DEBUG
-cout << "RIGHT"<<endl;
-#endif
-			prepareRotateRight();
-		}
-	}
-#ifdef ALFRED_DEBUG
-cout << "Rebalance left"<<endl;
-#endif
-	right->prepareRotateLeft();
-#ifdef ALFRED_DEBUG
-cout << "Rebalance right"<<endl;
-#endif
-	left->prepareRotateRight();
 
-	left->left->decideRotateDirection();
-	right->right->decideRotateDirection();
+	// re-rotate when necessary
+	decideRotateDirection();
+
+	// left and right are likely get messed up during the TRANSFER of subtree
+	// hence they are potentially needed to be rebalanced
+	right->decideRotateDirection();
+	left->decideRotateDirection();
 }
 
 void BSTNode::prepareRotateLeft(){
@@ -155,30 +122,28 @@ void BSTNode::prepareRotateLeft(){
 	} else {
 		rotateLeft();
 	}
+
+	// re-rotate when necessary
 	decideRotateDirection();
+
+	// left and right are likely get messed up during the TRANSFER of subtree
+	// hence they are potentially needed to be rebalanced
 	right->decideRotateDirection();
 	left->decideRotateDirection();
-#if 0
-	right->prepareRotateLeft();
-	left->prepareRotateRight();
-
-	left->left->decideRotateDirection();
-	right->right->decideRotateDirection();
-#endif
 }
 
 void BSTNode::decideRotateDirection(){
-	if (!this || isBalance()) return;
+	// return early if *this node is balanced
+	if (isBalance()) return;
+
 	if (leftDescendants > rightDescendants){
 		prepareRotateRight();
-	} else if (rightDescendants > leftDescendants){
+	} else { // rightDescendants > leftDescendants
 		prepareRotateLeft();
-	} else {
-throw 1;
 	}
 }
 
-int BSTNode::numChildren(){
+int BSTNode::numChildren() const{
 	if (!this) return 0;
 	return leftDescendants + rightDescendants;
 }
@@ -203,6 +168,10 @@ bool BSTNode::Insert( int value ){
 	} else { // equal
 		return false;
 	}
+
+	// fix the data and then do the rotation
+	// notice that the newly-created node won't get to here
+	// because they return early
 	fixMetaData();
 	decideRotateDirection();
 	return true;
