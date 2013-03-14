@@ -10,8 +10,8 @@
 using namespace std;
 
 enum {
-	MAX = 10000000,
-	NUM_WANTED = 500000
+	MAX = 100000,
+	NUM_WANTED = 5000
 };
 
 list<int> inserted;
@@ -60,7 +60,7 @@ int main(int argc, char **argv){
 		} else {
 			numFromRand(bst);
 		}
-		//cout << "Execution Successful"<<endl;
+		cout << "Execution Successful"<<endl;
 	} catch (int a){
 #if 0
 		cerr << inserted.size() << endl;
@@ -68,7 +68,7 @@ int main(int argc, char **argv){
 			cerr << *it << ' ';
 		} cerr << endl;
 #endif
-		//cout << "Exception catched at " << inserted.size() <<"th item"<< endl;
+		cout << "Exception catched at " << inserted.size() <<"th item"<< endl;
 		return 1;
 	}
 	return 0;

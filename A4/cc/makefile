@@ -12,9 +12,6 @@ a04q1c.exe : a04q1c.cpp
 a04q2c.o: a04q2c.cpp a04q2c.h
 	g++ $(CXXFLAGS) -c $< -o $@
 
-a04q2c_aux.o: a04q2c_aux.cpp a04q2c.h
-	g++ $(CXXFLAGS) -c $< -o $@
-
 a04q2cdriver.exe : a04q2cdriver.cpp a04q2c.o
 	g++ $(CXXFLAGS) a04q2cdriver.cpp a04q2c.o -o $@
 
