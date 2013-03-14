@@ -142,43 +142,40 @@ cout << "Rebalance left"<<endl;
 cout << "Rebalance right"<<endl;
 #endif
 	left->prepareRotateRight();
+
+	left->left->decideRotateDirection();
+	right->right->decideRotateDirection();
 }
 
 void BSTNode::prepareRotateLeft(){
-	if (this->value == 22673) {print();cout<<endl;}
 	if (isBalance()) return;
-	if ( (
-		(leftDescendants == right->leftDescendants && leftDescendants != 0)
-		|| (right->leftDescendants > right->rightDescendants))){
+	if ((leftDescendants == right->leftDescendants && leftDescendants != 0)
+		|| (right->leftDescendants > right->rightDescendants)){
 		doubleLeft();
 	} else {
 		rotateLeft();
 	}
-	if (!isBalance()){
-#ifdef ALFRED_DEBUG
-cout << "Rebalance itself " << *this << " to the ";
-#endif
-		if (leftDescendants < rightDescendants){
-#ifdef ALFRED_DEBUG
-cout << "LEFT"<<endl;
-#endif
-			prepareRotateLeft();
-		} else {
-#ifdef ALFRED_DEBUG
-cout << "RIGHT"<<endl;
-#endif
-			prepareRotateRight();
-		}
-	}
-#ifdef ALFRED_DEBUG
-cout << "Rebalance left "<<endl;
-#endif
+	decideRotateDirection();
+	right->decideRotateDirection();
+	left->decideRotateDirection();
+#if 0
 	right->prepareRotateLeft();
-#ifdef ALFRED_DEBUG
-cout << "Rebalance right"<<endl;
-#endif
 	left->prepareRotateRight();
+
+	left->left->decideRotateDirection();
+	right->right->decideRotateDirection();
+#endif
+}
+
+void BSTNode::decideRotateDirection(){
+	if (!this || isBalance()) return;
+	if (leftDescendants > rightDescendants){
+		prepareRotateRight();
+	} else if (rightDescendants > leftDescendants){
 		prepareRotateLeft();
+	} else {
+throw 1;
+	}
 }
 
 int BSTNode::numChildren(){
@@ -195,8 +192,6 @@ bool BSTNode::Insert( int value ){
 			return true;
 		}
 		left->Insert(value);
-		fixMetaData();
-		prepareRotateRight();
 	} else if (value > this->value) {
 		if (right == NULL) {
 			rightDescendants++;
@@ -205,11 +200,11 @@ bool BSTNode::Insert( int value ){
 			return true;
 		}
 		right->Insert(value);
-		fixMetaData();
-		prepareRotateLeft();
 	} else { // equal
 		return false;
 	}
+	fixMetaData();
+	decideRotateDirection();
 	return true;
 }
 

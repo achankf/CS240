@@ -53,6 +53,7 @@ public:
 			void doubleRight();
 			void prepareRotateLeft();
 			void prepareRotateRight();
+			void decideRotateDirection();
 			int numChildren();
 			int weight();
 			float calBalance();
