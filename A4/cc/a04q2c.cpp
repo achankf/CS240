@@ -97,7 +97,6 @@ void BSTNode::doubleRight(){
 }
 
 void BSTNode::prepareRotateRight(){
-	if (isBalance()) return;
 	if ((left->rightDescendants == rightDescendants && rightDescendants != 0)
 		|| (left->leftDescendants < left->rightDescendants)){
 		doubleRight();
@@ -115,7 +114,6 @@ void BSTNode::prepareRotateRight(){
 }
 
 void BSTNode::prepareRotateLeft(){
-	if (isBalance()) return;
 	if ((leftDescendants == right->leftDescendants && leftDescendants != 0)
 		|| (right->leftDescendants > right->rightDescendants)){
 		doubleLeft();
@@ -138,7 +136,7 @@ void BSTNode::decideRotateDirection(){
 
 	if (leftDescendants > rightDescendants){
 		prepareRotateRight();
-	} else { // rightDescendants > leftDescendants
+	} else { // rightDescendants < leftDescendants
 		prepareRotateLeft();
 	}
 }
@@ -149,6 +147,7 @@ int BSTNode::numChildren() const{
 }
 
 bool BSTNode::Insert( int value ){
+	// do normal insertion
 	if (value < this->value) {
 		if (left == NULL) {
 			leftDescendants++;
