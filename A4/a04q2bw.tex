@@ -14,17 +14,20 @@
 
 \begin{document}
 \maketitle
-\noindent{\bf Convention} Let lower case letters be a single BSTNode; capital letters be a subtree (may be single node or empty).\\
+\noindent{\bf Friendly reminder} Please take a cup of coffee before reading. This is the longest proof I have written so far (the last one was from a3q3, 5 pages long). Also, you may want to open 2a) for reference.\\
 
-\noindent{\bf Idea of proof} For any subtree, find the size of the left and right subsubtrees, and then apply lemma \ref{lem:weight_tree_bounded}, which would imply that the tree is balanced.
+\noindent{\bf Idea of proof} For any subtree, find the size of the left and right subsubtrees, and then apply lemma \ref{lem:weight_tree_bounded}, which would imply that the tree is balanced.\\
+
+\noindent{\bf Convention} Let lower case letters be a single BSTNode; capital letters be a subtree (may be single node or empty).\\
 
 \input{../lemma/weight_balance_tree_des_constraints.texin}
 
-\begin{claim}
+\begin{thm}
 The rebalancing algorithm described in 2a) rebalances the position of the target node correctly.
-\end{claim}
+\end{thm}
 
-\noindent{\bf Proof by structural induction} Consider only the left-related rotations, since the cases and arguments for the right are symmetric to those of the left.
+\begin{proof}
+\noindent{\bf By structural induction} Consider only the left-related rotations, since the cases and arguments for the right are symmetric to those of the left.
 
 \noindent{\bf Base Cases:}
 \begin{itemize}
@@ -181,5 +184,12 @@ By lemma \ref{lem:weight_tree_bounded}, the second case is also balanced. Hence 
 \end{enumerate}
 Thus all cases are true.
 The proof is complete.
+\end{proof}
+However, I am not done yet, sorry.\\
+
+As I mentioned in the proof, the above theorem only makes sure that the target position is balanced.
+However, some nodes that are being transfer during rotation can cause unbalance to the subsubtree.
+That is why in the algorithm I have to recurse $decideRotateDirection$ on the left and right subtree.
+In paricular, the recursion calls to the children simply clean up the ``mess'' that is created by the rotation. In conclusion, the algorithm works.
 \hfill $\blacksquare$
 \end{document}

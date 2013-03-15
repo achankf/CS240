@@ -7,7 +7,7 @@
 \usepackage{courier}
 \usepackage{pdfpages}
 \usepackage{qtree}
-\usepackage[usenames,dvipsnames]{xcolor}
+%\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{../thm}
 \usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
 \title{Responses for CS240 Assignment 4 Question 2a}
@@ -17,7 +17,7 @@
 \lstset{
 	language=c,
   keywordstyle=\color{blue}\bfseries,
-  commentstyle=\color{OliveGreen}\bfseries,
+  commentstyle=\color{red}\bfseries,
   stringstyle=\ttfamily\color{red!50!brown},
 	numbers=left,
 	showspaces=false,
@@ -41,7 +41,7 @@ Consider a case that adds complexity to the algorithm, with the following insert
 
 \Tree[.4 [.3 [.1 nil 2 ] nil ] 5 ]\\ 
 
-There is no way to do them in 1 AVL rotation.
+There is no way to balance them in 1 AVL rotation.
 The idea is to make the heavy subtree (left) balance and then do one AVL double rotation on the target (4).
 \\{\centering
 $\xrightarrow{\text{Double Rotate Right on 3}}$
@@ -49,15 +49,15 @@ $\xrightarrow{\text{Double Rotate Right on 3}}$
 $\xrightarrow{\text{Double Rotate Right on 4}}$
 \Tree[.3 [.2 1 nil ] [.4 nil 5 ] ] }
 
-In 4b, I will try to prove that double-rotating on an unbalanced subtree that has weight-balanced sub-subtrees will weight-balance the subtree.
 The problem with this approach is that there are more cases to consider, though the next idea solves this issue.
 \item
 {\bf Use mutual recursion to reduce complicated rotation cases to just single/double rotations.}\\
 Consider two subroutines: $decideRotateDirection$, which decides which direction shall a node rotate; and $prepareRotateLeft$ (and a symmetric one for Right), which decides which of single/double rotation will the node run.\\
 
-As you saw in the example above, the first double rotation is only a stepping stone for the second double rotation. Notice that after the first rotation the subtree is AVL-balanced but not weight-balanced (answered 4d).\\
+As you saw in the example above, the first double rotation is only a stepping stone for the second double rotation. Notice that after the first rotation the subtree is AVL-balanced but not weight-balanced.\\
 
-Basically, $prepareRotateLeft$ runs either single/double rotation, after which the subtree may or may not be balanced, so it calls $decideRotateDirection$ {\bf again} to decide whether it should rotate.\\
+Basically, $prepareRotateLeft$ runs either single/double rotation, after which the subtree may or may not be balanced, so it calls $decideRotateDirection$ {\bf again} to decide whether it should rotate.
+Notice that 2b) indirectly proves that the mutual recursion terminates.
 \end{itemize}
 
 Pseudocode:
