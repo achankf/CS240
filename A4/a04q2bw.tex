@@ -6,12 +6,180 @@
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{pdfpages}
+\usepackage{qtree}
 \usepackage{../thm}
 \usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
-\title{Responses for CS240 Assignment 4 Question 2a}
+\title{Responses for CS240 Assignment 4 Question 2b}
 \author{Alfred Chan -- 20392255}
 
 \begin{document}
 \maketitle
+\noindent{\bf Convention} Let lower case letters be a single BSTNode; capital letters be a subtree (may be single node or empty).\\
+
+\noindent{\bf Idea of proof} For any subtree, find the size of the left and right subsubtrees, and then apply lemma \ref{lem:weight_tree_bounded}, which would imply that the tree is balanced.
+
+\input{../lemma/weight_balance_tree_des_constraints.texin}
+
+\begin{claim}
+The rebalancing algorithm described in 2a) rebalances the position of the target node correctly.
+\end{claim}
+
+\noindent{\bf Proof by structural induction} Consider only the left-related rotations, since the cases and arguments for the right are symmetric to those of the left.
+
+\noindent{\bf Base Cases:}
+\begin{itemize}
+\item
+If the subtree has 0 to 2 nodes, then it is balanced by definition.
+\item
+If the subtree has 3 nodes, then the possible trees are:\\
+{\bf Balanced:}\\
+\begin{equation}\label{tree:3-bal}
+\text{\Tree[.b a c ]}\\ 
+\end{equation}
+{\bf Unbalanced (right child is right-heavy):}\\
+\begin{equation}\label{tree:3-rh}
+\Tree[.a nil [.b nil [.c nil nil ] ] ]\\
+\end{equation}
+\begin{enumerate}
+	\item decideRotationDirection: since the tree is right-heavy, run prepareRotateLeft
+	\item prepareRotateLeft: leftDescendants is zero and $right\rightarrow rightDescendant > right\rightarrow leftDescendants$ (implies first condition is false); hence, run single left rotation
+	\item result in tree \ref{tree:3-bal}
+\end{enumerate}
+
+{\bf Unbalanced (right child is left-heavy):}\\
+\begin{equation}\label{tree:3-rh}
+\Tree[.a nil [.c [.b nil nil ] nil ] ]\\
+\end{equation}
+This is similar to the above, except that $prepareRotateLeft$ will run double rotation instead. Thus, the resulting tree is tree \ref{tree:3-bal}.\\
+\end{itemize}
+Therefore, the base case is true.\\
+
+\noindent{\bf Induction Hypothesis:} Suppose a tree $T$ is being built by the insertion and the rebalancing algorithm, such that and it remains weight-balanced.
+Let $x$ be a node that has key $val$, $n$ be the size of the subtree that is used in discussion.
+Then $T.Insert(val)$ will insert $x$ into $T$, the rebalancing algorithm rebalance all subtrees until it reaches somewhere high in T (root, root's children, etc.):
+
+\begin{enumerate}
+\item
+\begin{description}
+\item[Balanced:]
+\begin{equation}\label{tree:gen-bal}
+\text{\Tree[.b A C ]}\\ 
+\end{equation}
+Notice that either A contains $\frac{1}{3}(n-1)$ and B contains $\frac{2}{3}(n-1)$, or A contains $\frac{2}{3}(n-1)$ and B contains $\frac{1}{3}(n-1)$, by definition (multipilcative factor of 2).\\
+
+\item[Unbalanced (right-heavy and child (d) is right-heavy)]
+\begin{equation}\label{tree:id-rr}
+\text{\Tree[.b A [.d C [.E x ] ] ] }\\
+\end{equation}
+
+\begin{enumerate}
+\item $decideRotateDirection$ will call $prepareRotateLeft$, since the subtree is right-heavy.
+\item Since $x$ breaks the balance and $x$ is a leaf of $E$; Hence, $E$ has more rightDescendants than leftDescendants (first condition false). So $prepareRotateLeft$ will run single rotation.
+\item Since the rotations involve transfering of nodes, hence even though $d$ is balanced, $b$ or $E$ may not.
+So, $prepareRotateLeft$ recursively calls $decideRotateDirection$ on its children.
+Since this proof is proving that $decideRotateDirection$ is correct for the {\bf position} (i.e. the structural location of $b$) of the current target, {\bf as long as it works for the position of the ``current'' node, it will also work on its children}.
+\end{enumerate}
+\begin{equation}\label{tree:id-rr-bal}
+\text{\Tree[.d [.b A C ] [.E x ] ] }\\
+\end{equation}
+
+\begin{claim}
+Tree \ref{tree:id-rr-bal} is weight-balanced.
+\end{claim}
+\begin{proof}
+Since the addition of $x$ causes rebalancing, the subtree with root $d$ (from tree \ref{tree:id-rr}) has $\frac{2}{3}$ of the nodes ($\frac{2}{3}(n-1)$), and the subtree A has $\frac{1}{3}$ of the nodes ($\frac{1}{3}(n-1)$).
+
+Now determine the size of C and E. Let $k = \frac{2}{3}(n-1)$.
+Since $x$ is inserted under $E$ and unbalancing occurs, so $E$ has more children.
+\begin{align*}
+|C| &= \frac{1}{3}(k-1)\\
+	&= \frac{2n-5}{9}\\
+|E| &= \frac{2}{3}(k-1)\\
+	&= \frac{4n-10}{9}\\
+\implies |E| + |x| &= \frac{4n-10}{9} + 1\\
+	&= \frac{4n-1}{9}
+\end{align*}
+After rotation, the size of the right subtree is $w_{r} = |E| + |x|$, and the size of the left subtree is $w_{l} = |b| + |A| + |C|$.
+\begin{align*}
+w_{l} &= |b| + |A| + |C|\\
+	&= 1 + \frac{1}{3}(n-1) + \frac{2n-5}{9}\\
+	&= \frac{5n + 1}{9}\\
+\implies \frac{1}{2} &\le \frac{w_r}{w_l} \le 2
+\end{align*}
+Hence, by lemma \ref{lem:weight_tree_bounded}, tree \ref{tree:id-rr-bal} is balanced.
+\end{proof}
+Notice that the direction of $x$ does not matter, as it is handled by the base case and the inductive hypothesis.
+The important thing is that $x$ breaks the balance and the subtree of root $b$  has to be rotated.
+
+\item[Unbalanced (right-heavy and child (d) is left-heavy):]
+\begin{equation}
+\text{\Tree[.b A [.d [.C x ] E ] ]}
+	\xrightarrow{\text{ split up C into two halves }}
+\text{\Tree[.b A [.d [.c [.CL1 x ] CR1 ]  E ] ]}
+\text{ or }
+\text{\Tree[.b A [.d [.c CL2 [.CR2 x ] ]  E ] ]}
+\end{equation}
+This is the case where $prepareRotateLeft$ calls for double rotation.
+\begin{equation}
+\xrightarrow{\text{single right rotation on d}}
+	\text{\Tree[.b A [.c [.CL1 x ] [.d CR1 E ] ] ]} \text{ or }
+	\text{\Tree[.b A [.c CL2 [.d [.CR2 x ] E ] ] ]}
+\end{equation}
+
+\begin{equation}\label{tree:gen-rl-bal}
+\xrightarrow{\text{single left rotation on b}}
+	\text{\Tree[.c [.b A [.CL1 x ] ] [.d CR1 E ] ]} \text{ or }
+	\text{\Tree[.c [.b A CL2 ] [.d [.CR2 x ] E ] ]}
+\end{equation}
+
+\begin{claim}
+Trees in \ref{tree:gen-rl-bal} are balanced.
+\end{claim}
+
+\begin{proof}
+Since inserting to $C$ causes rotation, hence $C$ has more nodes than $E$; consequently, the subtree from $d$ is more nodes than $A$. 
+Let $k = \frac{2}{3}(n-1)$ and $l = \frac{2}{3}(k-1)$. Hence,
+\begin{align*}
+|A| &= \frac{1}{3}(n-1)\\
+	&= \frac{k}{2}\\
+|E| &= \frac{1}{3}(k-1)\\
+|C| &= l
+\end{align*}
+For $C$, consider the two cases using the same argument as above:
+\begin{align*}
+|CR1| &= \frac{1}{3}(l-1)\\
+	&= \frac{2k-5}{9}\\
+|CL1| &= \frac{2}{3}(l-1)\\
+	&= 2|CR1|\\
+|CL2| &= |CR1|\\
+|CR2| &= |CL1|
+\end{align*}
+Now consider the ratio for $CL1, CR1$:
+\begin{align*}
+w_{l1} &= |b| + |A| + |CL1| + |x|\\
+	&= |b| + |A| + 2|CR1| + |x|\\
+	&= 1 + \frac{k}{2} + \frac{4k-10}{9} + 1\\
+	&= \frac{17k+16}{18}\\
+w_{r1} &= |d| + |CR1| + |E|\\
+	&= 1 + \frac{2k-5}{9} + \frac{1}{3}(k-1)\\
+	&= \frac{10k+12}{18}\\
+\implies \frac{1}{2} &\le \frac{w_{r1}}{w_{l1}} \le 2
+\end{align*}
+By lemma \ref{lem:weight_tree_bounded}, the first case is balanced. Now consider the ratio for $CL2, CR2$:
+\begin{align*}
+w_{l2} &= |d| + |CR2| + |x| + |E|\\
+	&= 1 + \frac{4k-10}{9} + 1 + \frac{k-1}{3}\\
+	&= \frac{14k-8}{18}\\
+w_{r2} &= |b| + |A| + |CL2|\\
+	&= 1 + \frac{k}{2} + \frac{2k-5}{9}\\
+	&= \frac{13k+8}{18}\\
+\implies \frac{1}{2} &\le \frac{w_{r2}}{w_{l2}} \le 2
+\end{align*}
+By lemma \ref{lem:weight_tree_bounded}, the second case is also balanced. Hence the claim holds.
+\end{proof}
+\end{description}
+\end{enumerate}
+Thus all cases are true.
+The proof is complete.
 \hfill $\blacksquare$
 \end{document}

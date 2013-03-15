@@ -7,12 +7,28 @@
 \usepackage{courier}
 \usepackage{pdfpages}
 \usepackage{qtree}
+\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{../thm}
 \usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
 \title{Responses for CS240 Assignment 4 Question 2a}
 \author{Alfred Chan -- 20392255}
 
 \begin{document}
+\lstset{
+	language=c,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{OliveGreen}\bfseries,
+  stringstyle=\ttfamily\color{red!50!brown},
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	morekeywords={or ,and, then},
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
 \maketitle
 This {\bf bottom-up} algorithm works from balancing the the subtree in the insertion path from the newly inserted node, and then up to the root of the subtree, using AVL-style single/double rotation.  
 The tricky part, however, is that AVL tree single/double rotations are not enough and there are more cases to think of.\\
@@ -37,17 +53,47 @@ In 4b, I will try to prove that double-rotating on an unbalanced subtree that ha
 The problem with this approach is that there are more cases to consider, though the next idea solves this issue.
 \item
 {\bf Use mutual recursion to reduce complicated rotation cases to just single/double rotations.}\\
-Consider two functions: $decidesRotateDirection$, which decides which direction shall a node rotate; and $prepareLeftRotate$ (and a symmetric one for Right), which decides which of single/double rotation will the node run.\\
+Consider two subroutines: $decideRotateDirection$, which decides which direction shall a node rotate; and $prepareRotateLeft$ (and a symmetric one for Right), which decides which of single/double rotation will the node run.\\
 
-As you saw in the example above, the first double rotation is only a stepping stone for the second double rotation, but the result of the first rotation the subtree is AVL-balanced but not weight-balanced.\\
+As you saw in the example above, the first double rotation is only a stepping stone for the second double rotation. Notice that after the first rotation the subtree is AVL-balanced but not weight-balanced (answered 4d).\\
 
-Basically, $prepareLeftRotate$ runs either single/double rotation, after which the subtree may or may not be balanced, so it calls $decidesRotateDirection$ {\bf again} to decide whether it should rotate again.\\
+Basically, $prepareRotateLeft$ runs either single/double rotation, after which the subtree may or may not be balanced, so it calls $decideRotateDirection$ {\bf again} to decide whether it should rotate.\\
 \end{itemize}
-So here is the algorithm:
-\begin{enumerate}
-\item Insert a value as a normal BST
-\item Before Insert returns to the previous Insert recursion call, run $decidesRotateDirection$. This ensures that the subtree is balanced, and is ready for more rotations by its ancestors.
-\end{enumerate}
-That's it! The recursion magic will do the heavy work.
+
+Pseudocode:
+\begin{lstlisting}
+decideRotateDirection()
+	if this node is balanced then return
+	if leftDescendants > rightDescendants then // left-heavy
+		prepareRotateRight
+	else // right-heavy
+		prepareRotateLeft
+\end{lstlisting}
+
+\begin{lstlisting}
+prepareRotateLeft()
+	if // this condition takes care of the case with 3 nodes
+		(leftDescendants = right->leftDescendants
+			and leftDescendants is not 0)
+		// this condition prevents the rotations to transfer more nodes that break the balance.  Notice that when it does a double rotate, it rotates right first, which the subsubtree would transfer 1/3 to 2/3 of its nodes (right side) to the right of the subtree (key to the proof for 2b).  Hence the upcoming left rotation would transfer a smaller amount of nodes.
+			or right->leftDescendants > right->rightDescendants
+		then
+			doubleRotateLeft
+	else
+		singleRotateLeft
+
+	decideRotateDirection // mutual recursive
+	// when a node is rotated, some notes may be transfered to the other subtree, which balance the *root* of the subtree, but mess up the left and right subtrees' balance.  Hence left and right need to be rebalanced.
+	right->decideRotateDirection
+	left->decideRotateDirection
+\end{lstlisting}
+
+\begin{lstlisting}
+Insert(value)
+	// do normal BST insertion...
+	decideRotateDirection
+	return true
+\end{lstlisting}
+
 \hfill $\blacksquare$
 \end{document}
