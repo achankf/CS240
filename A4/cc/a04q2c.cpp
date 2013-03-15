@@ -1,6 +1,4 @@
 #include "a04q2c.h"
-#include <iostream>
-using namespace std;
 
 // for the descriptions of the function, please refer to the header file
 // though the order of implemention is mixed up, so if you haven't read
@@ -22,7 +20,6 @@ float BSTNode::calBalance() const{
 	return left ? (float) right / left : 0;
 }
 
-// constructor
 BSTNode::BSTNode( int value ) {
 	this->value = value;
 	left = right = NULL;
@@ -51,18 +48,18 @@ bool BSTNode::isBalance() const{
 }
 
 void BSTNode::rotateLeft(){
-cout << "l"<<endl;
-	// backup the old root node in a NEW node
-	BSTNode *bak = new BSTNode(this->value);
-	BSTNode *rightBak = this->right;
-	bak->left = this->left;
-	bak->right = this->right->left;
-	this->value = this->right->value;
-	this->left = bak;
-	this->right = this->right->right;
+	// backup the old root and then rotate
+	int oldRoot = this->value;
+	BSTNode *rlBak = this->right->left;
+	BSTNode *rrBak = this->right->right;
+	BSTNode *lBak = this->left;
+	this->left = this->right;
+	this->left->left = lBak;
+	this->left->right = rlBak;
+	this->right = rrBak;
 
-	// remove the original right node because it is "stuck" and not used
-	delete rightBak;
+	this->value = this->left->value;
+	this->left->value = oldRoot;
 
 	// fix the metadata
 	this->left->fixMetaData();
@@ -71,18 +68,18 @@ cout << "l"<<endl;
 }
 
 void BSTNode::rotateRight(){
-cout << "r"<<endl;
-	// backup the old root node in a NEW node
-	BSTNode *bak = new BSTNode(this->value);
-	BSTNode *leftBak = this->left;
-	bak->right = this->right;
-	bak->left = this->left->right;
-	this->value = this->left->value;
-	this->right = bak;
-	this->left = this->left->left;
+	// backup the old root and then rotate
+	int oldRoot = this->value;
+	BSTNode *lrBak = this->left->right;
+	BSTNode *llBak = this->left->left;
+	BSTNode *rBak = this->right;
+	this->right = this->left;
+	this->right->right = rBak;
+	this->right->left= lrBak;
+	this->left = llBak;
 
-	// remove the original right node because it is "stuck" and not used
-	delete leftBak;
+	this->value = this->right->value;
+	this->right->value = oldRoot;
 
 	// fix the metadata
 	this->left->fixMetaData();
@@ -91,13 +88,11 @@ cout << "r"<<endl;
 }
 
 void BSTNode::doubleLeft(){
-cout << this->value <<"ll"<<endl;
 	right->rotateRight();
 	rotateLeft();
 }
 
 void BSTNode::doubleRight(){
-cout << this->value  << "rr"<<endl;
 	left->rotateLeft();
 	rotateRight();
 }
@@ -182,12 +177,12 @@ bool BSTNode::Insert( int value ){
 	return true;
 }
 
-
+// nothing important changed -- only shorten it a little bit
 bool BinarySearchTree::Search( int value ) {
 	return root ? root->Search(value) : false;
 }
 
-
+// nothing important changed -- only shorten it a little bit
 bool BSTNode::Search( int value ) {
 	if (value < this->value)
 		return left ? left->Search(value) : false;

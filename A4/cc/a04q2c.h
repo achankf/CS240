@@ -72,18 +72,6 @@ public:
 	bool Insert(int value);
 	bool Search(int value);
 	BSTNode* Root() const { return root; }
-
-#if 0
-	void clean(BSTNode *n){
-		if (!n)return;
-		clean(n->Left());
-		clean(n->Right());
-		delete n;
-	}
-	~BinarySearchTree(){
-		clean(root);
-	}
-#endif
 };
 
 
