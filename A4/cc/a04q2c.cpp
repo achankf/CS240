@@ -1,4 +1,6 @@
 #include "a04q2c.h"
+#include <iostream>
+using namespace std;
 
 // for the descriptions of the function, please refer to the header file
 // though the order of implemention is mixed up, so if you haven't read
@@ -49,6 +51,7 @@ bool BSTNode::isBalance() const{
 }
 
 void BSTNode::rotateLeft(){
+cout << "l"<<endl;
 	// backup the old root node in a NEW node
 	BSTNode *bak = new BSTNode(this->value);
 	BSTNode *rightBak = this->right;
@@ -68,6 +71,7 @@ void BSTNode::rotateLeft(){
 }
 
 void BSTNode::rotateRight(){
+cout << "r"<<endl;
 	// backup the old root node in a NEW node
 	BSTNode *bak = new BSTNode(this->value);
 	BSTNode *leftBak = this->left;
@@ -87,11 +91,13 @@ void BSTNode::rotateRight(){
 }
 
 void BSTNode::doubleLeft(){
+cout << this->value <<"ll"<<endl;
 	right->rotateRight();
 	rotateLeft();
 }
 
 void BSTNode::doubleRight(){
+cout << this->value  << "rr"<<endl;
 	left->rotateLeft();
 	rotateRight();
 }
