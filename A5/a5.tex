@@ -23,58 +23,74 @@ Winter 2013}\\[\baselineskip]
 \noindent
 
 
-Please read \url{http://www.student.cs.uwaterloo.ca/~cs240/w13/guidelines.pdf} for
-guidelines on submission. Problems 1-3, 4a and 5a are written problems; submit your solutions as PDF files named {\tt a03w.pdf} for all or individual question files named {\tt a03q1w.pdf}, ... , {\tt a03q5aw.pdf}. Implement your programming solutions in C++. Make sure the code you submit runs in the student environment.
+Please read \url{http://www.student.cs.uwaterloo.ca/~cs240/w13/guidelines.pdf} for guidelines on submission. 
+All problems except for 3 are written problems; submit all of your solutions as a PDF file named {\tt a05w.pdf}, or for individual questions submit files named {\tt a05q1w.pdf}, ... , {\tt a05q10w.pdf}. 
+Implement the solution for Problem 3 in C++ and submit files named {\tt a5q3.\{cpp,h\}}. 
+Make sure the code you submit runs in the student environment.
 \noindent
 \begin{enumerate}
 
-\item The worst case of interpolation search results in $\Theta(n)$ search
-time. Let $i$ be the interpolated index value as predicted by the formula where
-the next comparison in the intepolation search is made. This
-splits the array into two parts at least one of which is of length no 
-greater than half of the original range. We call this side the ``good side''
-while the second part of length at least half the original range is called
-the ``bad side''. Assume we keep track of how many times after comparing with
-the element $A[i]$ interpolation search recurses on the bad. Let this be a counter called numFailures. A recursion on the ``bad side'' is called an \emph{interpolation
-failure}. 
+\item The worst case of interpolation search results in $\Theta(n)$ search time. 
+Let $i$ be the interpolated index where the next comparison in the search will be made (formula taken from them lecture notes): 
+\[ i = \ell+\left\lfloor\frac{k-A[\ell]}{A[r]-A[\ell]}(r-\ell)\right\rfloor \]
 
-We wish to devise a new formula for the computation of the interpolated index that
-pushes the value $i$ in such a way as to make the two parts more balanced, based upon the
-number of failures.
+This splits the array into two parts, a smaller ``good side'' and a larger ``bad side''. 
+A recursion on the ``bad side'' is called an \emph{interpolation failure}.
+
+Assume we keep track of the interpolation failures in a counter called {\tt numFailures}. 
+We wish to devise a new interpolated index formula based on {\tt numFailures} that adjusts the value $i$ to make the two parts more balanced, hopefully avoiding some future interpolation failures.
+
 \begin{enumerate}
-\item {[5 marks]}  Give pseudocode for a modified interpolation search
-in which the two parts are made more balanced 
-by reducing the size of the larger side by up to the value of numFailures.
+\item {[5 marks]}  Give pseudocode for a modified interpolation search in which the two parts are made more balanced by reducing the size of the larger side by up to {\tt numFailures}.
 Make sure to handle boundary cases.
 \item {[5 marks]}  Give the worst case search time for this procedure.
-\item {[5 marks]}  Give pseudocode for a modified interpolation search
-in which the two parts are made more balanced
-by reducing the size of the larger side by up to the value of $2^{\mbox{\small\it numFailures}}$.
+\item {[5 marks]}  Give pseudocode for a modified interpolation search in which the two parts are made more balanced by reducing the size of the larger side by up to the value of $2^{\mbox{\small\it numFailures}}$.
 Make sure to handle the boundary cases.
 \item {[5 marks]} Give the worst case search time for this procedure.
 \end{enumerate}
 
+{\bf Example.}
+Consider this output from an interpolation search:
+\begin{verbatim}
+k = 66, A = { 6, 35, 42, 58, 59, 67, 68, 82, 85, 96 }
+Iteration 1: l = 0, r = 9, i = 6
+Iteration 2: l = 0, r = 5, i = 4
+k = 66 not found
+\end{verbatim}
+The first iteration of the search compares the key to {\tt A[6] = 68} and then recurses/iterates on the left since {\tt k < A[6]}.
+Since there are 3 indices on the right of {\tt A[6]} and 6 indices on the left, the right is the good side and the left is the bad side, so recursing on the left in this case is an interpolation failure.
 
 \item {[10 marks]}  
-Galloping is sometimes called a one-sided binary search. Describe a one-sided
-interpolation search in which instead of searching at locations 1, 2, 4, 8,\ldots
-we interpolate (more precisely, extrapolate) 
-the next location to be probed on the basis of the ones we
-have seen, More specifically, give a formula that computes the index of the
-next probe on a one-sided interpolation search which is based on a suitably modified 
-interpolation search of the formula seen in class:
+Galloping is sometimes called a one-sided binary search.
+Describe a one-sided interpolation search in which instead of searching at locations 1, 2, 4, 8,\ldots we interpolate (more precisely, extrapolate) the next location to be probed on the basis of the locations we have already seen.
+More specifically, given array A and search key k, find a formula for $i_n$, the index of the next probe in the search (assume that $i_{n-1}, i_{n-2}, \ldots$ were also generated by the formula).
+Hint: modify the interpolation search formula from the lecture notes.
 
-\[ i = \ell+\left\lfloor\frac{k-A[\ell]}{A[r]-A[\ell]}(r-\ell)\right\rfloor. \]
+\item {[10 marks]}  
+Download and then resubmit {\tt a5q3.\{cpp,h\}} after implementing {\tt SkipList::SkipList( const std::vector<int>\& )}. 
+In particular, given $n$ unique, sorted input values, the function must build a {\bf deterministic} perfectly balanced skip list with $\lg n$ levels in which exactly every other element from the previous level is promoted to the level above.
 
-\item {[10 marks]}  Implement a procedure called {\tt skipify} which given $n$
- items builds a {\bf deterministic} perfectly balanced skip list with $\lg n$ levels 
- in which exactly every other element from the previous level is promoted to the level 
- above.
+You may modify or add to the code as you see fit, but do not change the prototypes of the given functions.
+
+{\bf Examples.}
+\begin{verbatim}
+{ 0 } --> -inf 0 inf
+
+{ 0, 1 } --> -inf---1-inf
+             -inf-0-1-inf
+
+{ 0, 1, 2 } --> -inf---1---inf
+                -inf-0-1-2-inf
+
+{ 0, 1, 2, 3 } --> -inf-------3-inf
+                   -inf---1---3-inf
+                   -inf-0-1-2-3-inf
+\end{verbatim}
 
 \item 	{[5 marks]}
 One of the applications of quad trees is compression of pictures. The picture is recursively divided in quadrants until the entire quadrant is of the same colour. Using this rule, draw the quadtree of the following picture.
 
-%\includegraphics[width=50mm]{image.png} 
+\includegraphics[width=50mm]{image.png} 
 
 \item {[5 marks]} Draw the kd-tree on the points
 
