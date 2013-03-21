@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstring>
+#include <cmath>
 #include <sys/time.h> // for setting seed
 #define SIZE 10000
 using namespace std;
@@ -35,12 +36,18 @@ cout << i << " " << l << " " << r << " " << numFailures << " #l:" << num_left <<
 		if (i == r) i--; // avoid recursing on the same "r"
 		if (num_left < num_right) numFailures++;
 
-		//int temp = i - (numFailures << 1);
-		int temp = i - numFailures;
+		int temp = i - pow(2, numFailures);//(numFailures << 1);
 		if (temp < l) temp = l;
+
 cout << temp << endl;
+		if (temp > 0){
 		if (A[temp] > k){
 			return i_search(A, l, temp, k, numFailures);
+		} else if (A[temp] < k){
+			return i_search(A, temp, r, k, numFailures);
+		} else {
+			return temp;
+		}
 		}
 
 		return i_search(A, l, i, k, numFailures);
@@ -48,13 +55,18 @@ cout << temp << endl;
 		if (i == l) i++;
 		if (num_left < num_right) numFailures++;
 
-		//int temp = i + (numFailures << 1);
-		int temp = i + numFailures;
+		int temp = i + pow(2, numFailures);//(numFailures << 1);
 		if (temp > r) temp = r;
 
 cout << temp << endl;
+		if (temp>0){
 		if (A[temp] < k){
 			return i_search(A, temp, r, k, numFailures);
+		} else if (A[temp] > k){
+			return i_search(A, l, temp, k, numFailures);
+		} else {
+			return temp;
+		}
 		}
 
 		return i_search(A, i, r, k, numFailures);
