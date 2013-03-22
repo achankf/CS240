@@ -1,13 +1,16 @@
 DEBUG = -DDEBUG -ggdb # -DALFRED_DEBUG
 CXXFLAGS = $(DEBUG) -pedantic-errors -Werror -march=native $(INCLUDE_DIR) -Wall $(OLEVEL) -pipe
 
-all: a5q1a.exe a5q1c.exe
+all: normal.exe seq.exe exp.exe
 
-a5q1a.exe : a5q1a.cpp
-	g++ $(CXXFLAGS) $^ -o $@
+seq.exe : isearch.cpp isearch_seq.cpp
+	g++ $(CXXFLAGS) -DSEQ isearch.cpp -o $@
 
-a5q1c.exe : a5q1c.cpp
-	g++ $(CXXFLAGS) $^ -o $@
+exp.exe : isearch.cpp isearch_exp.cpp
+	g++ $(CXXFLAGS) -DEXP isearch.cpp -o $@
+
+normal.exe : isearch.cpp isearch_normal.cpp
+	g++ $(CXXFLAGS) -DNORMAL isearch.cpp -o $@
 
 .phony: clean
 clean:

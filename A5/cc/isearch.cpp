@@ -8,20 +8,21 @@ using namespace std;
 
 int count = 0;
 
-int interpolate(int *A, int l, int r, int k){
-	int temp = l + ((float)(k-A[l]) / (A[r]-A[l]) * (r-l));
-	if (temp > r) return r;
-	if (temp < l) return l;
-	return temp;
-}
+#ifdef NORMAL
+#include "isearch_normal.cpp"
+#endif
+#ifdef SEQ
+#include "isearch_seq.cpp"
+#endif
+#ifdef EXP
+#include <cmath>
+#include "isearch_exp.cpp"
+#endif
 
-int i_search(int *A, int l, int r, int k, int numFailures = 0){
+int i_search(int *A, int l, int r, int k, int &numFailures){
 	count++;
-	int i = interpolate(A, l, r, k);
-
-	int num_left = i - l+1;
-	int num_right = r - i;
-cout << i << " " << l << " " << r << " " << numFailures << " #l:" << num_left << " #r:" << num_right<< endl;
+	int i = interpolate(A, l, r, k, numFailures);
+cout << i << " " << l << " " << r << endl;
 
 	if (l == r){
 		if (A[l] == k){
@@ -33,30 +34,9 @@ cout << i << " " << l << " " << r << " " << numFailures << " #l:" << num_left <<
 
 	if (A[i] > k){
 		if (i == r) i--; // avoid recursing on the same "r"
-		if (num_left < num_right) numFailures++;
-
-		//int temp = i - (numFailures << 1);
-		int temp = i - numFailures;
-		if (temp < l) temp = l;
-cout << temp << endl;
-		if (A[temp] > k){
-			return i_search(A, l, temp, k, numFailures);
-		}
-
 		return i_search(A, l, i, k, numFailures);
 	} else if (A[i] < k){
 		if (i == l) i++;
-		if (num_left < num_right) numFailures++;
-
-		//int temp = i + (numFailures << 1);
-		int temp = i + numFailures;
-		if (temp > r) temp = r;
-
-cout << temp << endl;
-		if (A[temp] < k){
-			return i_search(A, temp, r, k, numFailures);
-		}
-
 		return i_search(A, i, r, k, numFailures);
 	}
 	return i;
@@ -103,7 +83,9 @@ int main(int argc, char **argv){
 		cerr << A[i] << ' ';
 	} cerr << endl;
 	cout << "require:" << k << endl;
-	int temp = i_search(A, 0, size-1, k);
+
+	int numFailures = 0;
+	int temp = i_search(A, 0, size-1, k, numFailures);
 	if (temp != -1){
 		cout << "search ret:" << temp << ' ' << A[temp] << " with " << count << " times interpolation" << endl;
 	} else {
