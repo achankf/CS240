@@ -31,10 +31,25 @@
 }
 \maketitle
 
+Suppose $A$ is an array of int, $l$ and $r$ are indices of the beginning and the end of the search range, respectively, and $k$ is the target value. Consider 3 functions:
+\begin{enumerate}
+\item
+$interpolate(A, l, r, k)$, which is the given formula. Notice that I purposedly separate it from the base function because I wrote the codes in c++, and this kind of separation of codes allows me to adapt the algorithm to a basic binary search, which serves as a source of verification.
+\item
+$isearch(interpolate, A, l, r, k)$, which is a higher order function that serves as the base of the interpolation search.
+Notice that $interpolate$ is a function.
+\item
+$delta(numFailures)$, which returns the balance adjustment for the search index.
+\end{enumerate}
+
 Pseudocode:
+\begin{align}
+interpolate(A, l, r, k) &= \ell+\left\lfloor\frac{k-A[\ell]}{A[r]-A[\ell]}(r-\ell)\right\rfloor\\
+delta(numFailures) &= numFailures
+\end{align}
+
 \begin{lstlisting}
-Interpolation_Search(A, l, r, k)
-	
+interpolate(A, l, r, k)
 \end{lstlisting}
 
 \hfill $\blacksquare$

@@ -23,11 +23,6 @@ int count = 0;
 #endif
 
 int i_search(int *A, int l, int r, int k, int &numFailures){
-	count++;
-	int i = interpolate(A, l, r, k, numFailures);
-	int num_left = i - l+1;
-	int num_right = r - i;
-	cout << i << " " << l << " " << r  << " " << numFailures<< endl;
 
 	if (l == r){
 		if (A[l] == k){
@@ -37,13 +32,30 @@ int i_search(int *A, int l, int r, int k, int &numFailures){
 		}
 	}
 
+	count++;
+	int i = interpolate(A, l, r, k);
+	int num_left = i - l;
+	int num_right = r - i;
+
+	cout << "BEFORE:"<<i;
+	if (num_left > num_right){
+		i -= delta(numFailures);
+	} else if (num_right > num_left){
+		i += delta(numFailures);
+	}
+
+	if (i < l) i = l + 1;
+	else if (i > r) i = r - 1;
+
+	cout << " AFTER:"<<i << " ";
+
+	cout << i << " " << l << " " << r  << " " << numFailures<< endl;
+
 	if (A[i] > k){
-		//if (num_right > num_left) numFailures++;
 		if (num_left > num_right) numFailures++;
 		if (i == r) i--; // avoid recursing on the same "r"
 		return i_search(A, l, i, k, numFailures);
 	} else if (A[i] < k){
-		//if (num_left > num_right) numFailures++;
 		if (num_right > num_left) numFailures++;
 		if (i == l) i++;
 		return i_search(A, i, r, k, numFailures);
