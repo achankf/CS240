@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{qtree}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+\title{Responses for CS240 Assignment 5 Question 2}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\lstset{
+	language=c,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{red}\bfseries,
+  stringstyle=\ttfamily\color{red!50!brown},
+	numbers=left,
+	showspaces=false,
+	showstringspaces=false,
+	stepnumber=1,
+	basicstyle=\ttfamily,
+	morekeywords={or ,and, then, let, end},
+	frame=single,
+	breaklines=true,
+	tabsize=2
+}
+\maketitle
+
+The function $interpolate(A, l, r, k)$ is
+\begin{equation}
+interpolate(A, l, r, k) = \ell+\left\lfloor\frac{k-A[\ell]}{A[r]-A[\ell]}(r-\ell)\right\rfloor
+\end{equation}
+
+Then the psuedocodes for the algorithm is
+\begin{lstlisting}
+gallop_search(A, k)
+	let cur <- 0
+	let prev <- cur
+
+	while cur < size(A) and k > A[cur] then
+		prev <- cur
+		// extrapolate based on doubling the size of the current index
+		cur <- 2*cur+1
+
+		// break otherwise will result in segmentation fault
+		if temp > size(A) then break
+		cur <- interpolate(A, prev, temp, k)
+	end while
+
+	// fix boundary conditions
+	if cur > size(A) then
+		cur = size(A) - 1
+
+	return binary_search(A, prev, cur, k)
+\end{lstlisting}
+
+Notice that during each iteration of galloping, if the condition of the loop is true, then the search can discard everything before $prev$, which is a result of $k > A[cur]$. So instead of extrapolating from 0 to $2 \times cur + 1$, the algorithm extrapolates from $prev$.
+\end{document}
