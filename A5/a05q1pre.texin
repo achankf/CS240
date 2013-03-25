@@ -24,9 +24,9 @@ isearch(interpolate, delta, A, left, right, k, numFailures)
 		else return -1 // not found
 
 	// interpolation
-	let i = interpolate(A, left, right, k)
-	let num_left = i - left
-	let num_right = right - i
+	let i <- interpolate(A, left, right, k)
+	let num_left <- i - left
+	let num_right <- right - i
 
 	// apply the delta (fix balance)
 	if num_left > num_right then
@@ -35,8 +35,8 @@ isearch(interpolate, delta, A, left, right, k, numFailures)
 		i += delta(numFailures)
 
 	// fix boundary conditions for i
-	if i < left then i = left + 1
-	else if i > right then i = right - 1
+	if i < left then i <- left + 1
+	else if i > right then i <- right - 1
 
 	// do the comparison, just like binary search
 	if A[i] > k then
