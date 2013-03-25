@@ -1,0 +1,28 @@
+Consider the worst case of interpolation search: skewed data in which the target is ``far'' away most elements and is in between them.
+For example, consider searching 1000 in the following:
+\begin{align*}
+A = (1, 2, 3, \cdots, 999, 1000, 1000000000)
+\end{align*}
+
+So the first the interpolation will be
+\begin{align*}
+interpolate(A, 0, 1000, 1000) &= 0 + \floor{\frac{1000-1}{1000000000-1}(1000-0)}\\
+	&= 0 + 0\\
+	&= 0
+\end{align*}
+Since $i = left$, the returning index will be fixed to 1 by $isearch$.
+
+Hence, the ``plain'' interpolation is linear, each time going up one-at-a-time.
+However, each iteration hits the ``bad'' side, so the counter $numFailures$ goes up in each iteration, which will be used to reduce the size of the large size.
+
+Conversely, reducing the size of the large size means increasing the size of the smaller side.
+Moreover, the number of times that the interpolation function will be ran, say $p$, is constrained by the size of the input, say $n$.
+Hence, the worst case search time can be described by the following equation:
+\begin{align*}
+\sum_{i = 0}^{p}i &= n\\
+\frac{p(p+1)}{2} &=n\\
+\implies p^2 &\approx n \text{ for large n}\\
+\implies p &\approx \sqrt{n}
+\end{align*}
+Therefore, the worst-case search time is $\Theta(\sqrt{n})$.
+\hfill $\blacksquare$

@@ -1,0 +1,12 @@
+Using similar arguments as in 1b, with each iteration going up by $2^{numFailures}$ instead.
+Notice that even $delta$ is now growing exponentially, $numFailures$ is still growing up one-at-a-time.
+
+Hence, the worst case search time can be described by the following equation:
+\begin{align*}
+\sum_{i = 0}^{p}2^i &= n\\
+\frac{2^{p+1}-1}{2-1} &=n\\
+\implies 2^{p+1} &\approx n \text{ for large n}\\
+\implies p+1 &\approx \lg{n}
+\end{align*}
+Therefore, the worst-case search time is $\Theta(\lg{n})$.
+\hfill $\blacksquare$

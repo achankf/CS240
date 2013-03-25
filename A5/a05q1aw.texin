@@ -1,0 +1,10 @@
+Consider the following function:
+\begin{align}
+quad\_delta(numFailures) &= numFailures
+\end{align}
+Then the required search function becomes:
+\begin{lstlisting}
+1a_search(A, k)
+	return isearch(interpolate, quad_delta, A, 0, size(A) - 1, k, 0)
+\end{lstlisting}
+\hfill $\blacksquare$
