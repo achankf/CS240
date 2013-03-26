@@ -1,0 +1,43 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{qtree}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm,paperheight=11in,paperwidth=13in]{geometry}
+
+\title{Responses for CS240 Assignment 5 Question 4}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+\noindent Let the colours be coded as the following:
+\begin{align*}
+\text{Green} &= 1\\
+\text{Light Grey} &= 2\\
+\text{Dark Grey} &= 3
+\end{align*}
+The ordering of the childrens of a node is the following:
+\begin{center}
+NW, NE, SW, SE
+\end{center}
+Then the tree is the following:
+
+\Tree[.root
+	[.NW 1 2
+		[.SW 2 1 1 1 ]
+		[.SE 2 3 2 3 ]
+	]
+	[.NE 2 2 3 2 ]
+	[.SW 3
+		[.NE 2 2 1 2 ]
+		[.SW 2 1 1 2 ]
+		2 ]
+	3 ]\\
+Due to limitations of the \verb+qtree+ package, I have to put placeholders for empty internal nodes, so the transition nodes (i.e. nodes that have NW, NE, SE, SW) actually do not have any value.
+\end{document}
