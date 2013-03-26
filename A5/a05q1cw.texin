@@ -15,4 +15,3 @@ Then the required search function becomes:
 1c_search(A, k)
 	return isearch(interpolate, exp_delta, A, 0, size(A) - 1, k, 0)
 \end{lstlisting}
-\hfill $\blacksquare$

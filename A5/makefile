@@ -2,7 +2,7 @@ IN= $(shell find -name "*.tex")
 OUT= $(IN:.tex=.pdf)
 
 all: $(OUT)
-%.pdf:%.tex *.texin
+%.pdf:%.tex
 	pdflatex $<
 	pdflatex $<
 

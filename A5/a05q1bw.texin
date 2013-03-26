@@ -25,4 +25,3 @@ Hence, the worst case search time can be described by the following equation:
 \implies p &\approx \sqrt{n}
 \end{align*}
 Therefore, the worst-case search time is $\Theta(\sqrt{n})$.
-\hfill $\blacksquare$

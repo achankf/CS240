@@ -9,4 +9,3 @@ Hence, the worst case search time can be described by the following equation:
 \implies p+1 &\approx \lg{n}
 \end{align*}
 Therefore, the worst-case search time is $\Theta(\lg{n})$.
-\hfill $\blacksquare$

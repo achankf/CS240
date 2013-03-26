@@ -53,4 +53,3 @@ isearch(interpolate, delta, A, left, right, k, numFailures)
 		return isearch(interpolate, delta, A, i, right, k, numFailures)
 	else return i // target found
 \end{lstlisting}
-\hfill $\blacksquare$
