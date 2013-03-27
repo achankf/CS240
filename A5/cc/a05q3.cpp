@@ -1,4 +1,4 @@
-#include "a5q3.h"
+#include "a05q3.h"
 #include <stddef.h>
 
 
@@ -46,7 +46,7 @@ SkipList::SkipList( const std::vector<int>& uniqueSortedValues )
 bool SkipList::Search( int key ) const
 {
     SLTower* t = (SLTower*)&head;
-    for( unsigned int i = head.Height()-1; i >= 0; i-- )
+    for( int i = head.Height()-1; i >= 0; i-- )
     {
         SLTower* next = t->Neighbour( i );
         while( next->Key() < key && !next->Infinity() )   
