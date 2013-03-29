@@ -21,17 +21,19 @@
 
 \begin{enumerate}[(a)]
 \item
-The shift table:
-\begin{tabular}{|c|c|c|c|}
+The shift table:\\
+\begin{tabular}{|l|c|c|c|c|}
 \hline
-e & f & g & l\\\hline
-1 & 4 & 0 & 3\\\hline
+Alphabet ($\alpha$) & e & f & g & l\\\hline
+Last Occurrence ($L(\alpha)$) & 1 & -1 & 0 & 3\\\hline
+Shift ($m-1-L(\alpha)$) & 2 & 4 & 3 & 0\\\hline
 \end{tabular}
 \item
 \verb+feelfleeflegellfellgellglee+\\
 \texttt{ge\underline{ll}}\\
-\verb+  +\texttt{\underline{ell}} \hfill(shift by $j - s[e] = 2 - 1 = 1$)\\
-\verb+ +\texttt{\underline{gell}}\\
+\verb+ +\texttt{gel\underline{l}}\\
+\verb+     +\texttt{gel\underline{l}}\\
+\verb+         +\texttt{gel\underline{l}}\\
 \end{enumerate}
 \done
 \end{document}
