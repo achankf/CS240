@@ -1,0 +1,48 @@
+Let's add a terminal character \$ to the end, which signifies whether a pattern is matched. Then suffix trie for \texttt{kneel knell knead keel\$} is\\
+\Tree[
+	[.(space)
+		[.k
+			[.e [.e [.l \$ ] ] ]
+			[.n [.e
+				[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+	]
+	[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+	[.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ]
+	[.e 
+		[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+		[.e [.l 
+			[.\$ ]
+			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+		[.l 
+			[.\$ ]
+			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+			[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ]
+	]
+	[.k 
+		[.e [.e [.l 
+			[.\$ ]
+			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] 
+		[.n
+			[.e
+				[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+				[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] 
+			]
+		]
+	]
+	[.l
+		[.\$ ]
+		[.(space) [.k [.n [.e
+			[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+		[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ]
+	]
+	[.n
+		[.e 
+			[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+			[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ]
+		]
+	]
+]

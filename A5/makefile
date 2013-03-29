@@ -4,7 +4,6 @@ OUT= $(IN:.tex=.pdf)
 all: $(OUT)
 %.pdf:%.tex
 	pdflatex $<
-	pdflatex $<
 
 .phony: clean
 clean:
