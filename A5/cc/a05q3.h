@@ -7,37 +7,41 @@
 
 class SLTower
 {
-    public:
-        SLTower();
-        SLTower( int key );
+	public:
+		SLTower();
+		SLTower( int key );
 
-        bool Infinity() const { return infinity; }
-        int Key() const { return key; }
-        unsigned int Height() const { return height; }
+		bool Infinity() const { return infinity; }
+		int Key() const { return key; }
+		unsigned int Height() const { return height; }
 
-        SLTower* Neighbour( unsigned int layer ) const;
-        void Link( SLTower* t );
+		SLTower* Neighbour( unsigned int layer ) const;
+		void Link( SLTower* t );
 
-    protected:
-        std::vector<SLTower*> neighbours;
-        unsigned int height;
-        bool infinity;
-        int key;
+	protected:
+		std::vector<SLTower*> neighbours;
+		unsigned int height;
+		bool infinity;
+		int key;
 };
 
 
 class SkipList
 {
-    public:
-        SkipList();
-        SkipList( const std::vector<int>& uniqueSortedValues );
+	public:
+		SkipList();
+		SkipList( const std::vector<int>& uniqueSortedValues );
  
-        SLTower* Head() const { return (SLTower*)&head; }
-        SLTower* Tail() const { return (SLTower*)&tail; }
+		SLTower* Head() const { return (SLTower*)&head; }
+		SLTower* Tail() const { return (SLTower*)&tail; }
 
-    protected:
-        SLTower head;
-        SLTower tail;
+		// destructor -- for good habbit
+		~SkipList();
+
+	protected:
+		SLTower head;
+		SLTower tail;
+
 };
 
 
