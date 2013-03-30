@@ -17,12 +17,54 @@
 
 \begin{document}
 \maketitle
+
+{\bf Notation} Due to limitations in \LaTeX's \texttt{tikz-qtree} package and my limited abilities, let's consider the following notation:
+\begin{itemize}
+\item bold characters (i.e. {\bf A, B}, etc.) are pointers to the start of the suffix that is mapped in the table below. {\bf This node contains data.}
+\item normal characters (i.e. a, b, etc.) indicates the {\bf direction} to what the pattern should follow. {\bf The node does not contain any data, only the path contains the direction.}
+\end{itemize}
+
+Suffix Table:\\
+\begin{tabular}{c|r|r}
+Linking character & Suffix (for 1a,c) & Suffix (for 1b,d)\\\hline
+A & kneel knell knead keel		& 00111000111001\$\\\hline
+B & neel knell knead keel			& 0111000111001\$\\\hline
+C & eel knell knead keel			& 111000111001\$\\\hline
+D & el knell knead keel				& 11000111001\$\\\hline
+E & l knell knead keel				& 1000111001\$\\\hline
+F & (space) knell knead keel	& 000111001\$\\\hline
+G & knell knead keel					& 00111001\$\\\hline
+H & nell knead keel						& 0111001\$\\\hline
+I & ell knead keel						& 111001\$\\\hline
+J & ll knead keel							& 11001\$\\\hline
+K & l knead keel							& 1001\$\\\hline
+L & (space) knead keel				& 001\$\\\hline
+M & knead keel								& 01\$\\\hline
+N & nead keel									& 1\$\\\hline
+O & ead keel\\\hline
+P & ad keel\\\hline
+Q & d keel\\\hline
+R & (space) keel\\\hline
+S & keel\\\hline
+T & eel\\\hline
+U & el\\\hline
+V & l\\\hline
+\end{tabular}\\
+
+Position of the characters in \verb+kneel knell knead keel+:\\
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+k & n & e & e & l & & k & n & e & l & l & & k & n & e & a & d & & k & e & e & l\\\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21\\
+\end{tabular}
+
+
 \begin{enumerate}
-\item \input{a05q9aw.texin} \done
+\clearpage
+%\item \input{a05q9aw.texin} \done
 \item The suffix trie for \texttt{00111000111001\$} is
 \done
-\item
-\done
+\item \input{a05q9cw.texin} \done
 \item
 \done
 \end{enumerate}

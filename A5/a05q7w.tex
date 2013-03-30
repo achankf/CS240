@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{qtree}
+\usepackage{../thm}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm]{geometry}
+
+\newcommand{\node}[2]{\ensuremath{#1\rightarrow(#2)}}
+
+\title{Responses for CS240 Assignment 5 Question 5}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+
+\noindent {\bf Notation} Let \node{k}{A} denotes a node with value $k$ and a pointer to a binary search tree $A$ in heap-like array representation.
+For example, if a node contains \node{5}{A}, where $A=(2,nil,3,nil,nil,nil,4)$, then the node has a value 5 and
+\begin{align*}
+A = \Tree[.2 nil [.3 nil 4 ] ]
+\end{align*}
+
+\noindent Then the range tree is the following:
+
+\Tree[.\node{8}{1}
+	[.\node{7}{9}
+		[.\node{2}{4} \node{1}{12} \node{3}{11} ]
+		[.\node{5}{10} \node{4}{3} \node{6}{2} ] ]
+	[.\node{12}{14} [.\node{10}{15} \node{9}{5} \node{11}{6} ] [.\node{14}{13} \node{13}{7} \node{15}{8} ] ] ]
+
+\done
+\end{document}

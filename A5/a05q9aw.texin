@@ -1,48 +1,46 @@
-Let's add a terminal character \$ to the end, which signifies whether a pattern is matched. Then suffix trie for \texttt{kneel knell knead keel\$} is\\
+The suffix trie for \texttt{kneel knell knead keel\$} is\\
 \Tree[
 	[.(space)
 		[.k
-			[.e [.e [.l \$ ] ] ]
+			[.e [.e [.l {\bf R} ] ] ]
 			[.n [.e
-				[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
-				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+				[.a [.d [.(space) [.k [.e [.e [.l [.\$ {\bf L} ] ] ] ] ] ] ] ]
+				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf F} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
 	]
-	[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
-	[.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ]
+	[.a [.d [.(space) [.k [.e [.e [.l {\bf P} ] ] ] ] ] ] ]
+	[.d [.(space) [.k [.e [.e [.l {\bf Q} ] ] ] ] ] ]
 	[.e 
-		[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
+		[.a [.d [.(space) [.k [.e [.e [.l {\bf O} ] ] ] ] ] ] ]
 		[.e [.l 
-			[.\$ ]
-			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+			{\bf T}
+			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf C} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
 		[.l 
-			[.\$ ]
-			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
-			[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ]
+			{\bf U}
+			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf D} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+			[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf I} ] ] ] ] ] ] ] ] ] ] ] ] ]
 	]
 	[.k 
-		[.e [.e [.l 
-			[.\$ ]
-			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] 
+		[.e [.e [.l {\bf S} ] ] ]
 		[.n
 			[.e
-				[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
-				[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
-				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] 
+				[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf A} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+				[.a [.d [.(space) [.k [.e [.e [.l {\bf M} ] ] ] ] ] ] ]
+				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf G} ] ] ] ] ] ] ] ] ] ] ] ] ] 
 			]
 		]
 	]
 	[.l
-		[.\$ ]
+		{\bf V}
 		[.(space) [.k [.n [.e
-			[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
-			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
-		[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ]
+			[.a [.d [.(space) [.k [.e [.e [.l {\bf K} ] ] ] ] ] ] ]
+			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf E} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+		[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf J} ] ] ] ] ] ] ] ] ] ] ] ]
 	]
 	[.n
 		[.e 
-			[.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ]
-			[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
-			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l \$ ] ] ] ] ] ] ] ] ] ] ] ] ]
+			[.a [.d [.(space) [.k [.e [.e [.l {\bf N} ] ] ] ] ] ] ]
+			[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf B} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
+			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf H} ] ] ] ] ] ] ] ] ] ] ] ] ]
 		]
 	]
 ]
