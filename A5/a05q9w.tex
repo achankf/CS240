@@ -7,7 +7,6 @@
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{pdfpages}
-%\usepackage{qtree}
 \usepackage{tikz-qtree}
 \usepackage{../thm}
 \usepackage[left=3.8cm,top=3.8cm,right=3.8cm,paperwidth=20in, paperheight=18in]{geometry}
@@ -21,7 +20,8 @@
 {\bf Notation} Due to limitations in \LaTeX's \texttt{tikz-qtree} package and my limited abilities, let's consider the following notation:
 \begin{itemize}
 \item bold characters (i.e. {\bf A, B}, etc.) are pointers to the start of the suffix that is mapped in the table below. {\bf This node contains data.}
-\item normal characters (i.e. a, b, etc.) indicates the {\bf direction} to what the pattern should follow. {\bf The node does not contain any data, only the path contains the direction.}
+\item normal characters (i.e. a, b, etc.) indicates the {\bf direction} to what the pattern should follow. {\bf The node does not contain any data, only the edge contains the direction.}
+\item for the {\bf suffix trees}, each node has a range $[a,b]$, which indicates the suffix that is being matched.
 \end{itemize}
 
 Suffix Table:\\
@@ -60,12 +60,9 @@ k & n & e & e & l & & k & n & e & l & l & & k & n & e & a & d & & k & e & e & l\
 
 
 \begin{enumerate}
-\clearpage
 %\item \input{a05q9aw.texin} \done
-\item The suffix trie for \texttt{00111000111001\$} is
-\done
-\item \input{a05q9cw.texin} \done
-\item
-\done
+\item \input{a05q9bw.texin} \done
+%\item \input{a05q9cw.texin} \done
+%\item \input{a05q9dw.texin} \done
 \end{enumerate}
 \end{document}

@@ -1,4 +1,4 @@
-The suffix trie for \texttt{kneel knell knead keel\$} is\\
+The suffix trie for \texttt{kneel knell knead keel} is\\
 \Tree[
 	[.(space)
 		[.k
@@ -12,10 +12,8 @@ The suffix trie for \texttt{kneel knell knead keel\$} is\\
 	[.e 
 		[.a [.d [.(space) [.k [.e [.e [.l {\bf O} ] ] ] ] ] ] ]
 		[.e [.l 
-			{\bf T}
 			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf C} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
 		[.l 
-			{\bf U}
 			[.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf D} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
 			[.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf I} ] ] ] ] ] ] ] ] ] ] ] ] ]
 	]
@@ -30,7 +28,6 @@ The suffix trie for \texttt{kneel knell knead keel\$} is\\
 		]
 	]
 	[.l
-		{\bf V}
 		[.(space) [.k [.n [.e
 			[.a [.d [.(space) [.k [.e [.e [.l {\bf K} ] ] ] ] ] ] ]
 			[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf E} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]

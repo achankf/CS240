@@ -1,4 +1,4 @@
-The suffix tree for \texttt{kneel knell knead keel\$} is\\
+The suffix tree for \texttt{kneel knell knead keel} is\\
 \Tree[
 	[.{(space) $[5,6]$}
 		[.{e $[17,18]$} {\bf R} ]
@@ -12,11 +12,9 @@ The suffix tree for \texttt{kneel knell knead keel\$} is\\
 	[.{e $[2,2]$}
 		[.{a $[14,15]$} {\bf O} ]
 		[.{e $[2,4]$}
-			[.{\$ $[22,22]$} {\bf T} ]
 			[.{(space) $[2,5]$} {\bf C} ]
 		]
 		[.{l $[3,4]$}
-			[.{\$ $[22,22]$} {\bf U} ]
 			[.{(space) $[3,5]$} {\bf D} ]
 			[.{l $[8,10]$} {\bf I} ]
 		]
@@ -30,7 +28,6 @@ The suffix tree for \texttt{kneel knell knead keel\$} is\\
 		]
 	]
 	[.{l $[4,4]$}
-		[.{\$ $[22,22]$} {\bf V} ]
 		[.{(space) $[4,5]$}
 			[.{a $[10,15]$} {\bf K} ]
 			[.{l $[4,9]$} {\bf E} ]
