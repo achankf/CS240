@@ -1,9 +1,7 @@
 #include "a05q3.h"
 #include <stddef.h>
 #include <cmath>
-#include <iostream>
 using namespace std;
-
 
 SLTower::SLTower()
     : height( 0 )
@@ -65,6 +63,7 @@ SkipList::SkipList( const std::vector<int>& uniqueSortedValues )
 		SLTower *cur = &head; // iterator
 
 		// for each level, loop for n/2^i items
+		// do the linking
 		while(true){
 			prevIdx += jumpSize;
 			if (prevIdx > size) break;
