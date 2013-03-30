@@ -32,9 +32,8 @@ class SkipList
         SkipList();
         SkipList( const std::vector<int>& uniqueSortedValues );
  
-        bool Search( int key ) const;
- 
         SLTower* Head() const { return (SLTower*)&head; }
+        SLTower* Tail() const { return (SLTower*)&tail; }
 
     protected:
         SLTower head;

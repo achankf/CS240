@@ -34,30 +34,11 @@ SkipList::SkipList()
     : head()
     , tail()
 {
-    head.Link( &tail );
 }
 
 
 SkipList::SkipList( const std::vector<int>& uniqueSortedValues )
+    : head()
+    , tail()
 {
-}
-
-
-bool SkipList::Search( int key ) const
-{
-    SLTower* t = (SLTower*)&head;
-    for( int i = head.Height()-1; i >= 0; i-- )
-    {
-        SLTower* next = t->Neighbour( i );
-        while( next->Key() < key && !next->Infinity() )   
-        {
-            t = next;
-            next = next->Neighbour( i );
-        }
-
-        if( !t->Infinity() && t->Key() == key )
-            return true; 
-    }
-
-    return false;
 }
