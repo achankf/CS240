@@ -1,0 +1,15 @@
+Let $A = \{0\}^m$ and $B = \{1\}^m$, so $ABAB$ is the string that the question describes.
+Now consider the size of a smaller substring of $ABAB$.
+Notice that $|A1| = |\{0\}^m 1| < |ABAB|$.
+Then consider the suffixes of $A1$:
+\begin{align*}
+suffix(A1) = \{\{0\}^m1, \{0\}^{m-1}1, \{0\}^{m-2}1, \cdots, 001, 01, 1\}
+\end{align*}
+Then find the size of $suffix(A1)$:
+\begin{align*}
+|suffix(A1)| &= m(1) + (m-1)(1) + (m-2)(1) + \cdots + 1 + 0\\
+	&= m+(m-1)+(m-2)+\cdots+1\\
+	&= \frac{m(m+1)}{2}
+\end{align*}
+Then, $\frac{m(m+1)}{2} = |A1| < |ABAB|$.
+This implies that $|ABAB| \in \Omega(m^2)$, as required.

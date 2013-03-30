@@ -1,42 +1,40 @@
 The suffix tree for \texttt{kneel knell knead keel} is\\
 \Tree[
-	[.{(space) $[5,6]$}
-		[.{e $[17,18]$} {\bf R} ]
-		[.{n $[5,8]$}
-			[.{a $[11,15]$} {\bf L} ]
-			[.{l $[5,9]$} {\bf F} ]
+	[.{(space) ( k)}
+		[.{e (eel)} {\bf R} ]
+		[.{n (ne)}
+			[.{a (ad keel)} {\bf L} ]
+			[.{l (ll knead keel)} {\bf F} ]
 		]
 	]
-	[.{a $[15,15]$} {\bf P} ]
-	[.{d $[16,16]$} {\bf Q} ]
-	[.{e $[2,2]$}
-		[.{a $[14,15]$} {\bf O} ]
-		[.{e $[2,4]$}
-			[.{(space) $[2,5]$} {\bf C} ]
-		]
-		[.{l $[3,4]$}
-			[.{(space) $[3,5]$} {\bf D} ]
-			[.{l $[8,10]$} {\bf I} ]
+	[.{a (ad keel)} {\bf P} ]
+	[.{d (d keel)} {\bf Q} ]
+	[.{e (e)}
+		[.{a (ad keel)} {\bf O} ]
+		[.{e (el knell knead keel)} {\bf C} ]
+		[.{l (l)}
+			[.{(space) (knell knead keel)} {\bf D} ]
+			[.{l (l knead keel)} {\bf I} ]
 		]
 	]
-	[.{k $[0,0]$}
-		[.{e $[18,19]$} {\bf S} ]
-		[.{n $[0,2]$}
-			[.{e $[0,3]$} {\bf A} ]
-			[.{a $[12,15]$} {\bf M} ]
-			[.{l $[6,9]$} {\bf G} ]
+	[.{k (k)}
+		[.{e (eel)} {\bf S} ]
+		[.{n (ne)}
+			[.{e (el knell knead keel)} {\bf A} ]
+			[.{a (ad keel)} {\bf M} ]
+			[.{l (ll knead keel)} {\bf G} ]
 		]
 	]
-	[.{l $[4,4]$}
-		[.{(space) $[4,5]$}
-			[.{a $[10,15]$} {\bf K} ]
-			[.{l $[4,9]$} {\bf E} ]
+	[.{l (l)}
+		[.{(space) ( kne)}
+			[.{a (ad keel)} {\bf K} ]
+			[.{l (ll knead keel)} {\bf E} ]
 		]
-		[.{l $[9,10]$} {\bf J} ]
+		[.{l (l knead keel)} {\bf J} ]
 	]
-	[.{n $[1,2]$}
-		[.{a $[13,15]$} {\bf N} ]
-		[.{e $[1,3]$} {\bf B} ]
-		[.{l $[7,9]$} {\bf H} ]
+	[.{n (ne)}
+		[.{a (ad keel)} {\bf N} ]
+		[.{e (el knell knead keel)} {\bf B} ]
+		[.{l (ll knead keel)} {\bf H} ]
 	]
 ]
