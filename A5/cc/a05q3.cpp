@@ -45,7 +45,10 @@ SkipList::SkipList( const std::vector<int>& uniqueSortedValues )
 	const size_t size = uniqueSortedValues.size();
 
 	// nothing in the array
-	if (size == 0) return;
+	if (size == 0){
+		head.Link(&tail);
+		return;
+	}
 
 	// copy all items and push their reference into an array; using it as a map
 	vector<SLTower * > towers(size);
@@ -83,7 +86,7 @@ SkipList::SkipList( const std::vector<int>& uniqueSortedValues )
 SkipList::~SkipList(){
 	SLTower *next;
 	SLTower *cur = head.Neighbour(0);
-	if (!cur) return;
+	if (cur == &tail) return;
 
 	for (;;){
 		next = cur->Neighbour(0);
