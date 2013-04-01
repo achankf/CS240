@@ -9,7 +9,7 @@
 \usepackage{pdfpages}
 \usepackage{tikz-qtree}
 \usepackage{../thm}
-\usepackage[left=3.8cm,top=3.8cm,right=3.8cm,paperwidth=26in, paperheight=18in]{geometry}
+\usepackage[left=3.8cm,top=3.8cm,right=3.8cm,paperwidth=15in, paperheight=15in]{geometry}
 
 \title{Responses for CS240 Assignment 5 Question 9}
 \author{Alfred Chan -- 20392255}
@@ -20,7 +20,6 @@
 \begin{itemize}
 \item bold characters (i.e. {\bf A, B}, etc.) are pointers to the start of the suffix that is mapped in the table below. {\bf This node contains data.}
 \item normal characters (i.e. a, b, etc.) indicates the {\bf direction} to what the pattern should follow. {\bf The node does not contain any data, only the edge contains the direction.}
-\item for the {\bf suffix trees}, the trees show substrings of the pattern in each node, {\bf but only their range belongs to the node}.
 \end{itemize}
 
 Suffix Table:\\
@@ -64,7 +63,8 @@ Position of the characters in \verb+00111000111001\$+:\\
 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14\\\hline
 \end{tabular}\\
 
-\begin{enumerate}
+\begin{enumerate}[(a)]
+\clearpage
 \item \input{a05q9aw.texin} \done
 \item \input{a05q9bw.texin} \done
 \item \input{a05q9cw.texin} \done

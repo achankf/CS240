@@ -1,40 +1,40 @@
 The suffix tree for \texttt{kneel knell knead keel} is\\
 \Tree[
-	[.{(space) ( k)}
-		[.{e (eel)} {\bf R} ]
-		[.{n (ne)}
-			[.{a (ad keel)} {\bf L} ]
-			[.{l (ll knead keel)} {\bf F} ]
+	[.(space)
+		[.e {\bf R} ]
+		[.n
+			[.a {\bf L} ]
+			[.l {\bf F} ]
 		]
 	]
-	[.{a (ad keel)} {\bf P} ]
-	[.{d (d keel)} {\bf Q} ]
-	[.{e (e)}
-		[.{a (ad keel)} {\bf O} ]
-		[.{e (el knell knead keel)} {\bf C} ]
-		[.{l (l)}
-			[.{(space) (knell knead keel)} {\bf D} ]
-			[.{l (l knead keel)} {\bf I} ]
+	[.a {\bf P} ]
+	[.d {\bf Q} ]
+	[.e
+		[.a {\bf O} ]
+		[.e {\bf C} ]
+		[.l
+			[.(space) {\bf D} ]
+			[.l {\bf I} ]
 		]
 	]
-	[.{k (k)}
-		[.{e (eel)} {\bf S} ]
-		[.{n (ne)}
-			[.{e (el knell knead keel)} {\bf A} ]
-			[.{a (ad keel)} {\bf M} ]
-			[.{l (ll knead keel)} {\bf G} ]
+	[.k
+		[.e {\bf S} ]
+		[.n
+			[.e {\bf A} ]
+			[.a {\bf M} ]
+			[.l {\bf G} ]
 		]
 	]
-	[.{l (l)}
-		[.{(space) ( kne)}
-			[.{a (ad keel)} {\bf K} ]
-			[.{l (ll knead keel)} {\bf E} ]
+	[.l
+		[.(space)
+			[.a {\bf K} ]
+			[.l {\bf E} ]
 		]
-		[.{l (l knead keel)} {\bf J} ]
+		[.l {\bf J} ]
 	]
-	[.{n (ne)}
-		[.{a (ad keel)} {\bf N} ]
-		[.{e (el knell knead keel)} {\bf B} ]
-		[.{l (ll knead keel)} {\bf H} ]
+	[.n
+		[.a {\bf N} ]
+		[.e {\bf B} ]
+		[.l {\bf H} ]
 	]
 ]
