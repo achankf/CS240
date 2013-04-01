@@ -1,0 +1,81 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen,enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{pdfpages}
+\usepackage{qtree}
+\usepackage{../thm}
+\usepackage[left=1.5cm,top=1.5cm,right=1.5cm]{geometry}
+\title{Responses for CS240 Assignment 5 Question 10}
+\author{Alfred Chan -- 20392255}
+
+\begin{document}
+\maketitle
+Let \_ be a space character. Then the table is the following (codes in octet):\\
+\verb+ t h a t ' s _ a _ j o k e , _ th at 's _a _j ok e, _ s o n ,_ tha+\\
+\verb+t' s_ a_ jo ke+ \\
+\begin{tabular}{|c|r|c|r|c|r|}
+\hline
+Characters & Code & Extended Characters & Codes & Extended Characters & Codes\\\hline
+a & 00 & th & 35 & s\_a & 72\\\hline
+b & 01 & ha & 36 & a\_jo & 73\\\hline
+c & 02 & at & 37 & jok & 74\\\hline
+d & 03 & t' & 40 & ke & 75\\\hline
+e & 04 & 's & 41\\\hline
+f & 05 & s\_ & 42\\\hline
+g & 06 & \_a & 43\\\hline
+h & 07 & a\_ & 44\\\hline
+i & 10 & \_j & 45\\\hline
+j & 11 & jo & 46\\\hline
+k & 12 & ok & 47\\\hline
+l & 13 & ke & 50\\\hline
+m & 14 & e, & 51\\\hline
+n & 15 & ,\_ & 52\\\hline
+o & 16 & \_t & 53\\\hline
+p & 17 & tha & 54\\\hline
+q & 20 & at' & 55\\\hline
+r & 21 & 's\_ & 56\\\hline
+s & 22 & \_a\_ & 57\\\hline
+t & 23 & jo & 60\\\hline
+u & 24 & oke & 61\\\hline
+v & 25 & e, & 62\\\hline
+w & 26 & \_s & 63\\\hline
+x & 27 & so & 64\\\hline
+y & 30 & on & 65\\\hline
+z & 31 & n, & 66\\\hline
+\_ & 32 & ,\_t & 67\\\hline
+' & 33 & that & 70\\\hline
+, & 34 & t's & 71\\\hline
+\end{tabular}\\
+
+Compress by mapping the above string:\\
+\begin{tabular}{|l|r|}
+\hline
+oct & 23 07 00 23 33 22 32 00 32 11 16 12 04 34 32 35 37 41 43 45 47 51 32 22 16 15 52 54 40 42 44 46 50\\\hline
+\end{tabular}
+The compressed string has 33 characters (6-bit each).
+The uncompressed string has 48 characters (at most 5-bit-each).
+Since the alphabet remains the same, therefore the compression ratio is
+\begin{align*}
+\frac{33 \times 6}{48 \times 5} = 0.825
+\end{align*}
+Therefore 17.5\% space is saved.
+Though,if $codes(35) = \text{that's\_a\_joke}$, $codes(36)=\text{that's\_a\_joke,\_}$, and $codes(37) = \text{son,\_}$, then the compressed string would become 36 36 37 35, with a compression ratio of $\frac{4}{48} \approx 0.083$
+(notice that $37 < 40 = \frac{100}{2} $ in octet, so the compressed string needs 5 bit per character).
+Therefore, LZW does compress text, but it is not the most optimal.
+\done\\
+
+
+\noindent {\bf Next part} Decompress the given codes:\\
+\begin{tabular}{|l|r|}
+\hline
+bin & 000000 001111 010001 001000 001011 011011 010010 011010 000101 001110 001110 001011\\\hline
+oct & 00 17 21 10 13 33 22 32 05 16 16 13\\\hline
+result & a p r i l ' s \_ f o o l\\\hline
+\end{tabular}\\
+Therefore, the string is ``april's fool''.
+\done
+\end{document}
