@@ -21,8 +21,8 @@ The suffix trie for \texttt{kneel knell knead keel} is\\
 		[.e [.e [.l {\bf S} ] ] ]
 		[.n
 			[.e
-				[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf A} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
 				[.a [.d [.(space) [.k [.e [.e [.l {\bf M} ] ] ] ] ] ] ]
+				[.e [.l [.(space) [.k [.n [.e [.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf A} ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ]
 				[.l [.l [.(space) [.k [.n [.e [.a [.d [.(space) [.k [.e [.e [.l {\bf G} ] ] ] ] ] ] ] ] ] ] ] ] ] 
 			]
 		]

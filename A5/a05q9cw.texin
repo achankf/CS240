@@ -20,8 +20,8 @@ The suffix tree for \texttt{kneel knell knead keel} is\\
 	[.k
 		[.e {\bf S} ]
 		[.n
-			[.e {\bf A} ]
 			[.a {\bf M} ]
+			[.e {\bf A} ]
 			[.l {\bf G} ]
 		]
 	]
