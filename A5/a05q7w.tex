@@ -18,20 +18,33 @@
 
 \begin{document}
 \maketitle
+Since the predicate of the BST focuses on $X$, the y-coordinate may not neccessarily be in order. For example,\\
 
-\noindent {\bf Notation} Let \node{k}{A} denotes a node with value $k$ and a pointer to a binary search tree $A$ in heap-like array representation.
-For example, if a node contains \node{5}{A}, where $A=(2,nil,3,nil,nil,nil,4)$, then the node has a value 5 and
-\begin{align*}
-A = \Tree[.2 nil [.3 nil 4 ] ]
-\end{align*}
+\Tree[.(5,1) [.(3,100) (2,1000) (4,10) ] [.(7,0) (6,1) (8,2) ] ]\\
+is a valid BST described by the question.
+Notice that it is balanced on the x-coordinates, but the order of the y-coordinates do not make sense.
+Hence, the search will have to run
+\begin{enumerate}
+\item one pass of search to search for the x-value range.
+\item a second pass to filter the desired points based on the y-value.
+\end{enumerate}
 
-\noindent Then the range tree is the following:
+\noindent Now consider two {\bf sets} of values:
+\begin{align}
+\exists x_0, x_{n+1}, X &= \{x_i \in \mathbb{R} | 1 \le i \le n \text{ and } x_0 < x_i < x_{n+1} \} \\
+\exists y_0, y_1, Y &= \{ y_1 \in \mathbb{R} | y_0 < y_1\}
+\end{align}
 
-\Tree[.\node{8}{1}
-	[.\node{7}{9}
-		[.\node{2}{4} \node{1}{12} \node{3}{11} ]
-		[.\node{5}{10} \node{4}{3} \node{6}{2} ] ]
-	[.\node{12}{14} [.\node{10}{15} \node{9}{5} \node{11}{6} ] [.\node{14}{13} \node{13}{7} \node{15}{8} ] ] ]
+{\bf In other words, they are two bounded sets with unique elements with size of $|X| = n $ and $|Y| = 1$.}\\
 
+Then the targeted structured, $T$, is a BST of $(x_i,y_0), 1 \le i \le n$,
+in which the order is determined by a predicate on $X$, and then on $Y$.
+{\bf Hence, $T$ has $n$ points in total.}\\
+
+Then consider to search for $x_0 < x < x_{n+1}$ and $y=y_0$.
+Since $min(X) = x_1 > x_0$ and $max(X) = x_n < x_{n+1}$, every point in $T$ will become a candidate for the second pass.
+Then, each point that is found in first pass must be compared again to ensure it is within range. Hence, all $n$ points are being searched.
+However, no point will match because all $y = y_0$, which is less than $y_1$.
+Therefore, the construction of $T$ match the requirement of the question.
 \done
 \end{document}
