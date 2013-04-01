@@ -1,16 +1,16 @@
-Before answering the question, consider the following functional abstractions for interpolation search.
+Before answering the question, consider the following functional abstractions for the interpolation search.
 Suppose that $A$ is an array of int, $l$ and $r$ are indices of the beginning and the end of the search range, respectively, and $k$ is the target value. Consider 3 functions:
 \begin{enumerate}
 \item
-$interpolate(A, l, r, k)$, which is the given formula:
+$interpolate(A, l, r, k)$, which is the given formula.
 \begin{equation}
 interpolate(A, l, r, k) = \ell+\left\lfloor\frac{k-A[\ell]}{A[r]-A[\ell]}(r-\ell)\right\rfloor
 \end{equation}
-Notice that I purposedly separate it from the base function because I wrote the codes in c++, and this kind of separation of codes allows me to adapt the algorithm to a basic binary search, which serves as a source of verification.
 \item
 $delta(numFailures)$, which returns the balance adjustment for the search index.
 \item
-$isearch(interpolate, delta, A, l, r, k, numFailures)$, which is a {\bf higher order function} that serves as the base of the interpolation search. Notice that $numFailures$ is a counter that is set up by the wrapper function.
+$isearch(interpolate, delta, A, l, r, k, numFailures)$, which is a {\bf higher order function} that serves as the base of the interpolation search.
+Notice that $numFailures$ is a counter that is set up by a wrapper function.
 \end{enumerate}
 
 \clearpage
@@ -30,26 +30,26 @@ isearch(interpolate, delta, A, left, right, k, numFailures)
 
 	// apply the delta (fix balance)
 	if num_left > num_right then
-		i -= delta(numFailures)
+		let i -= delta(numFailures)
 	else if num_right > num_left then
-		i += delta(numFailures)
+		let i += delta(numFailures)
 
 	// fix boundary conditions for i
-	if i < left then i <- left + 1
-	else if i > right then i <- right - 1
+	if i < left then let i <- left + 1
+	else if i > right then let i <- right - 1
 
 	// do the comparison, just like binary search
 	if A[i] > k then
 		if num_left > num_right then // bad side
-			numFailures++
+			let numFailures++
 		if i = right then
-			i-- // avoid recursing for left = right
+			let i-- // avoid recursing for left = right
 		return isearch(interpolate, delta, A, left, i, k, numFailures)
 	else if A[i] < k then
 		if num_right > num_left then // bad side
-			numFailures++
+			let numFailures++
 		if i = left then
-			i++ // avoid recursing for left = right
+			let i++ // avoid recursing for left = right
 		return isearch(interpolate, delta, A, i, right, k, numFailures)
 	else return i // target found
 \end{lstlisting}

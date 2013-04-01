@@ -43,8 +43,8 @@ in which the order is determined by a predicate on $X$, and then on $Y$.
 
 Then consider to search for $x_0 < x < x_{n+1}$ and $y=y_0$.
 Since $min(X) = x_1 > x_0$ and $max(X) = x_n < x_{n+1}$, every point in $T$ will become a candidate for the second pass.
-Then, each point that is found in first pass must be compared again to ensure it is within range. Hence, all $n$ points are being searched.
-However, no point will match because all $y = y_0$, which is less than $y_1$.
+Then, each point that is found in first pass must be compared again to ensure that it is within range. Hence, all $n$ points are being searched.
+However, no point will match because all $y = y_0$, which is strictly less than $y_1$ (recall $y_1$ is the target y-value).
 Therefore, the construction of $T$ match the requirement of the question.
 \done
 \end{document}

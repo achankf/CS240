@@ -1,14 +1,8 @@
 Consider the following function:
 \begin{align}
-exp\_delta(numFailures) &=
-\begin{cases}
-numFailures \mbox{ if } numFailures \ge 32\\
-2^{numFailures}
-\end{cases}
+exp\_delta(numFailures) &= 2^{numFailures}
 \end{align}
-Notice that the first condition prevents arithematic overflows, which happened to my codes, since 4-byte intergers can only store up to $2^{32}-1$.
-Also, $numFailures \le 2^{numFailures}$, so the ``balancing up to...'' requirement is satisfied.
-Though, theoretically speaking, it does not matter.\\
+Notice that the above formula does not take arithmetic overflow into account (when $numFailures = 32$), since, theoretically speaking, it does not matter.\\
 
 Then the required search function becomes:
 \begin{lstlisting}
